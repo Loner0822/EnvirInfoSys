@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PublishSys
@@ -71,9 +64,9 @@ namespace PublishSys
             {
                 _iconcheck = value;
                 if (_iconcheck)
-                    this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+                    this.pictureBox1.BorderStyle = BorderStyle.Fixed3D;
                 else
-                    this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+                    this.pictureBox1.BorderStyle = BorderStyle.None;
             }
         }
 
@@ -82,7 +75,7 @@ namespace PublishSys
         private void PB_Click(object sender, EventArgs e)
         {
             MouseEventArgs Mouse_e = (MouseEventArgs)e;  
-            if (Single_Click != null && Mouse_e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (Single_Click != null && Mouse_e.Button == MouseButtons.Left)
             {
                 Single_Click((object)this, new EventArgs(), _iconpguid);
             }
@@ -93,11 +86,10 @@ namespace PublishSys
         private void PB_DoubleClick(object sender, EventArgs e)
         {
             MouseEventArgs Mouse_e = (MouseEventArgs)e;
-            if (Double_Click != null && Mouse_e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (Double_Click != null && Mouse_e.Button == MouseButtons.Left)
             {
                 Double_Click((object)this, new EventArgs(), _iconpguid);
             }
         }
-
     }
 }

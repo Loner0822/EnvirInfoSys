@@ -8,6 +8,7 @@ using System.Diagnostics;
 using DevExpress.XtraTreeList;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraTreeList.Nodes;
+using System.Net.Sockets;
 
 namespace PublishSys
 {
@@ -50,13 +51,13 @@ namespace PublishSys
             ahp = new AccessHelper(WorkPath + "Publish\\data\\PersonMange.mdb");
             string sql = "select PGUID, UPPGUID, ORGNAME, ULEVEL from RG_单位注册 where ISDELETE = 0 and UPPGUID = '0'";
             AdminList = new List<AdminUnit>();
-            DataTable dataTable = ahp.ExecuteDataTable(sql);
-            for (int i = 0; i < dataTable.Rows.Count; ++i)
+            DataTable dt = ahp.ExecuteDataTable(sql);
+            for (int i = 0; i < dt.Rows.Count; ++i)
             {
-                string pguid = dataTable.Rows[i]["PGUID"].ToString();
-                string upguid = dataTable.Rows[i]["UPPGUID"].ToString();
-                string name = dataTable.Rows[i]["ORGNAME"].ToString();
-                string level = dataTable.Rows[i]["ULEVEL"].ToString();
+                string pguid = dt.Rows[i]["PGUID"].ToString();
+                string upguid = dt.Rows[i]["UPPGUID"].ToString();
+                string name = dt.Rows[i]["ORGNAME"].ToString();
+                string level = dt.Rows[i]["ULEVEL"].ToString();
                 AdminUnit adminUnit = new AdminUnit(pguid, upguid, level, name);
                 AdminList.Add(adminUnit);
                 Add_Unit_Node(adminUnit);
@@ -192,6 +193,24 @@ namespace PublishSys
                     textEdit1.Text = array[1];
                     textEdit2.Text = array[0];
                     simpleButton1.Focus();
+
+                    ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
+                    sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and UNITEID = '" + pNode["Id"].ToString() + "'";
+                    dt = ahp.ExecuteDataTable(sql);
+                    if (dt.Rows.Count > 0)
+                    {
+                        sql = "update ORGCENTERDATA set S_UDTIME = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', LAT = '" + textEdit2.Text
+                            + "', LNG = '" + textEdit1.Text + "' where ISDELETE = 0 and UNITEID = '" + pNode["Id"].ToString() + "'";
+                        ahp.ExecuteSql(sql);
+                    }
+                    else
+                    {
+                        sql = "insert into ORGCENTERDATA (PGUID, S_UDTIME, UNITEID, LAT, LNG) values ('" + Guid.NewGuid().ToString("B") + "', '"
+                            + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + pNode["Id"].ToString() + "', '" + textEdit2.Text + "', '"
+                            + textEdit1.Text + "')";
+                        ahp.ExecuteSql(sql);
+                    }
+                    ahp.CloseConn();
                 }
             }
         }
@@ -212,13 +231,43 @@ namespace PublishSys
                 return;
             }
 
-            MapForm mapForm = new MapForm
+
+            IniOperator iniOperator = new IniOperator(WorkPath + "Publish\\SyncInfo.ini");
+            string ip = iniOperator.ReadString("MapLogin", "ip", "");
+            string port = iniOperator.ReadString("MapLogin", "port", "");
+            //if (TestServerConnection(ip, int.Parse(port), 500))
             {
-                unitid = pNode["Id"].ToString(),
-                maxlevel = Curr_Level,
-                Text = "地图对应"
-            };
-            mapForm.ShowDialog();
+                MapForm mapForm = new MapForm
+                {
+                    unitid = pNode["Id"].ToString(),
+                    maxlevel = Curr_Level,
+                    Text = "地图对应"
+                };
+                mapForm.ShowDialog();
+            }
+            //else
+                XtraMessageBox.Show("请连接地图下载服务器");
+        }
+
+        private bool TestServerConnection(string host, int port, int millisecondsTimeout)
+        {
+            using (TcpClient tcpClient = new TcpClient())
+            {
+                try
+                {
+                    IAsyncResult asyncResult = tcpClient.BeginConnect(host, port, null, null);
+                    asyncResult.AsyncWaitHandle.WaitOne(millisecondsTimeout);
+                    return tcpClient.Connected;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                finally
+                {
+                    tcpClient.Close();
+                }
+            }
         }
 
         private void SimpleButton2_Click(object sender, EventArgs e)
