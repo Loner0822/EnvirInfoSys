@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace PublishSys
 {
@@ -21,7 +23,7 @@ namespace PublishSys
         /// <summary>
         /// 组织结构
         /// </summary>
-        private string 
+        private List<LevelUnit> LevelList = null;
 
         public MapForm()
         {
@@ -47,6 +49,10 @@ namespace PublishSys
         private void Get_Level_List()
         {
             treeList1.Nodes.Clear();
+            treeList1.Appearance.FocusedCell.BackColor = Color.SteelBlue;
+            treeList1.KeyFieldName = "Id";
+            treeList1.ParentFieldName = "Pid";
+            LevelList = new List<LevelUnit>();
             string sql = "select PGUID, JDNAME, JDCODE, UPGUID, LEVELNUM from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 and LEVELNUM >= " + maxlevel.ToString();
             DataTable dt = ahp3.ExecuteDataTable(sql);
             for (int i = 0; i < dt.Rows.Count; i++)
