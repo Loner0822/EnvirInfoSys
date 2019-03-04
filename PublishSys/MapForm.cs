@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraEditors;
 using DevExpress.XtraGrid;
+using DevExpress.XtraTab;
 using DevExpress.XtraTreeList;
 using DevExpress.XtraTreeList.Nodes;
 using System;
@@ -7,11 +8,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace PublishSys
 {
-    public partial class MapForm : DevExpress.XtraEditors.XtraForm
+    public partial class MapForm : XtraForm
     {
         public string unitid = "";
         public int maxlevel = 0;
@@ -82,15 +84,17 @@ namespace PublishSys
                 XtraMessageBox.Show("获取不到当前经纬度");
             }
             checkedListBoxControl1.Items.Clear();
-            Show_Map_List("http:");
+            Show_Map_List("http://192.168.0.109:190/downfile/googlemaps");
 
             // 导入边界线
             borList = new Dictionary<string, List<double[]>>();
-            borderDic = new Dictionary<string, object>();
-            borderDic.Add("type", "实线");
-            borderDic.Add("width", 1);
-            borderDic.Add("color", "#000000");
-            borderDic.Add("opacity", 1);
+            borderDic = new Dictionary<string, object>
+            {
+                { "type", "实线" },
+                { "width", 1 },
+                { "color", "#000000" },
+                { "opacity", 1 }
+            };
             string sql = "select LAT, LNG, BORDERGUID from BORDERDATA where ISDELETE = 0 and UNITID = '" + unitid + "' order by SHOWINDEX";
             DataTable dt = ahp5.ExecuteDataTable(sql, null);
             for (int i = 0; i < dt.Rows.Count; ++i)
@@ -276,7 +280,6 @@ namespace PublishSys
             }
         }
 
-
         private void Show_Icon_Property(string iconguid)
         {
             string typeguid = "";
@@ -446,7 +449,11 @@ namespace PublishSys
         {
             inip = new IniOperator(WorkPath + "Publish\\RegInfo.ini");
             inip.WriteString("Public", "UnitID", unitid);
-            Process process = Process.Start(WorkPath + "Publish\\MapSet.exe");
+            //Process process = Process.Start(WorkPath + "Publish\\MapSet.exe");
+            MapSetForm mapset = new MapSetForm();
+            mapset.unitid = unitid;
+            mapset.MapPath = "http://192.168.0.109:190/downfile/googlemaps";
+            mapset.ShowDialog();
         }
 
         private void TreeList1_FocusedNodeChanged(object sender, FocusedNodeChangedEventArgs e)
@@ -454,7 +461,220 @@ namespace PublishSys
             TreeListNode pNode = treeList1.FocusedNode;
             if (pNode == null)
                 return;
+            string levelguid = pNode["Pguid"].ToString();
+            flowLayoutPanel1.Controls.Clear();
+            Show_Icon_List(levelguid);
+            for (int i = 0; i < checkedListBoxControl1.Items.Count; i++)
+            {
+                if (checkedListBoxControl1.GetItemChecked(i))
+                {
+                    checkedListBoxControl1.SetItemChecked(i, value: false);
+                }
+            }
+            string sql = "select MAPLEVEL from MAPDUIYING_H0001Z000E00 where ISDELETE = 0 and LEVELGUID = '" + levelguid + "' and UNITEID = '" + unitid + "'";
+            DataTable dataTable = ahp6.ExecuteDataTable(sql);
+            if (dataTable.Rows.Count > 0)
+            {
+                string text2 = dataTable.Rows[0]["MAPLEVEL"].ToString();
+                string[] array = text2.Split(',');
+                for (int i = 0; i < array.Length; i++)
+                {
+                    for (int j = 0; j < checkedListBoxControl1.Items.Count; j++)
+                    {
+                        if (checkedListBoxControl1.Items[j].ToString() == array[i])
+                        {
+                            checkedListBoxControl1.SetItemChecked(j, value: true);
+                            break;
+                        }
+                    }
+                }
+            }
+            int selectedIndex = checkedListBoxControl1.SelectedIndex;
+            if (selectedIndex >= 0)
+            {
+                if (!Before_ShowMap)
+                {
+                    mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                }
+                else
+                {
+                    mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                    //mapHelper1.setMapLevel(11, "11");
+                }
+                Before_ShowMap = true;
+                if (borderDic != null)
+                {
+                    Dictionary<string, List<double[]>> dictionary = (Dictionary<string, List<double[]>>)borderDic["path"];
+                    foreach (KeyValuePair<string, List<double[]>> item in dictionary)
+                    {
+                        Dictionary<string, object> dictionary2 = new Dictionary<string, object>();
+                        dictionary2["type"] = borderDic["type"];
+                        dictionary2["width"] = borderDic["width"];
+                        dictionary2["color"] = borderDic["color"];
+                        dictionary2["opacity"] = borderDic["opacity"];
+                        dictionary2["path"] = item.Value;
+                        mapHelper1.DrawBorder(unitid, dictionary2);
+                    }
+                }
+            }
         }
 
+        private void Show_Icon_List(string levelguid)
+        {
+            string str = WorkPath + "Publish\\ICONDER\\b_PNGICON\\";
+            string sql = "select PGUID, JDNAME from ZSK_OBJECT_H0001Z000K00 where ISDELETE = 0 order by LEVELNUM, SHOWINDEX";
+            DataTable dataTable = ahp2.ExecuteDataTable(sql);
+            string a = "";
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                string text = dataTable.Rows[i]["PGUID"].ToString();
+                string iconName = dataTable.Rows[i]["JDNAME"].ToString();
+                if (!File.Exists(str + text + ".png"))
+                {
+                    continue;
+                }
+                sql = "select PGUID from ICONDUIYING_H0001Z000E00 where ISDELETE = 0 and ICONGUID = '" + text + "' and LEVELGUID = '" + levelguid + "' and UNITEID = '" + unitid + "'";
+                DataTable dataTable2 = ahp6.ExecuteDataTable(sql);
+                if (dataTable2.Rows.Count > 0)
+                {
+                    if (a == "")
+                    {
+                        a = text;
+                    }
+                    ucPictureBox ucPB = new ucPictureBox
+                    {
+                        Parent = flowLayoutPanel1,
+                        Name = text,
+                        IconName = iconName,
+                        IconPguid = text,
+                        IconPath = str + text + ".png"
+                    };
+                    ucPB.Single_Click += Icon_SingleClick;
+                    ucPB.Double_Click += Icon_DoubleClick;
+                    ucPB.IconCheck = false;
+                }
+            }
+        }
+
+        private void XtraTabControl2_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
+        {
+            XtraTabPage tabPage = xtraTabControl2.SelectedTabPage;
+            if (tabPage.Controls.Count <= 0)
+                return;
+            FlowLayoutPanel flowLayoutPanel = (FlowLayoutPanel)tabPage.Controls[0];
+            foreach (ucPictureBox control in flowLayoutPanel.Controls)
+            {
+                control.IconCheck = false;
+            }
+        }
+
+        private void CheckedListBoxControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = checkedListBoxControl1.SelectedIndex;
+            if (!Before_ShowMap)
+            {
+                mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+            }
+            else
+            {
+                //mapHelper1.setMapLevel(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString());
+                mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+            }
+            if (borderDic != null)
+            {
+                Dictionary<string, List<double[]>> dictionary = (Dictionary<string, List<double[]>>)borderDic["path"];
+                foreach (KeyValuePair<string, List<double[]>> item in dictionary)
+                {
+                    Dictionary<string, object> dictionary2 = new Dictionary<string, object>();
+                    dictionary2["type"] = borderDic["type"];
+                    dictionary2["width"] = borderDic["width"];
+                    dictionary2["color"] = borderDic["color"];
+                    dictionary2["opacity"] = borderDic["opacity"];
+                    dictionary2["path"] = item.Value;
+                    mapHelper1.DrawBorder(unitid, dictionary2);
+                }
+            }
+            Before_ShowMap = true;
+        }
+
+        private void CheckedListBoxControl1_Leave(object sender, EventArgs e)
+        {
+            List<string> mpLst = new List<string>();
+            for (int i = 0; i < checkedListBoxControl1.Items.Count; i++)
+            {
+                if (checkedListBoxControl1.GetItemChecked(i))
+                {
+                    mpLst.Add(checkedListBoxControl1.Items[i].ToString());
+                }
+            }
+            TreeListNode pNode = treeList1.FocusedNode;
+            if (pNode != null)
+            {
+                string levelguid = pNode["Pguid"].ToString();
+                string sql = "select MAPLEVEL from MAPDUIYING_H0001Z000E00 where ISDELETE = 0 and LEVELGUID = '" + levelguid + "' and UNITEID = '" + unitid + "'";
+                DataTable dataTable = ahp6.ExecuteDataTable(sql);
+                string mplevel = string.Join(",", mpLst);
+                //GL_MAP[text] = text2;
+                if (dataTable.Rows.Count > 0)
+                {
+                    sql = "update MAPDUIYING_H0001Z000E00 set S_UDTIME = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', MAPLEVEL = '" + mplevel + "' where ISDELETE = 0 and LEVELGUID = '" + levelguid + "' and UNITEID = '" + unitid + "'";
+                    ahp6.ExecuteSql(sql);
+                }
+                else
+                {
+                    sql = "insert into MAPDUIYING_H0001Z000E00 (PGUID, S_UDTIME, LEVELGUID, MAPLEVEL, UNITEID) values ('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + levelguid + "', '" + mplevel + "', '" + unitid + "')";
+                    ahp6.ExecuteSql(sql);
+                }
+            }
+        }
+
+        private void MapHelper1_LevelChanged(int lastLevel, int currLevel, string showLevel)
+        {
+            if (borderDic != null)
+            {
+                Dictionary<string, List<double[]>> dictionary = (Dictionary<string, List<double[]>>)borderDic["path"];
+                foreach (KeyValuePair<string, List<double[]>> item in dictionary)
+                {
+                    Dictionary<string, object> dictionary2 = new Dictionary<string, object>();
+                    dictionary2["type"] = borderDic["type"];
+                    dictionary2["width"] = borderDic["width"];
+                    dictionary2["color"] = borderDic["color"];
+                    dictionary2["opacity"] = borderDic["opacity"];
+                    dictionary2["path"] = item.Value;
+                    mapHelper1.DrawBorder(unitid, dictionary2);
+                }
+            }
+        }
+
+        private void MapHelper1_MapTypeChanged(string mapType)
+        {
+            map_type = mapType;
+        }
+
+        private void MapForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            groupControl1.Focus();
+
+
+
+            inip = new IniOperator(WorkPath + "Publish\\RegInfo.ini");
+            inip.WriteString("Public", "UnitID", unitid);
+            ahp1.CloseConn();
+            ahp2.CloseConn();
+            ahp3.CloseConn();
+            ahp4.CloseConn();
+            ahp5.CloseConn();
+            ahp6.CloseConn();
+        }
+
+        private void MapForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ahp1.CloseConn();
+            ahp2.CloseConn();
+            ahp3.CloseConn();
+            ahp4.CloseConn();
+            ahp5.CloseConn();
+            ahp6.CloseConn();
+        }
     }
 }

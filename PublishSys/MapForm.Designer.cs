@@ -198,6 +198,8 @@
             this.mapHelper1.Size = new System.Drawing.Size(845, 571);
             this.mapHelper1.TabIndex = 0;
             this.mapHelper1.webpath = null;
+            this.mapHelper1.LevelChanged += new MapHelper.MapHelper.DlLevelChanged(this.MapHelper1_LevelChanged);
+            this.mapHelper1.MapTypeChanged += new MapHelper.MapHelper.DlMapTypeChanged(this.MapHelper1_MapTypeChanged);
             // 
             // splitterControl2
             // 
@@ -224,6 +226,8 @@
             this.checkedListBoxControl1.Name = "checkedListBoxControl1";
             this.checkedListBoxControl1.Size = new System.Drawing.Size(196, 571);
             this.checkedListBoxControl1.TabIndex = 1;
+            this.checkedListBoxControl1.SelectedIndexChanged += new System.EventHandler(this.CheckedListBoxControl1_SelectedIndexChanged);
+            this.checkedListBoxControl1.Leave += new System.EventHandler(this.CheckedListBoxControl1_Leave);
             // 
             // panelControl1
             // 
@@ -389,6 +393,7 @@
             this.xtraTabControl2.PaintStyleName = "Skin";
             this.xtraTabControl2.Size = new System.Drawing.Size(460, 626);
             this.xtraTabControl2.TabIndex = 0;
+            this.xtraTabControl2.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.XtraTabControl2_SelectedPageChanged);
             // 
             // groupControl5
             // 
@@ -497,6 +502,8 @@
             this.Name = "MapForm";
             this.Text = "MapForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MapForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MapForm_FormClosed);
             this.Load += new System.EventHandler(this.MapForm_Load);
             this.Shown += new System.EventHandler(this.MapForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();

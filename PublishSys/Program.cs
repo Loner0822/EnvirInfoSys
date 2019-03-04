@@ -50,7 +50,7 @@ namespace PublishSys
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             string exceptionMsg = GetExceptionMsg(e.Exception, e.ToString());
-            MessageBox.Show(exceptionMsg, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            XtraMessageBox.Show(exceptionMsg, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             Environment.Exit(0);
         }
 

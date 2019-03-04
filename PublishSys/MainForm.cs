@@ -235,7 +235,7 @@ namespace PublishSys
             IniOperator iniOperator = new IniOperator(WorkPath + "Publish\\SyncInfo.ini");
             string ip = iniOperator.ReadString("MapLogin", "ip", "");
             string port = iniOperator.ReadString("MapLogin", "port", "");
-            //if (TestServerConnection(ip, int.Parse(port), 500))
+            if (TestServerConnection(ip, int.Parse(port), 500))
             {
                 MapForm mapForm = new MapForm
                 {
@@ -245,7 +245,7 @@ namespace PublishSys
                 };
                 mapForm.ShowDialog();
             }
-            //else
+            else
                 XtraMessageBox.Show("请连接地图下载服务器");
         }
 

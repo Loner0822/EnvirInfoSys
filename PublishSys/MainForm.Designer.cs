@@ -47,7 +47,6 @@
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.mapHelper1 = new MapHelper.MapHelper();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
@@ -59,9 +58,10 @@
             this.textEdit2 = new DevExpress.XtraEditors.TextEdit();
             this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
             this.splitterControl1 = new DevExpress.XtraEditors.SplitterControl();
-            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.mapHelper1 = new MapHelper.MapHelper();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
@@ -72,10 +72,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.textEdit3.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
-            this.groupControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
+            this.groupControl2.SuspendLayout();
             this.SuspendLayout();
             // 
             // barManager1
@@ -228,7 +228,6 @@
             // 
             // groupControl1
             // 
-            this.groupControl1.Controls.Add(this.mapHelper1);
             this.groupControl1.Controls.Add(this.treeList1);
             this.groupControl1.Controls.Add(this.panelControl1);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
@@ -237,22 +236,6 @@
             this.groupControl1.Size = new System.Drawing.Size(648, 620);
             this.groupControl1.TabIndex = 4;
             this.groupControl1.Text = "单位列表";
-            // 
-            // mapHelper1
-            // 
-            this.mapHelper1.BackColor = System.Drawing.Color.Black;
-            this.mapHelper1.centerlat = 0D;
-            this.mapHelper1.centerlng = 0D;
-            this.mapHelper1.iconspath = null;
-            this.mapHelper1.Location = new System.Drawing.Point(648, 200);
-            this.mapHelper1.maparr = null;
-            this.mapHelper1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.mapHelper1.Name = "mapHelper1";
-            this.mapHelper1.roadmappath = null;
-            this.mapHelper1.satellitemappath = null;
-            this.mapHelper1.Size = new System.Drawing.Size(694, 529);
-            this.mapHelper1.TabIndex = 3;
-            this.mapHelper1.webpath = null;
             // 
             // treeList1
             // 
@@ -363,16 +346,6 @@
             this.splitterControl1.TabIndex = 5;
             this.splitterControl1.TabStop = false;
             // 
-            // groupControl2
-            // 
-            this.groupControl2.Controls.Add(this.gridControl1);
-            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(655, 31);
-            this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(724, 620);
-            this.groupControl2.TabIndex = 6;
-            this.groupControl2.Text = "发布记录";
-            // 
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -392,6 +365,34 @@
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsView.ShowGroupPanel = false;
+            // 
+            // groupControl2
+            // 
+            this.groupControl2.Controls.Add(this.mapHelper1);
+            this.groupControl2.Controls.Add(this.gridControl1);
+            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl2.Location = new System.Drawing.Point(655, 31);
+            this.groupControl2.Name = "groupControl2";
+            this.groupControl2.Size = new System.Drawing.Size(724, 620);
+            this.groupControl2.TabIndex = 6;
+            this.groupControl2.Text = "发布记录";
+            // 
+            // mapHelper1
+            // 
+            this.mapHelper1.BackColor = System.Drawing.Color.Black;
+            this.mapHelper1.centerlat = 0D;
+            this.mapHelper1.centerlng = 0D;
+            this.mapHelper1.iconspath = null;
+            this.mapHelper1.Location = new System.Drawing.Point(102, 129);
+            this.mapHelper1.maparr = null;
+            this.mapHelper1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.mapHelper1.Name = "mapHelper1";
+            this.mapHelper1.roadmappath = null;
+            this.mapHelper1.satellitemappath = null;
+            this.mapHelper1.Size = new System.Drawing.Size(498, 231);
+            this.mapHelper1.TabIndex = 1;
+            this.mapHelper1.Visible = false;
+            this.mapHelper1.webpath = null;
             // 
             // MainForm
             // 
@@ -422,10 +423,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.textEdit3.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
-            this.groupControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
+            this.groupControl2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -449,11 +450,8 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem9;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
-        private DevExpress.XtraEditors.GroupControl groupControl2;
         private DevExpress.XtraEditors.SplitterControl splitterControl1;
         private DevExpress.XtraEditors.GroupControl groupControl1;
-        private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraTreeList.TreeList treeList1;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
@@ -464,6 +462,9 @@
         private DevExpress.XtraEditors.TextEdit textEdit2;
         private DevExpress.XtraEditors.TextEdit textEdit1;
         private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.GroupControl groupControl2;
+        private DevExpress.XtraGrid.GridControl gridControl1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private MapHelper.MapHelper mapHelper1;
     }
 }
