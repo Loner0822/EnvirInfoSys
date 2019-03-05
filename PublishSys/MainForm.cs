@@ -36,7 +36,9 @@ namespace PublishSys
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
-
+            textEdit3.Text = "1.00.00";
+            textEdit3.Focus();
+            textEdit3.SelectAll();
         }
 
         private void Get_Tree_View()

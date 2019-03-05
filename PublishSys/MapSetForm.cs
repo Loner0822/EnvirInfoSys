@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using System.IO;
 using DevExpress.XtraTreeList.Nodes;
+using DevExpress.XtraBars;
 
 namespace PublishSys
 {
@@ -266,14 +267,16 @@ namespace PublishSys
                     });
                     continue;
                 }
-                borList[key] = new List<double[]>();
-                borList[key].Add(new double[2]
+                borList[key] = new List<double[]>
+                {
+                    new double[2]
                 {
                 double.Parse(dataTable.Rows[i]["LAT"].ToString()),
                 double.Parse(dataTable.Rows[i]["LNG"].ToString())
-                });
+                }
+                };
             }
-            if (GL_UPGUID.ContainsKey(u_guid))
+            /*if (GL_UPGUID.ContainsKey(u_guid))
             {
                 if (dataTable.Rows.Count <= 0)
                 {
@@ -283,7 +286,7 @@ namespace PublishSys
                 {
                     borderDic.Add("path", borList);
                 }
-            }
+            }*/
         }
 
         private void Vector_Click(object sender, EventArgs e)
@@ -329,7 +332,7 @@ namespace PublishSys
             XtraMessageBox.Show("中心点设置成功!");
         }
 
-        private void treeList1_FocusedNodeChanged(object sender, DevExpress.XtraTreeList.FocusedNodeChangedEventArgs e)
+        private void TreeList1_FocusedNodeChanged(object sender, DevExpress.XtraTreeList.FocusedNodeChangedEventArgs e)
         {
             TreeListNode focusedNode = treeList1.FocusedNode;
             borList = new Dictionary<string, List<double[]>>();
@@ -401,13 +404,15 @@ namespace PublishSys
 
         private void DrawBorder()
         {
-            Dictionary<string, object> dictionary = new Dictionary<string, object>();
-            string text = "fb66d40b-50fa-4d88-8156-c590328004cb";
-            string text2 = "e62844cb-2839-4b49-853a-250e11ec1901";
-            dictionary["color"] = borData.Color;
-            dictionary["weight"] = 0;
-            dictionary["fillColor"] = "#C0C0C0";
-            dictionary["fillOpacity"] = 0.5;
+            //string text = "fb66d40b-50fa-4d88-8156-c590328004cb";
+            //string text2 = "e62844cb-2839-4b49-853a-250e11ec1901";
+            Dictionary<string, object> dictionary = new Dictionary<string, object>
+            {                
+                ["color"] = borData.Color,
+                ["weight"] = 0,
+                ["fillColor"] = "#C0C0C0",
+                ["fillOpacity"] = 0.5
+            };
             if (borList.Count > 1)
             {
                 dictionary["fillColor"] = "#CCFF33";
@@ -428,12 +433,14 @@ namespace PublishSys
             Dictionary<string, List<double[]>> dictionary2 = Get_Border_Line(text3);
             foreach (KeyValuePair<string, List<double[]>> item in dictionary2)
             {
-                Dictionary<string, object> dictionary3 = new Dictionary<string, object>();
-                dictionary3["type"] = borData.Type;
-                dictionary3["width"] = borData.Width;
-                dictionary3["color"] = borData.Color;
-                dictionary3["opacity"] = borData.Opacity;
-                dictionary3["path"] = item.Value;
+                Dictionary<string, object> dictionary3 = new Dictionary<string, object>
+                {
+                    ["type"] = borData.Type,
+                    ["width"] = borData.Width,
+                    ["color"] = borData.Color,
+                    ["opacity"] = borData.Opacity,
+                    ["path"] = item.Value
+                };
                 mapHelper1.DrawBorder(text3, dictionary3);
             }
         }
@@ -481,6 +488,119 @@ namespace PublishSys
             {
                 mapHelper1.deleteMarker(node["pguid"].ToString());
             }
+        }
+
+        private void BarButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            TreeListNode focusedNode = treeList1.FocusedNode;
+            if (xtraOpenFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = xtraOpenFileDialog1.FileName;
+                string[] array = File.ReadAllLines(fileName);
+                string text = Guid.NewGuid().ToString("B");
+                borList[text] = new List<double[]>();
+                string[] array2 = array;
+                foreach (string text2 in array2)
+                {
+                    string[] array3 = text2.Split(' ', ',', ':', '\t', '\r', '\n', ';');
+                    borList[text].Add(new double[2]
+                    {
+                    double.Parse(array3[1]),
+                    double.Parse(array3[0])
+                    });
+                }
+                borderDic["path"] = borList;
+                for (int j = 0; j < borList[text].Count; j++)
+                {
+                    string sql = "insert into BORDERDATA (PGUID, S_UDTIME, UNITID, LAT, LNG, SHOWINDEX, BORDERGUID) values('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + focusedNode["pguid"].ToString() + "', '" + borList[text][j][0] + "', '" + borList[text][j][1] + "', " + j.ToString() + ", '" + text + "')";
+                    FileReader.line_ahp.ExecuteSql(sql);
+                }
+                mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+            }
+        }
+
+        private void BarButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            TreeListNode focusedNode = treeList1.FocusedNode;
+            string sql = "update BORDERDATA set S_UDTIME = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', ISDELETE = 1 where ISDELETE = 0 and UNITID = '" + focusedNode["pguid"].ToString() + "' and BORDERGUID = '" + border_guid + "'";
+            FileReader.line_ahp.ExecuteSql(sql);
+            borList.Remove(border_guid);
+            mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+        }
+
+        private void BarButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            TreeListNode focusedNode = treeList1.FocusedNode;
+            borList = new Dictionary<string, List<double[]>>();
+            if (xtraOpenFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string sql = "update BORDERDATA set S_UDTIME = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', ISDELETE = 1 where ISDELETE = 0 and UNITID = '" + focusedNode["pguid"].ToString() + "' and BORDERGUID = '" + border_guid + "'";
+                FileReader.line_ahp.ExecuteSql(sql);
+                borList.Remove(border_guid);
+                string fileName = xtraOpenFileDialog1.FileName;
+                string[] array = File.ReadAllLines(fileName);
+                string text = Guid.NewGuid().ToString("B");
+                borList[text] = new List<double[]>();
+                string[] array2 = array;
+                foreach (string text2 in array2)
+                {
+                    string[] array3 = text2.Split(' ', ',', ':', '\t', '\r', '\n', ';');
+                    borList[text].Add(new double[2]
+                    {
+                    double.Parse(array3[1]),
+                    double.Parse(array3[0])
+                    });
+                }
+                borderDic["path"] = borList;
+                for (int j = 0; j < borList[text].Count; j++)
+                {
+                    sql = "insert into BORDERDATA (PGUID, S_UDTIME, UNITID, LAT, LNG, SHOWINDEX, BORDERGUID) values('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + focusedNode["pguid"].ToString() + "', '" + borList[text][j][0] + "', '" + borList[text][j][1] + "', '" + j.ToString() + "', '" + text + "')";
+                    FileReader.line_ahp.ExecuteSql(sql);
+                }
+                mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+            }
+        }
+
+        private void MapHelper1_LevelChanged(int lastLevel, int currLevel, string showLevel)
+        {
+            now_level = currLevel;
+            DrawBorder();
+        }
+
+        private void MapHelper1_MapTypeChanged(string mapType)
+        {
+            map_type = mapType;
+        }
+
+        private void MapHelper1_MapRightClick(bool canedit, double lat, double lng, int x, int y)
+        {
+            if (Check_InBorder(new DPoint(lat, lng)))
+            {
+                barButtonItem2.Visibility = BarItemVisibility.Always;
+                barButtonItem3.Visibility = BarItemVisibility.Always;
+            }
+            else
+            {
+                barButtonItem2.Visibility = BarItemVisibility.Never;
+                barButtonItem3.Visibility = BarItemVisibility.Never;
+            }
+            popupMenu1.ShowPopup(barManager1, Control.MousePosition);
+        }
+
+        private bool Check_InBorder(DPoint p)
+        {
+            Polygon polygon = null;
+            foreach (KeyValuePair<string, List<double[]>> bor in borList)
+            {
+                polygon = new Polygon(bor.Value);
+                if (polygon.PointInPolygon(p))
+                {
+                    border_guid = bor.Key;
+                    return true;
+                }
+            }
+            border_guid = "";
+            return false;
         }
     }
 
