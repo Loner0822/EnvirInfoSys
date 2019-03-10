@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.XtraEditors;
 
 namespace EnvirInfoSys
 {
-    public partial class Form1 : Form
+    public partial class MainForm : DevExpress.XtraEditors.XtraForm
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }

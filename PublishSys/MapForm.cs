@@ -104,8 +104,10 @@ namespace PublishSys
                     borList[pguid].Add(new double[] { double.Parse(dt.Rows[i]["LAT"].ToString()), double.Parse(dt.Rows[i]["LNG"].ToString()) });
                 else
                 {
-                    borList[pguid] = new List<double[]>();
-                    borList[pguid].Add(new double[] { double.Parse(dt.Rows[i]["LAT"].ToString()), double.Parse(dt.Rows[i]["LNG"].ToString()) });
+                    borList[pguid] = new List<double[]>
+                    {
+                        new double[] { double.Parse(dt.Rows[i]["LAT"].ToString()), double.Parse(dt.Rows[i]["LNG"].ToString()) }
+                    };
                 }
             }
             if (dt.Rows.Count > 0)
@@ -171,6 +173,7 @@ namespace PublishSys
                         WrapContents = true,
                         AutoScroll = true
                     };
+                    flp.Controls.Clear();
                     flp.MouseDown += IconLib_MouseDown;
                     Add_Icon(flp, pguid);
                     xtraTabControl2.TabPages[num].Name = name;
@@ -382,11 +385,13 @@ namespace PublishSys
                     }
                     if (!flag)
                     {
-                        ucPictureBox ucPictureBox3 = new ucPictureBox();
-                        ucPictureBox3.IconName = control.IconName;
-                        ucPictureBox3.IconPguid = control.IconPguid;
-                        ucPictureBox3.IconPath = control.IconPath;
-                        ucPictureBox3.IconCheck = false;
+                        ucPictureBox ucPictureBox3 = new ucPictureBox
+                        {
+                            IconName = control.IconName,
+                            IconPguid = control.IconPguid,
+                            IconPath = control.IconPath,
+                            IconCheck = false
+                        };
                         ucPictureBox3.Single_Click += Icon_SingleClick;
                         ucPictureBox3.Double_Click += Icon_DoubleClick;
                         flowLayoutPanel1.Controls.Add(ucPictureBox3);
@@ -450,10 +455,24 @@ namespace PublishSys
             inip = new IniOperator(WorkPath + "Publish\\RegInfo.ini");
             inip.WriteString("Public", "UnitID", unitid);
             //Process process = Process.Start(WorkPath + "Publish\\MapSet.exe");
-            MapSetForm mapset = new MapSetForm();
-            mapset.unitid = unitid;
-            mapset.MapPath = "http://192.168.0.109:190/downfile/googlemaps";
+            MapSetForm mapset = new MapSetForm
+            {
+                unitid = unitid,
+                MapPath = "http://192.168.0.109:190/downfile/googlemaps"
+            };
             mapset.ShowDialog();
+            string sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and PGUID = '" + unitid + "'";
+            DataTable dataTable = FileReader.line_ahp.ExecuteDataTable(sql);
+            if (dataTable.Rows.Count > 0)
+            {
+                double m_lat = double.Parse(dataTable.Rows[0]["LAT"].ToString());
+                double m_lng = double.Parse(dataTable.Rows[0]["LNG"].ToString());
+                mapHelper1.SetMapCenter(m_lat, m_lng);
+                inip = new IniOperator(WorkPath + "Publish\\parameter.ini");
+                inip.WriteString("mapproperties", "centerlng", m_lng.ToString());
+                inip.WriteString("mapproperties", "centerlat", m_lat.ToString());
+            }
+            
         }
 
         private void TreeList1_FocusedNodeChanged(object sender, FocusedNodeChangedEventArgs e)
@@ -507,12 +526,14 @@ namespace PublishSys
                     Dictionary<string, List<double[]>> dictionary = (Dictionary<string, List<double[]>>)borderDic["path"];
                     foreach (KeyValuePair<string, List<double[]>> item in dictionary)
                     {
-                        Dictionary<string, object> dictionary2 = new Dictionary<string, object>();
-                        dictionary2["type"] = borderDic["type"];
-                        dictionary2["width"] = borderDic["width"];
-                        dictionary2["color"] = borderDic["color"];
-                        dictionary2["opacity"] = borderDic["opacity"];
-                        dictionary2["path"] = item.Value;
+                        Dictionary<string, object> dictionary2 = new Dictionary<string, object>
+                        {
+                            ["type"] = borderDic["type"],
+                            ["width"] = borderDic["width"],
+                            ["color"] = borderDic["color"],
+                            ["opacity"] = borderDic["opacity"],
+                            ["path"] = item.Value
+                        };
                         mapHelper1.DrawBorder(unitid, dictionary2);
                     }
                 }
@@ -556,7 +577,7 @@ namespace PublishSys
             }
         }
 
-        private void XtraTabControl2_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
+        private void XtraTabControl2_SelectedPageChanged(object sender, TabPageChangedEventArgs e)
         {
             XtraTabPage tabPage = xtraTabControl2.SelectedTabPage;
             if (tabPage.Controls.Count <= 0)
@@ -585,12 +606,14 @@ namespace PublishSys
                 Dictionary<string, List<double[]>> dictionary = (Dictionary<string, List<double[]>>)borderDic["path"];
                 foreach (KeyValuePair<string, List<double[]>> item in dictionary)
                 {
-                    Dictionary<string, object> dictionary2 = new Dictionary<string, object>();
-                    dictionary2["type"] = borderDic["type"];
-                    dictionary2["width"] = borderDic["width"];
-                    dictionary2["color"] = borderDic["color"];
-                    dictionary2["opacity"] = borderDic["opacity"];
-                    dictionary2["path"] = item.Value;
+                    Dictionary<string, object> dictionary2 = new Dictionary<string, object>
+                    {
+                        ["type"] = borderDic["type"],
+                        ["width"] = borderDic["width"],
+                        ["color"] = borderDic["color"],
+                        ["opacity"] = borderDic["opacity"],
+                        ["path"] = item.Value
+                    };
                     mapHelper1.DrawBorder(unitid, dictionary2);
                 }
             }
@@ -635,12 +658,14 @@ namespace PublishSys
                 Dictionary<string, List<double[]>> dictionary = (Dictionary<string, List<double[]>>)borderDic["path"];
                 foreach (KeyValuePair<string, List<double[]>> item in dictionary)
                 {
-                    Dictionary<string, object> dictionary2 = new Dictionary<string, object>();
-                    dictionary2["type"] = borderDic["type"];
-                    dictionary2["width"] = borderDic["width"];
-                    dictionary2["color"] = borderDic["color"];
-                    dictionary2["opacity"] = borderDic["opacity"];
-                    dictionary2["path"] = item.Value;
+                    Dictionary<string, object> dictionary2 = new Dictionary<string, object>
+                    {
+                        ["type"] = borderDic["type"],
+                        ["width"] = borderDic["width"],
+                        ["color"] = borderDic["color"],
+                        ["opacity"] = borderDic["opacity"],
+                        ["path"] = item.Value
+                    };
                     mapHelper1.DrawBorder(unitid, dictionary2);
                 }
             }
@@ -654,9 +679,6 @@ namespace PublishSys
         private void MapForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             groupControl1.Focus();
-
-
-
             inip = new IniOperator(WorkPath + "Publish\\RegInfo.ini");
             inip.WriteString("Public", "UnitID", unitid);
             ahp1.CloseConn();

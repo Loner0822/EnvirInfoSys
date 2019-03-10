@@ -15,7 +15,7 @@ namespace PublishSys
         [STAThread]
         static void Main()
         {
-            Mutex mutex = new System.Threading.Mutex(true, "OnlyRunOneInstance", out bool isRuned);
+            Mutex mutex = new Mutex(true, "OnlyRunOneInstance", out bool isRuned);
             if (isRuned)
             {
                 DevExpress.Skins.SkinManager.EnableFormSkins();

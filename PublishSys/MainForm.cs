@@ -37,8 +37,9 @@ namespace PublishSys
         private void MainForm_Shown(object sender, EventArgs e)
         {
             textEdit3.Text = "1.00.00";
-            textEdit3.Focus();
-            textEdit3.SelectAll();
+            treeList1.Focus();
+            //textEdit3.Focus();
+            //textEdit3.SelectAll();
         }
 
         private void Get_Tree_View()
@@ -170,6 +171,8 @@ namespace PublishSys
             textEdit1.Text = "";
             textEdit2.Text = "";
             TreeListNode pNode = treeList1.FocusedNode;
+            if (pNode == null)
+                return;
             ahp = new AccessHelper(WorkPath + "Publish\\data\\ZSK_H0001Z000K01.mdb");
             string sql = "select LEVELNUM from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 and JDNAME = '" + pNode["Level"].ToString() + "'";
             DataTable dt = ahp.ExecuteDataTable(sql);
@@ -177,15 +180,20 @@ namespace PublishSys
             if (dt.Rows.Count > 0)
                 Curr_Level = int.Parse(dt.Rows[0]["LEVELNUM"].ToString());
             ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
-            sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and UNITEID = '" + pNode["Id"].ToString() + "'";
+            sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and PGUID = '" + pNode["Id"].ToString() + "'";
             dt = ahp.ExecuteDataTable(sql);
             ahp.CloseConn();
             if (dt.Rows.Count > 0 && dt.Rows[0]["LNG"].ToString() != string.Empty && dt.Rows[0]["LAT"].ToString() != string.Empty)
             {
                 textEdit1.Text = dt.Rows[0]["LNG"].ToString();
                 textEdit2.Text = dt.Rows[0]["LAT"].ToString();
+                inip = new IniOperator(WorkPath + "Publish\\parameter.ini");
+                inip.WriteString("mapproperties", "centerlng", textEdit1.Text);
+                inip.WriteString("mapproperties", "centerlat", textEdit2.Text);
                 return;
             }
+            
+
 
             if (textEdit1.Text == "" || textEdit2.Text == "")
             {
@@ -201,20 +209,21 @@ namespace PublishSys
                     dt = ahp.ExecuteDataTable(sql);
                     if (dt.Rows.Count > 0)
                     {
-                        sql = "update ORGCENTERDATA set S_UDTIME = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', LAT = '" + textEdit2.Text
-                            + "', LNG = '" + textEdit1.Text + "' where ISDELETE = 0 and UNITEID = '" + pNode["Id"].ToString() + "'";
+                        sql = "update ORGCENTERDATA set S_UDTIME = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', LAT = '" + textEdit2.Text + "', LNG = '" + textEdit1.Text + "' where ISDELETE = 0 and PGUID = '" + pNode["Id"].ToString() + "'";
                         ahp.ExecuteSql(sql);
                     }
                     else
                     {
-                        sql = "insert into ORGCENTERDATA (PGUID, S_UDTIME, UNITEID, LAT, LNG) values ('" + Guid.NewGuid().ToString("B") + "', '"
-                            + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + pNode["Id"].ToString() + "', '" + textEdit2.Text + "', '"
-                            + textEdit1.Text + "')";
+                        sql = "insert into ORGCENTERDATA (PGUID, S_UDTIME, UNITEID, LAT, LNG) values ('" + pNode["Id"].ToString() + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + pNode["Id"].ToString() + "', '" + textEdit2.Text + "', '" + textEdit1.Text + "')";
                         ahp.ExecuteSql(sql);
                     }
                     ahp.CloseConn();
                 }
             }
+
+            inip = new IniOperator(WorkPath + "Publish\\parameter.ini");
+            inip.WriteString("mapproperties", "centerlng", textEdit1.Text);
+            inip.WriteString("mapproperties", "centerlat", textEdit2.Text);
         }
 
         private void SimpleButton1_Click(object sender, EventArgs e)
@@ -246,6 +255,10 @@ namespace PublishSys
                     Text = "地图对应"
                 };
                 mapForm.ShowDialog();
+
+                inip = new IniOperator(WorkPath + "Publish\\parameter.ini");
+                textEdit1.Text = inip.ReadString("mapproperties", "centerlng", "");
+                textEdit2.Text = inip.ReadString("mapproperties", "centerlat", "");
             }
             else
                 XtraMessageBox.Show("请连接地图下载服务器");

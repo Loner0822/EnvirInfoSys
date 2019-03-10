@@ -228,9 +228,11 @@ namespace PublishSys
             DataTable dataTable = FileReader.once_ahp.ExecuteDataTable(sql);
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
-                GL_Node gL_Node = new GL_Node();
-                gL_Node.pguid = dataTable.Rows[i]["PGUID"].ToString();
-                gL_Node.upguid = dataTable.Rows[i]["UPPGUID"].ToString();
+                GL_Node gL_Node = new GL_Node
+                {
+                    pguid = dataTable.Rows[i]["PGUID"].ToString(),
+                    upguid = dataTable.Rows[i]["UPPGUID"].ToString()
+                };
                 GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPPGUID"].ToString();
                 gL_Node.Name = dataTable.Rows[i]["ORGNAME"].ToString();
                 gL_Node.level = dataTable.Rows[i]["ULEVEL"].ToString();
@@ -242,17 +244,19 @@ namespace PublishSys
         private void Load_Border(string u_guid)
         {
             borList = new Dictionary<string, List<double[]>>();
-            borderDic = new Dictionary<string, object>();
             LineData lineData = new LineData();
             lineData.Load_Line("边界线");
             if (lineData.Type != null)
             {
                 borData = lineData;
             }
-            borderDic.Add("type", borData.Type);
-            borderDic.Add("width", borData.Width);
-            borderDic.Add("color", borData.Color);
-            borderDic.Add("opacity", borData.Opacity);
+            borderDic = new Dictionary<string, object>
+            {
+                { "type", borData.Type },
+                { "width", borData.Width },
+                { "color", borData.Color },
+                { "opacity", borData.Opacity }
+            };
             string sql = "select LAT, LNG, BORDERGUID from BORDERDATA where ISDELETE = 0 and UNITID = '" + u_guid + "' order by SHOWINDEX";
             DataTable dataTable = FileReader.line_ahp.ExecuteDataTable(sql);
             for (int i = 0; i < dataTable.Rows.Count; i++)
@@ -324,12 +328,14 @@ namespace PublishSys
             }
             else
             {
-                sql = "insert into ORGCENTERDATA (PGUID, S_UDTIME, UNITEID, LAT, LNG) values('" + text + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + text + "', '" + mapCenter[0].ToString() + "', '" + mapCenter[1].ToString() + "')";
+                sql = "insert into ORGCENTERDATA (PGUID, S_UDTIME, UNITEID, LAT, LNG) values('" + text + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + unitid + "', '" + mapCenter[0].ToString() + "', '" + mapCenter[1].ToString() + "')";
                 FileReader.line_ahp.ExecuteSql(sql);
             }
             PictureBox pictureBox = (PictureBox)sender;
             pictureBox.BorderStyle = BorderStyle.None;
             XtraMessageBox.Show("中心点设置成功!");
+            FileReader.line_ahp.CloseConn();
+            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
         }
 
         private void TreeList1_FocusedNodeChanged(object sender, DevExpress.XtraTreeList.FocusedNodeChangedEventArgs e)
@@ -373,7 +379,7 @@ namespace PublishSys
                     mapHelper1.centerlng = double.Parse(dataTable.Rows[0]["MARKELNG"].ToString());
                     flag = true;
                 }
-                sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and UNITEID = '" + e.Node.GetValue("pguid").ToString() + "'";
+                sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and PGUID = '" + e.Node.GetValue("pguid").ToString() + "'";
                 dataTable = FileReader.line_ahp.ExecuteDataTable(sql);
                 if (dataTable.Rows.Count > 0)
                 {
@@ -462,12 +468,14 @@ namespace PublishSys
                     });
                     continue;
                 }
-                dictionary[key] = new List<double[]>();
-                dictionary[key].Add(new double[2]
+                dictionary[key] = new List<double[]>
+                {
+                    new double[2]
                 {
                 double.Parse(dataTable.Rows[i]["LAT"].ToString()),
                 double.Parse(dataTable.Rows[i]["LNG"].ToString())
-                });
+                }
+                };
             }
             if (!GL_POLY.ContainsKey(pguid))
             {
