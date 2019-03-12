@@ -223,57 +223,73 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.RegForm));
-			labelControl1 = new DevExpress.XtraEditors.LabelControl();
-			textEdit1 = new DevExpress.XtraEditors.TextEdit();
-			simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-			simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-			((System.ComponentModel.ISupportInitialize)textEdit1.Properties).BeginInit();
-			SuspendLayout();
-			labelControl1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			labelControl1.Location = new System.Drawing.Point(32, 105);
-			labelControl1.Name = "labelControl1";
-			labelControl1.Size = new System.Drawing.Size(90, 22);
-			labelControl1.TabIndex = 0;
-			labelControl1.Text = "注册名称：";
-			textEdit1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			textEdit1.ImeMode = System.Windows.Forms.ImeMode.Hangul;
-			textEdit1.Location = new System.Drawing.Point(128, 101);
-			textEdit1.Name = "textEdit1";
-			textEdit1.Size = new System.Drawing.Size(150, 30);
-			textEdit1.TabIndex = 1;
-			simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			simpleButton1.Location = new System.Drawing.Point(309, 98);
-			simpleButton1.Name = "simpleButton1";
-			simpleButton1.Size = new System.Drawing.Size(112, 34);
-			simpleButton1.TabIndex = 2;
-			simpleButton1.Text = "确定";
-			simpleButton1.Click += new System.EventHandler(simpleButton1_Click);
-			simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
-			simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			simpleButton2.Location = new System.Drawing.Point(449, 98);
-			simpleButton2.Name = "simpleButton2";
-			simpleButton2.Size = new System.Drawing.Size(112, 34);
-			simpleButton2.TabIndex = 3;
-			simpleButton2.Text = "取消";
-			base.AcceptButton = simpleButton1;
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.CancelButton = simpleButton2;
-			base.ClientSize = new System.Drawing.Size(593, 164);
-			base.Controls.Add(simpleButton2);
-			base.Controls.Add(simpleButton1);
-			base.Controls.Add(textEdit1);
-			base.Controls.Add(labelControl1);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.Name = "RegForm";
-			Text = "注册信息";
-			base.FormClosed += new System.Windows.Forms.FormClosedEventHandler(RegForm_FormClosed);
-			base.Load += new System.EventHandler(RegForm_Load);
-			base.Shown += new System.EventHandler(RegForm_Shown);
-			((System.ComponentModel.ISupportInitialize)textEdit1.Properties).EndInit();
-			ResumeLayout(performLayout: false);
-			PerformLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegForm));
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelControl1.Location = new System.Drawing.Point(32, 105);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(90, 22);
+            this.labelControl1.TabIndex = 0;
+            this.labelControl1.Text = "注册名称：";
+            // 
+            // textEdit1
+            // 
+            this.textEdit1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textEdit1.ImeMode = System.Windows.Forms.ImeMode.Hangul;
+            this.textEdit1.Location = new System.Drawing.Point(128, 101);
+            this.textEdit1.Name = "textEdit1";
+            this.textEdit1.Size = new System.Drawing.Size(150, 30);
+            this.textEdit1.TabIndex = 1;
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.simpleButton1.Location = new System.Drawing.Point(309, 98);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton1.TabIndex = 2;
+            this.simpleButton1.Text = "确定";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.simpleButton2.Location = new System.Drawing.Point(449, 98);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton2.TabIndex = 3;
+            this.simpleButton2.Text = "取消";
+            // 
+            // RegForm
+            // 
+            this.AcceptButton = this.simpleButton1;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.simpleButton2;
+            this.ClientSize = new System.Drawing.Size(593, 164);
+            this.Controls.Add(this.simpleButton2);
+            this.Controls.Add(this.simpleButton1);
+            this.Controls.Add(this.textEdit1);
+            this.Controls.Add(this.labelControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "RegForm";
+            this.Text = "注册信息";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.RegForm_FormClosed);
+            this.Load += new System.EventHandler(this.RegForm_Load);
+            this.Shown += new System.EventHandler(this.RegForm_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
 		}
 	}
 }

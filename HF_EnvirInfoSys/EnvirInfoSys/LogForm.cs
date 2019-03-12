@@ -62,38 +62,46 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.LogForm));
-			gridControl1 = new DevExpress.XtraGrid.GridControl();
-			gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-			((System.ComponentModel.ISupportInitialize)gridControl1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)gridView1).BeginInit();
-			SuspendLayout();
-			gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			gridControl1.Location = new System.Drawing.Point(0, 0);
-			gridControl1.MainView = gridView1;
-			gridControl1.Name = "gridControl1";
-			gridControl1.Size = new System.Drawing.Size(1310, 745);
-			gridControl1.TabIndex = 0;
-			gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[1]
-			{
-				gridView1
-			});
-			gridView1.GridControl = gridControl1;
-			gridView1.Name = "gridView1";
-			gridView1.OptionsView.ShowGroupPanel = false;
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.ClientSize = new System.Drawing.Size(1310, 745);
-			base.Controls.Add(gridControl1);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.Name = "LogForm";
-			base.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			Text = "操作日志";
-			base.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			base.Shown += new System.EventHandler(LogForm_Shown);
-			((System.ComponentModel.ISupportInitialize)gridControl1).EndInit();
-			((System.ComponentModel.ISupportInitialize)gridView1).EndInit();
-			ResumeLayout(performLayout: false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogForm));
+            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // gridControl1
+            // 
+            this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl1.Location = new System.Drawing.Point(0, 0);
+            this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.Name = "gridControl1";
+            this.gridControl1.Size = new System.Drawing.Size(1310, 745);
+            this.gridControl1.TabIndex = 0;
+            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            // 
+            // gridView1
+            // 
+            this.gridView1.GridControl = this.gridControl1;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsView.ShowGroupPanel = false;
+            // 
+            // LogForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1310, 745);
+            this.Controls.Add(this.gridControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "LogForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "操作日志";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Shown += new System.EventHandler(this.LogForm_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            this.ResumeLayout(false);
+
 		}
 	}
 }

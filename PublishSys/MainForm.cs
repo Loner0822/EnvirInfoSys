@@ -390,27 +390,40 @@ namespace PublishSys
                 ahp.CloseConn();
                 XtraMessageBox.Show("发布成功!");
                 Get_Publish_Record();
+                Process p = Process.Start(WorkPath + "Publish\\DownOrgMapByBorder.exe", "2 2 2 2");
+                p.WaitForExit();
             }
         }
 
         private void simpleButton3_Click(object sender, EventArgs e)
         {
+            TreeListNode pNode = treeList1.FocusedNode;
+            string pguid = pNode["Id"].ToString();
+            string lvlist = Get_Level_List(pguid);
+            if(lvlist == "")
+                return;
             if (XtraMessageBox.Show("是否要下载单位地图到打包目录?", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                TreeListNode pNode = treeList1.FocusedNode;
-                string pguid = pNode["Id"].ToString();
-                string lvlist = Get_Level_List(pguid);
                 Process p = Process.Start(WorkPath + "Publish\\DownOrgMapByBorder.exe", pguid + " " + lvlist + " 1");
                 p.WaitForExit();
                 if (p.ExitCode != 0)
                 {
-                    MessageBox.Show("下载地图失败!请重新发布");
+                    MessageBox.Show("下载地图失败!请检查服务器后重新下载");
                     return;
                 }
             }
             else
             {
-
+                if (xtraFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    Process p = Process.Start(WorkPath + "Publish\\DownOrgMapByBorder.exe", pguid + " " + lvlist + " 1 " + xtraFolderBrowserDialog1.SelectedPath);
+                    p.WaitForExit();
+                    if (p.ExitCode != 0)
+                    {
+                        MessageBox.Show("下载地图失败!请检查服务器后重新下载");
+                        return;
+                    }
+                }
             }
         }
 
@@ -436,6 +449,11 @@ namespace PublishSys
             {
                 if (tmp_num[i] != 0)
                     lvlist += tmp_num[i].ToString() + ",";
+            }
+            if (lvlist == "")
+            {
+                XtraMessageBox.Show("当前单位尚未对应地图级别!");
+                return "";
             }
             return lvlist.Substring(0, lvlist.Length - 1);
         }

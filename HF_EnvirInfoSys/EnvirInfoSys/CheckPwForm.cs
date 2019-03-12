@@ -84,66 +84,85 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.CheckPwForm));
-			labelControl1 = new DevExpress.XtraEditors.LabelControl();
-			textEdit1 = new DevExpress.XtraEditors.TextEdit();
-			simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-			simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-			labelControl2 = new DevExpress.XtraEditors.LabelControl();
-			((System.ComponentModel.ISupportInitialize)textEdit1.Properties).BeginInit();
-			SuspendLayout();
-			labelControl1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			labelControl1.Location = new System.Drawing.Point(60, 46);
-			labelControl1.Name = "labelControl1";
-			labelControl1.Size = new System.Drawing.Size(54, 22);
-			labelControl1.TabIndex = 15;
-			labelControl1.Text = "密码：";
-			textEdit1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			textEdit1.Location = new System.Drawing.Point(120, 42);
-			textEdit1.Name = "textEdit1";
-			textEdit1.Properties.PasswordChar = '*';
-			textEdit1.Size = new System.Drawing.Size(192, 30);
-			textEdit1.TabIndex = 14;
-			simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
-			simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			simpleButton2.Location = new System.Drawing.Point(200, 134);
-			simpleButton2.Name = "simpleButton2";
-			simpleButton2.Size = new System.Drawing.Size(112, 34);
-			simpleButton2.TabIndex = 13;
-			simpleButton2.Text = "取消";
-			simpleButton2.Click += new System.EventHandler(button2_Click);
-			simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			simpleButton1.Location = new System.Drawing.Point(60, 134);
-			simpleButton1.Name = "simpleButton1";
-			simpleButton1.Size = new System.Drawing.Size(112, 34);
-			simpleButton1.TabIndex = 12;
-			simpleButton1.Text = "确定";
-			simpleButton1.Click += new System.EventHandler(button1_Click);
-			labelControl2.Anchor = System.Windows.Forms.AnchorStyles.None;
-			labelControl2.Location = new System.Drawing.Point(107, 93);
-			labelControl2.Name = "labelControl2";
-			labelControl2.Size = new System.Drawing.Size(154, 22);
-			labelControl2.TabIndex = 16;
-			labelControl2.Text = "初始管理员密码：0";
-			base.AcceptButton = simpleButton1;
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.CancelButton = simpleButton2;
-			base.ClientSize = new System.Drawing.Size(373, 198);
-			base.ControlBox = false;
-			base.Controls.Add(labelControl2);
-			base.Controls.Add(labelControl1);
-			base.Controls.Add(textEdit1);
-			base.Controls.Add(simpleButton2);
-			base.Controls.Add(simpleButton1);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.Name = "CheckPwForm";
-			base.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			Text = "请输入管理员密码";
-			base.Shown += new System.EventHandler(CheckPwForm_Shown);
-			((System.ComponentModel.ISupportInitialize)textEdit1.Properties).EndInit();
-			ResumeLayout(performLayout: false);
-			PerformLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckPwForm));
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelControl1.Location = new System.Drawing.Point(60, 46);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(54, 22);
+            this.labelControl1.TabIndex = 15;
+            this.labelControl1.Text = "密码：";
+            // 
+            // textEdit1
+            // 
+            this.textEdit1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textEdit1.Location = new System.Drawing.Point(120, 42);
+            this.textEdit1.Name = "textEdit1";
+            this.textEdit1.Properties.PasswordChar = '*';
+            this.textEdit1.Size = new System.Drawing.Size(192, 30);
+            this.textEdit1.TabIndex = 14;
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.simpleButton2.Location = new System.Drawing.Point(200, 134);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton2.TabIndex = 13;
+            this.simpleButton2.Text = "取消";
+            this.simpleButton2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.simpleButton1.Location = new System.Drawing.Point(60, 134);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton1.TabIndex = 12;
+            this.simpleButton1.Text = "确定";
+            this.simpleButton1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelControl2.Location = new System.Drawing.Point(107, 93);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(154, 22);
+            this.labelControl2.TabIndex = 16;
+            this.labelControl2.Text = "初始管理员密码：0";
+            // 
+            // CheckPwForm
+            // 
+            this.AcceptButton = this.simpleButton1;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.simpleButton2;
+            this.ClientSize = new System.Drawing.Size(373, 198);
+            this.ControlBox = false;
+            this.Controls.Add(this.labelControl2);
+            this.Controls.Add(this.labelControl1);
+            this.Controls.Add(this.textEdit1);
+            this.Controls.Add(this.simpleButton2);
+            this.Controls.Add(this.simpleButton1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "CheckPwForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "请输入管理员密码";
+            this.Shown += new System.EventHandler(this.CheckPwForm_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
 		}
 	}
 }

@@ -740,439 +740,546 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.Classify_1Form));
-			groupControl1 = new DevExpress.XtraEditors.GroupControl();
-			gridControl1 = new DevExpress.XtraGrid.GridControl();
-			gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-			barManager1 = new DevExpress.XtraBars.BarManager(components);
-			barDockControlTop = new DevExpress.XtraBars.BarDockControl();
-			barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
-			barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
-			barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-			barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
-			splitter1 = new System.Windows.Forms.Splitter();
-			groupControl2 = new DevExpress.XtraEditors.GroupControl();
-			xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
-			splitter2 = new System.Windows.Forms.Splitter();
-			groupControl3 = new DevExpress.XtraEditors.GroupControl();
-			groupControl5 = new DevExpress.XtraEditors.GroupControl();
-			xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
-			xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
-			gridControl2 = new DevExpress.XtraGrid.GridControl();
-			gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
-			xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-			gridControl3 = new DevExpress.XtraGrid.GridControl();
-			gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
-			xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
-			gridControl4 = new DevExpress.XtraGrid.GridControl();
-			gridView4 = new DevExpress.XtraGrid.Views.Grid.GridView();
-			groupControl4 = new DevExpress.XtraEditors.GroupControl();
-			flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			popupMenu1 = new DevExpress.XtraBars.PopupMenu(components);
-			popupMenu2 = new DevExpress.XtraBars.PopupMenu(components);
-			behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(components);
-			dragDropEvents1 = new DevExpress.Utils.DragDrop.DragDropEvents(components);
-			popupMenu3 = new DevExpress.XtraBars.PopupMenu(components);
-			barManager2 = new DevExpress.XtraBars.BarManager(components);
-			bar2 = new DevExpress.XtraBars.Bar();
-			barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
-			barDockControl1 = new DevExpress.XtraBars.BarDockControl();
-			barDockControl2 = new DevExpress.XtraBars.BarDockControl();
-			barDockControl3 = new DevExpress.XtraBars.BarDockControl();
-			barDockControl4 = new DevExpress.XtraBars.BarDockControl();
-			((System.ComponentModel.ISupportInitialize)groupControl1).BeginInit();
-			groupControl1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)gridControl1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)gridView1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)barManager1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)groupControl2).BeginInit();
-			groupControl2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)xtraTabControl1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)groupControl3).BeginInit();
-			groupControl3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)groupControl5).BeginInit();
-			groupControl5.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)xtraTabControl2).BeginInit();
-			xtraTabControl2.SuspendLayout();
-			xtraTabPage1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)gridControl2).BeginInit();
-			((System.ComponentModel.ISupportInitialize)gridView2).BeginInit();
-			xtraTabPage2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)gridControl3).BeginInit();
-			((System.ComponentModel.ISupportInitialize)gridView3).BeginInit();
-			xtraTabPage3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)gridControl4).BeginInit();
-			((System.ComponentModel.ISupportInitialize)gridView4).BeginInit();
-			((System.ComponentModel.ISupportInitialize)groupControl4).BeginInit();
-			groupControl4.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)popupMenu1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)popupMenu2).BeginInit();
-			((System.ComponentModel.ISupportInitialize)behaviorManager1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)popupMenu3).BeginInit();
-			((System.ComponentModel.ISupportInitialize)barManager2).BeginInit();
-			SuspendLayout();
-			groupControl1.Controls.Add(gridControl1);
-			groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
-			groupControl1.Location = new System.Drawing.Point(0, 35);
-			groupControl1.Name = "groupControl1";
-			groupControl1.Size = new System.Drawing.Size(261, 698);
-			groupControl1.TabIndex = 0;
-			groupControl1.Text = "图符显示管理";
-			gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			gridControl1.Location = new System.Drawing.Point(2, 31);
-			gridControl1.MainView = gridView1;
-			gridControl1.MenuManager = barManager1;
-			gridControl1.Name = "gridControl1";
-			gridControl1.Size = new System.Drawing.Size(257, 665);
-			gridControl1.TabIndex = 0;
-			gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[1]
-			{
-				gridView1
-			});
-			gridView1.Appearance.FocusedRow.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			gridView1.Appearance.FocusedRow.BackColor2 = System.Drawing.SystemColors.ActiveCaption;
-			gridView1.Appearance.FocusedRow.Options.UseBackColor = true;
-			gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
-			gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-			behaviorManager1.SetBehaviors(gridView1, new DevExpress.Utils.Behaviors.Behavior[1]
-			{
-				DevExpress.Utils.DragDrop.DragDropBehavior.Create(typeof(DevExpress.XtraGrid.Extensions.ColumnViewDragDropSource), previewVisible: true, insertIndicatorVisible: true, allowDrop: true, dragDropEvents1)
-			});
-			gridView1.GridControl = gridControl1;
-			gridView1.Name = "gridView1";
-			gridView1.OptionsCustomization.AllowColumnMoving = false;
-			gridView1.OptionsCustomization.AllowQuickHideColumns = false;
-			gridView1.OptionsCustomization.AllowSort = false;
-			gridView1.OptionsFilter.AllowMultiSelectInCheckedFilterPopup = false;
-			gridView1.OptionsSelection.EnableAppearanceFocusedCell = false;
-			gridView1.OptionsSelection.EnableAppearanceHideSelection = false;
-			gridView1.OptionsView.ShowGroupPanel = false;
-			gridView1.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(gridView1_FocusedRowChanged);
-			gridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(gridView1_MouseDown);
-			barManager1.DockControls.Add(barDockControlTop);
-			barManager1.DockControls.Add(barDockControlBottom);
-			barManager1.DockControls.Add(barDockControlLeft);
-			barManager1.DockControls.Add(barDockControlRight);
-			barManager1.Form = this;
-			barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[5]
-			{
-				barButtonItem1,
-				barButtonItem2,
-				barButtonItem3,
-				barButtonItem4,
-				barButtonItem5
-			});
-			barManager1.MaxItemId = 5;
-			barDockControlTop.CausesValidation = false;
-			barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
-			barDockControlTop.Location = new System.Drawing.Point(0, 35);
-			barDockControlTop.Manager = barManager1;
-			barDockControlTop.Size = new System.Drawing.Size(1309, 0);
-			barDockControlBottom.CausesValidation = false;
-			barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			barDockControlBottom.Location = new System.Drawing.Point(0, 733);
-			barDockControlBottom.Manager = barManager1;
-			barDockControlBottom.Size = new System.Drawing.Size(1309, 0);
-			barDockControlLeft.CausesValidation = false;
-			barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			barDockControlLeft.Location = new System.Drawing.Point(0, 35);
-			barDockControlLeft.Manager = barManager1;
-			barDockControlLeft.Size = new System.Drawing.Size(0, 698);
-			barDockControlRight.CausesValidation = false;
-			barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			barDockControlRight.Location = new System.Drawing.Point(1309, 35);
-			barDockControlRight.Manager = barManager1;
-			barDockControlRight.Size = new System.Drawing.Size(0, 698);
-			barButtonItem1.Caption = "清空";
-			barButtonItem1.Id = 0;
-			barButtonItem1.Name = "barButtonItem1";
-			barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem1_ItemClick);
-			barButtonItem2.Caption = "全选";
-			barButtonItem2.Id = 1;
-			barButtonItem2.Name = "barButtonItem2";
-			barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem2_ItemClick);
-			barButtonItem3.Caption = "添加";
-			barButtonItem3.Id = 2;
-			barButtonItem3.Name = "barButtonItem3";
-			barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem3_ItemClick);
-			barButtonItem4.Caption = "删除";
-			barButtonItem4.Id = 3;
-			barButtonItem4.Name = "barButtonItem4";
-			barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem4_ItemClick);
-			barButtonItem5.Caption = "编辑";
-			barButtonItem5.Id = 4;
-			barButtonItem5.Name = "barButtonItem5";
-			barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem5_ItemClick);
-			splitter1.Location = new System.Drawing.Point(261, 35);
-			splitter1.Name = "splitter1";
-			splitter1.Size = new System.Drawing.Size(10, 698);
-			splitter1.TabIndex = 1;
-			splitter1.TabStop = false;
-			groupControl2.Controls.Add(xtraTabControl1);
-			groupControl2.Dock = System.Windows.Forms.DockStyle.Right;
-			groupControl2.Location = new System.Drawing.Point(885, 35);
-			groupControl2.Name = "groupControl2";
-			groupControl2.Size = new System.Drawing.Size(424, 698);
-			groupControl2.TabIndex = 2;
-			groupControl2.Text = "图符库";
-			xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			xtraTabControl1.Location = new System.Drawing.Point(2, 31);
-			xtraTabControl1.Name = "xtraTabControl1";
-			xtraTabControl1.Size = new System.Drawing.Size(420, 665);
-			xtraTabControl1.TabIndex = 0;
-			xtraTabControl1.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(xtraTabControl1_SelectedPageChanged);
-			splitter2.Dock = System.Windows.Forms.DockStyle.Right;
-			splitter2.Location = new System.Drawing.Point(875, 35);
-			splitter2.Name = "splitter2";
-			splitter2.Size = new System.Drawing.Size(10, 698);
-			splitter2.TabIndex = 3;
-			splitter2.TabStop = false;
-			groupControl3.Appearance.BackColor = System.Drawing.SystemColors.Control;
-			groupControl3.Appearance.Options.UseBackColor = true;
-			groupControl3.Controls.Add(groupControl5);
-			groupControl3.Controls.Add(groupControl4);
-			groupControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-			groupControl3.Location = new System.Drawing.Point(271, 35);
-			groupControl3.Name = "groupControl3";
-			groupControl3.Size = new System.Drawing.Size(604, 698);
-			groupControl3.TabIndex = 4;
-			groupControl3.Text = "图符列表";
-			groupControl5.Controls.Add(xtraTabControl2);
-			groupControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-			groupControl5.Location = new System.Drawing.Point(148, 31);
-			groupControl5.Name = "groupControl5";
-			groupControl5.Size = new System.Drawing.Size(454, 665);
-			groupControl5.TabIndex = 1;
-			groupControl5.Text = "图符属性";
-			xtraTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-			xtraTabControl2.Location = new System.Drawing.Point(2, 31);
-			xtraTabControl2.Name = "xtraTabControl2";
-			xtraTabControl2.SelectedTabPage = xtraTabPage1;
-			xtraTabControl2.Size = new System.Drawing.Size(450, 632);
-			xtraTabControl2.TabIndex = 0;
-			xtraTabControl2.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[3]
-			{
-				xtraTabPage1,
-				xtraTabPage2,
-				xtraTabPage3
-			});
-			xtraTabPage1.Controls.Add(gridControl2);
-			xtraTabPage1.Name = "xtraTabPage1";
-			xtraTabPage1.Size = new System.Drawing.Size(442, 590);
-			xtraTabPage1.Text = "固定属性";
-			gridControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-			gridControl2.Location = new System.Drawing.Point(0, 0);
-			gridControl2.MainView = gridView2;
-			gridControl2.MenuManager = barManager1;
-			gridControl2.Name = "gridControl2";
-			gridControl2.Size = new System.Drawing.Size(442, 590);
-			gridControl2.TabIndex = 0;
-			gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[1]
-			{
-				gridView2
-			});
-			gridView2.GridControl = gridControl2;
-			gridView2.Name = "gridView2";
-			gridView2.OptionsBehavior.Editable = false;
-			gridView2.OptionsView.ShowGroupPanel = false;
-			xtraTabPage2.Controls.Add(gridControl3);
-			xtraTabPage2.Name = "xtraTabPage2";
-			xtraTabPage2.Size = new System.Drawing.Size(442, 590);
-			xtraTabPage2.Text = "基本属性";
-			gridControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-			gridControl3.Location = new System.Drawing.Point(0, 0);
-			gridControl3.MainView = gridView3;
-			gridControl3.MenuManager = barManager1;
-			gridControl3.Name = "gridControl3";
-			gridControl3.Size = new System.Drawing.Size(442, 590);
-			gridControl3.TabIndex = 1;
-			gridControl3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[1]
-			{
-				gridView3
-			});
-			gridView3.GridControl = gridControl3;
-			gridView3.Name = "gridView3";
-			gridView3.OptionsBehavior.Editable = false;
-			gridView3.OptionsView.ShowGroupPanel = false;
-			xtraTabPage3.Controls.Add(gridControl4);
-			xtraTabPage3.Name = "xtraTabPage3";
-			xtraTabPage3.Size = new System.Drawing.Size(442, 590);
-			xtraTabPage3.Text = "扩展属性";
-			gridControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-			gridControl4.Location = new System.Drawing.Point(0, 0);
-			gridControl4.MainView = gridView4;
-			gridControl4.MenuManager = barManager1;
-			gridControl4.Name = "gridControl4";
-			gridControl4.Size = new System.Drawing.Size(442, 590);
-			gridControl4.TabIndex = 1;
-			gridControl4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[1]
-			{
-				gridView4
-			});
-			gridView4.GridControl = gridControl4;
-			gridView4.Name = "gridView4";
-			gridView4.OptionsBehavior.Editable = false;
-			gridView4.OptionsView.ShowGroupPanel = false;
-			groupControl4.Controls.Add(flowLayoutPanel1);
-			groupControl4.Dock = System.Windows.Forms.DockStyle.Left;
-			groupControl4.Location = new System.Drawing.Point(2, 31);
-			groupControl4.Name = "groupControl4";
-			groupControl4.Size = new System.Drawing.Size(146, 665);
-			groupControl4.TabIndex = 0;
-			groupControl4.Text = "选中图符";
-			flowLayoutPanel1.AutoScroll = true;
-			flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			flowLayoutPanel1.Location = new System.Drawing.Point(2, 31);
-			flowLayoutPanel1.Name = "flowLayoutPanel1";
-			flowLayoutPanel1.Size = new System.Drawing.Size(142, 632);
-			flowLayoutPanel1.TabIndex = 4;
-			flowLayoutPanel1.WrapContents = false;
-			flowLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(flowLayoutPanel1_MouseDown);
-			popupMenu1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[1]
-			{
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem1)
-			});
-			popupMenu1.Manager = barManager1;
-			popupMenu1.Name = "popupMenu1";
-			popupMenu2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[1]
-			{
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem2)
-			});
-			popupMenu2.Manager = barManager1;
-			popupMenu2.Name = "popupMenu2";
-			popupMenu3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[3]
-			{
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem3),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem4),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem5)
-			});
-			popupMenu3.Manager = barManager1;
-			popupMenu3.Name = "popupMenu3";
-			barManager2.Bars.AddRange(new DevExpress.XtraBars.Bar[1]
-			{
-				bar2
-			});
-			barManager2.DockControls.Add(barDockControl1);
-			barManager2.DockControls.Add(barDockControl2);
-			barManager2.DockControls.Add(barDockControl3);
-			barManager2.DockControls.Add(barDockControl4);
-			barManager2.Form = this;
-			barManager2.Items.AddRange(new DevExpress.XtraBars.BarItem[3]
-			{
-				barButtonItem6,
-				barButtonItem7,
-				barButtonItem8
-			});
-			barManager2.MainMenu = bar2;
-			barManager2.MaxItemId = 3;
-			bar2.BarName = "Main menu";
-			bar2.DockCol = 0;
-			bar2.DockRow = 0;
-			bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
-			bar2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[3]
-			{
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem6),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem7),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem8)
-			});
-			bar2.OptionsBar.DrawBorder = false;
-			bar2.OptionsBar.DrawDragBorder = false;
-			bar2.OptionsBar.MultiLine = true;
-			bar2.OptionsBar.UseWholeRow = true;
-			bar2.Text = "Main menu";
-			barButtonItem6.Border = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
-			barButtonItem6.Caption = "管辖分类";
-			barButtonItem6.Id = 0;
-			barButtonItem6.Name = "barButtonItem6";
-			barButtonItem7.Caption = "图符对应";
-			barButtonItem7.Id = 1;
-			barButtonItem7.Name = "barButtonItem7";
-			barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem7_ItemClick);
-			barButtonItem8.Caption = "图符扩展";
-			barButtonItem8.Id = 2;
-			barButtonItem8.Name = "barButtonItem8";
-			barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem8_ItemClick);
-			barDockControl1.CausesValidation = false;
-			barDockControl1.Dock = System.Windows.Forms.DockStyle.Top;
-			barDockControl1.Location = new System.Drawing.Point(0, 0);
-			barDockControl1.Manager = barManager2;
-			barDockControl1.Size = new System.Drawing.Size(1309, 35);
-			barDockControl2.CausesValidation = false;
-			barDockControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			barDockControl2.Location = new System.Drawing.Point(0, 733);
-			barDockControl2.Manager = barManager2;
-			barDockControl2.Size = new System.Drawing.Size(1309, 0);
-			barDockControl3.CausesValidation = false;
-			barDockControl3.Dock = System.Windows.Forms.DockStyle.Left;
-			barDockControl3.Location = new System.Drawing.Point(0, 35);
-			barDockControl3.Manager = barManager2;
-			barDockControl3.Size = new System.Drawing.Size(0, 698);
-			barDockControl4.CausesValidation = false;
-			barDockControl4.Dock = System.Windows.Forms.DockStyle.Right;
-			barDockControl4.Location = new System.Drawing.Point(1309, 35);
-			barDockControl4.Manager = barManager2;
-			barDockControl4.Size = new System.Drawing.Size(0, 698);
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.ClientSize = new System.Drawing.Size(1309, 733);
-			base.Controls.Add(groupControl3);
-			base.Controls.Add(splitter2);
-			base.Controls.Add(groupControl2);
-			base.Controls.Add(splitter1);
-			base.Controls.Add(groupControl1);
-			base.Controls.Add(barDockControlLeft);
-			base.Controls.Add(barDockControlRight);
-			base.Controls.Add(barDockControlBottom);
-			base.Controls.Add(barDockControlTop);
-			base.Controls.Add(barDockControl3);
-			base.Controls.Add(barDockControl4);
-			base.Controls.Add(barDockControl2);
-			base.Controls.Add(barDockControl1);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.Name = "Classify_1Form";
-			Text = "管辖分类设置";
-			base.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			base.Load += new System.EventHandler(Classify_1Form_Load);
-			((System.ComponentModel.ISupportInitialize)groupControl1).EndInit();
-			groupControl1.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)gridControl1).EndInit();
-			((System.ComponentModel.ISupportInitialize)gridView1).EndInit();
-			((System.ComponentModel.ISupportInitialize)barManager1).EndInit();
-			((System.ComponentModel.ISupportInitialize)groupControl2).EndInit();
-			groupControl2.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)xtraTabControl1).EndInit();
-			((System.ComponentModel.ISupportInitialize)groupControl3).EndInit();
-			groupControl3.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)groupControl5).EndInit();
-			groupControl5.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)xtraTabControl2).EndInit();
-			xtraTabControl2.ResumeLayout(performLayout: false);
-			xtraTabPage1.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)gridControl2).EndInit();
-			((System.ComponentModel.ISupportInitialize)gridView2).EndInit();
-			xtraTabPage2.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)gridControl3).EndInit();
-			((System.ComponentModel.ISupportInitialize)gridView3).EndInit();
-			xtraTabPage3.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)gridControl4).EndInit();
-			((System.ComponentModel.ISupportInitialize)gridView4).EndInit();
-			((System.ComponentModel.ISupportInitialize)groupControl4).EndInit();
-			groupControl4.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)popupMenu1).EndInit();
-			((System.ComponentModel.ISupportInitialize)popupMenu2).EndInit();
-			((System.ComponentModel.ISupportInitialize)behaviorManager1).EndInit();
-			((System.ComponentModel.ISupportInitialize)popupMenu3).EndInit();
-			((System.ComponentModel.ISupportInitialize)barManager2).EndInit();
-			ResumeLayout(performLayout: false);
-			PerformLayout();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Classify_1Form));
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
+            this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
+            this.splitter2 = new System.Windows.Forms.Splitter();
+            this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
+            this.groupControl5 = new DevExpress.XtraEditors.GroupControl();
+            this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
+            this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
+            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
+            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
+            this.gridControl3 = new DevExpress.XtraGrid.GridControl();
+            this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
+            this.gridControl4 = new DevExpress.XtraGrid.GridControl();
+            this.gridView4 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.popupMenu2 = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
+            this.dragDropEvents1 = new DevExpress.Utils.DragDrop.DragDropEvents(this.components);
+            this.popupMenu3 = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.barManager2 = new DevExpress.XtraBars.BarManager(this.components);
+            this.bar2 = new DevExpress.XtraBars.Bar();
+            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
+            this.barDockControl1 = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControl2 = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControl3 = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControl4 = new DevExpress.XtraBars.BarDockControl();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
+            this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
+            this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
+            this.groupControl3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
+            this.groupControl5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
+            this.xtraTabControl2.SuspendLayout();
+            this.xtraTabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            this.xtraTabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
+            this.xtraTabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
+            this.groupControl4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager2)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // groupControl1
+            // 
+            this.groupControl1.Controls.Add(this.gridControl1);
+            this.groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupControl1.Location = new System.Drawing.Point(0, 35);
+            this.groupControl1.Name = "groupControl1";
+            this.groupControl1.Size = new System.Drawing.Size(261, 698);
+            this.groupControl1.TabIndex = 0;
+            this.groupControl1.Text = "图符显示管理";
+            // 
+            // gridControl1
+            // 
+            this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl1.Location = new System.Drawing.Point(2, 31);
+            this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.MenuManager = this.barManager1;
+            this.gridControl1.Name = "gridControl1";
+            this.gridControl1.Size = new System.Drawing.Size(257, 665);
+            this.gridControl1.TabIndex = 0;
+            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            // 
+            // gridView1
+            // 
+            this.gridView1.Appearance.FocusedRow.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.gridView1.Appearance.FocusedRow.BackColor2 = System.Drawing.SystemColors.ActiveCaption;
+            this.gridView1.Appearance.FocusedRow.Options.UseBackColor = true;
+            this.gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            this.gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.behaviorManager1.SetBehaviors(this.gridView1, new DevExpress.Utils.Behaviors.Behavior[] {
+            ((DevExpress.Utils.Behaviors.Behavior)(DevExpress.Utils.DragDrop.DragDropBehavior.Create(typeof(DevExpress.XtraGrid.Extensions.ColumnViewDragDropSource), true, true, true, this.dragDropEvents1)))});
+            this.gridView1.GridControl = this.gridControl1;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView1.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gridView1.OptionsCustomization.AllowSort = false;
+            this.gridView1.OptionsFilter.AllowMultiSelectInCheckedFilterPopup = false;
+            this.gridView1.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.gridView1.OptionsSelection.EnableAppearanceHideSelection = false;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
+            this.gridView1.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.gridView1_FocusedRowChanged);
+            this.gridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridView1_MouseDown);
+            // 
+            // barManager1
+            // 
+            this.barManager1.DockControls.Add(this.barDockControlTop);
+            this.barManager1.DockControls.Add(this.barDockControlBottom);
+            this.barManager1.DockControls.Add(this.barDockControlLeft);
+            this.barManager1.DockControls.Add(this.barDockControlRight);
+            this.barManager1.Form = this;
+            this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.barButtonItem1,
+            this.barButtonItem2,
+            this.barButtonItem3,
+            this.barButtonItem4,
+            this.barButtonItem5});
+            this.barManager1.MaxItemId = 5;
+            // 
+            // barDockControlTop
+            // 
+            this.barDockControlTop.CausesValidation = false;
+            this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barDockControlTop.Location = new System.Drawing.Point(0, 35);
+            this.barDockControlTop.Manager = this.barManager1;
+            this.barDockControlTop.Size = new System.Drawing.Size(1309, 0);
+            // 
+            // barDockControlBottom
+            // 
+            this.barDockControlBottom.CausesValidation = false;
+            this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 733);
+            this.barDockControlBottom.Manager = this.barManager1;
+            this.barDockControlBottom.Size = new System.Drawing.Size(1309, 0);
+            // 
+            // barDockControlLeft
+            // 
+            this.barDockControlLeft.CausesValidation = false;
+            this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 35);
+            this.barDockControlLeft.Manager = this.barManager1;
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 698);
+            // 
+            // barDockControlRight
+            // 
+            this.barDockControlRight.CausesValidation = false;
+            this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.barDockControlRight.Location = new System.Drawing.Point(1309, 35);
+            this.barDockControlRight.Manager = this.barManager1;
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 698);
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "清空";
+            this.barButtonItem1.Id = 0;
+            this.barButtonItem1.Name = "barButtonItem1";
+            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
+            // 
+            // barButtonItem2
+            // 
+            this.barButtonItem2.Caption = "全选";
+            this.barButtonItem2.Id = 1;
+            this.barButtonItem2.Name = "barButtonItem2";
+            this.barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
+            // 
+            // barButtonItem3
+            // 
+            this.barButtonItem3.Caption = "添加";
+            this.barButtonItem3.Id = 2;
+            this.barButtonItem3.Name = "barButtonItem3";
+            this.barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem3_ItemClick);
+            // 
+            // barButtonItem4
+            // 
+            this.barButtonItem4.Caption = "删除";
+            this.barButtonItem4.Id = 3;
+            this.barButtonItem4.Name = "barButtonItem4";
+            this.barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem4_ItemClick);
+            // 
+            // barButtonItem5
+            // 
+            this.barButtonItem5.Caption = "编辑";
+            this.barButtonItem5.Id = 4;
+            this.barButtonItem5.Name = "barButtonItem5";
+            this.barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem5_ItemClick);
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(261, 35);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(10, 698);
+            this.splitter1.TabIndex = 1;
+            this.splitter1.TabStop = false;
+            // 
+            // groupControl2
+            // 
+            this.groupControl2.Controls.Add(this.xtraTabControl1);
+            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupControl2.Location = new System.Drawing.Point(885, 35);
+            this.groupControl2.Name = "groupControl2";
+            this.groupControl2.Size = new System.Drawing.Size(424, 698);
+            this.groupControl2.TabIndex = 2;
+            this.groupControl2.Text = "图符库";
+            // 
+            // xtraTabControl1
+            // 
+            this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xtraTabControl1.Location = new System.Drawing.Point(2, 31);
+            this.xtraTabControl1.Name = "xtraTabControl1";
+            this.xtraTabControl1.Size = new System.Drawing.Size(420, 665);
+            this.xtraTabControl1.TabIndex = 0;
+            this.xtraTabControl1.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.xtraTabControl1_SelectedPageChanged);
+            // 
+            // splitter2
+            // 
+            this.splitter2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.splitter2.Location = new System.Drawing.Point(875, 35);
+            this.splitter2.Name = "splitter2";
+            this.splitter2.Size = new System.Drawing.Size(10, 698);
+            this.splitter2.TabIndex = 3;
+            this.splitter2.TabStop = false;
+            // 
+            // groupControl3
+            // 
+            this.groupControl3.Appearance.BackColor = System.Drawing.SystemColors.Control;
+            this.groupControl3.Appearance.Options.UseBackColor = true;
+            this.groupControl3.Controls.Add(this.groupControl5);
+            this.groupControl3.Controls.Add(this.groupControl4);
+            this.groupControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl3.Location = new System.Drawing.Point(271, 35);
+            this.groupControl3.Name = "groupControl3";
+            this.groupControl3.Size = new System.Drawing.Size(604, 698);
+            this.groupControl3.TabIndex = 4;
+            this.groupControl3.Text = "图符列表";
+            // 
+            // groupControl5
+            // 
+            this.groupControl5.Controls.Add(this.xtraTabControl2);
+            this.groupControl5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl5.Location = new System.Drawing.Point(148, 31);
+            this.groupControl5.Name = "groupControl5";
+            this.groupControl5.Size = new System.Drawing.Size(454, 665);
+            this.groupControl5.TabIndex = 1;
+            this.groupControl5.Text = "图符属性";
+            // 
+            // xtraTabControl2
+            // 
+            this.xtraTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xtraTabControl2.Location = new System.Drawing.Point(2, 31);
+            this.xtraTabControl2.Name = "xtraTabControl2";
+            this.xtraTabControl2.SelectedTabPage = this.xtraTabPage1;
+            this.xtraTabControl2.Size = new System.Drawing.Size(450, 632);
+            this.xtraTabControl2.TabIndex = 0;
+            this.xtraTabControl2.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.xtraTabPage1,
+            this.xtraTabPage2,
+            this.xtraTabPage3});
+            // 
+            // xtraTabPage1
+            // 
+            this.xtraTabPage1.Controls.Add(this.gridControl2);
+            this.xtraTabPage1.Name = "xtraTabPage1";
+            this.xtraTabPage1.Size = new System.Drawing.Size(442, 590);
+            this.xtraTabPage1.Text = "固定属性";
+            // 
+            // gridControl2
+            // 
+            this.gridControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl2.Location = new System.Drawing.Point(0, 0);
+            this.gridControl2.MainView = this.gridView2;
+            this.gridControl2.MenuManager = this.barManager1;
+            this.gridControl2.Name = "gridControl2";
+            this.gridControl2.Size = new System.Drawing.Size(442, 590);
+            this.gridControl2.TabIndex = 0;
+            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView2});
+            // 
+            // gridView2
+            // 
+            this.gridView2.GridControl = this.gridControl2;
+            this.gridView2.Name = "gridView2";
+            this.gridView2.OptionsBehavior.Editable = false;
+            this.gridView2.OptionsView.ShowGroupPanel = false;
+            // 
+            // xtraTabPage2
+            // 
+            this.xtraTabPage2.Controls.Add(this.gridControl3);
+            this.xtraTabPage2.Name = "xtraTabPage2";
+            this.xtraTabPage2.Size = new System.Drawing.Size(442, 590);
+            this.xtraTabPage2.Text = "基本属性";
+            // 
+            // gridControl3
+            // 
+            this.gridControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl3.Location = new System.Drawing.Point(0, 0);
+            this.gridControl3.MainView = this.gridView3;
+            this.gridControl3.MenuManager = this.barManager1;
+            this.gridControl3.Name = "gridControl3";
+            this.gridControl3.Size = new System.Drawing.Size(442, 590);
+            this.gridControl3.TabIndex = 1;
+            this.gridControl3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView3});
+            // 
+            // gridView3
+            // 
+            this.gridView3.GridControl = this.gridControl3;
+            this.gridView3.Name = "gridView3";
+            this.gridView3.OptionsBehavior.Editable = false;
+            this.gridView3.OptionsView.ShowGroupPanel = false;
+            // 
+            // xtraTabPage3
+            // 
+            this.xtraTabPage3.Controls.Add(this.gridControl4);
+            this.xtraTabPage3.Name = "xtraTabPage3";
+            this.xtraTabPage3.Size = new System.Drawing.Size(442, 590);
+            this.xtraTabPage3.Text = "扩展属性";
+            // 
+            // gridControl4
+            // 
+            this.gridControl4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl4.Location = new System.Drawing.Point(0, 0);
+            this.gridControl4.MainView = this.gridView4;
+            this.gridControl4.MenuManager = this.barManager1;
+            this.gridControl4.Name = "gridControl4";
+            this.gridControl4.Size = new System.Drawing.Size(442, 590);
+            this.gridControl4.TabIndex = 1;
+            this.gridControl4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView4});
+            // 
+            // gridView4
+            // 
+            this.gridView4.GridControl = this.gridControl4;
+            this.gridView4.Name = "gridView4";
+            this.gridView4.OptionsBehavior.Editable = false;
+            this.gridView4.OptionsView.ShowGroupPanel = false;
+            // 
+            // groupControl4
+            // 
+            this.groupControl4.Controls.Add(this.flowLayoutPanel1);
+            this.groupControl4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupControl4.Location = new System.Drawing.Point(2, 31);
+            this.groupControl4.Name = "groupControl4";
+            this.groupControl4.Size = new System.Drawing.Size(146, 665);
+            this.groupControl4.TabIndex = 0;
+            this.groupControl4.Text = "选中图符";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(2, 31);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(142, 632);
+            this.flowLayoutPanel1.TabIndex = 4;
+            this.flowLayoutPanel1.WrapContents = false;
+            this.flowLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.flowLayoutPanel1_MouseDown);
+            // 
+            // popupMenu1
+            // 
+            this.popupMenu1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem1)});
+            this.popupMenu1.Manager = this.barManager1;
+            this.popupMenu1.Name = "popupMenu1";
+            // 
+            // popupMenu2
+            // 
+            this.popupMenu2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem2)});
+            this.popupMenu2.Manager = this.barManager1;
+            this.popupMenu2.Name = "popupMenu2";
+            // 
+            // popupMenu3
+            // 
+            this.popupMenu3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem3),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem4),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem5)});
+            this.popupMenu3.Manager = this.barManager1;
+            this.popupMenu3.Name = "popupMenu3";
+            // 
+            // barManager2
+            // 
+            this.barManager2.Bars.AddRange(new DevExpress.XtraBars.Bar[] {
+            this.bar2});
+            this.barManager2.DockControls.Add(this.barDockControl1);
+            this.barManager2.DockControls.Add(this.barDockControl2);
+            this.barManager2.DockControls.Add(this.barDockControl3);
+            this.barManager2.DockControls.Add(this.barDockControl4);
+            this.barManager2.Form = this;
+            this.barManager2.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.barButtonItem6,
+            this.barButtonItem7,
+            this.barButtonItem8});
+            this.barManager2.MainMenu = this.bar2;
+            this.barManager2.MaxItemId = 3;
+            // 
+            // bar2
+            // 
+            this.bar2.BarName = "Main menu";
+            this.bar2.DockCol = 0;
+            this.bar2.DockRow = 0;
+            this.bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
+            this.bar2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem6),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem7),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem8)});
+            this.bar2.OptionsBar.DrawBorder = false;
+            this.bar2.OptionsBar.DrawDragBorder = false;
+            this.bar2.OptionsBar.MultiLine = true;
+            this.bar2.OptionsBar.UseWholeRow = true;
+            this.bar2.Text = "Main menu";
+            // 
+            // barButtonItem6
+            // 
+            this.barButtonItem6.Border = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
+            this.barButtonItem6.Caption = "管辖分类";
+            this.barButtonItem6.Id = 0;
+            this.barButtonItem6.Name = "barButtonItem6";
+            // 
+            // barButtonItem7
+            // 
+            this.barButtonItem7.Caption = "图符对应";
+            this.barButtonItem7.Id = 1;
+            this.barButtonItem7.Name = "barButtonItem7";
+            this.barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem7_ItemClick);
+            // 
+            // barButtonItem8
+            // 
+            this.barButtonItem8.Caption = "图符扩展";
+            this.barButtonItem8.Id = 2;
+            this.barButtonItem8.Name = "barButtonItem8";
+            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem8_ItemClick);
+            // 
+            // barDockControl1
+            // 
+            this.barDockControl1.CausesValidation = false;
+            this.barDockControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barDockControl1.Location = new System.Drawing.Point(0, 0);
+            this.barDockControl1.Manager = this.barManager2;
+            this.barDockControl1.Size = new System.Drawing.Size(1309, 35);
+            // 
+            // barDockControl2
+            // 
+            this.barDockControl2.CausesValidation = false;
+            this.barDockControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.barDockControl2.Location = new System.Drawing.Point(0, 733);
+            this.barDockControl2.Manager = this.barManager2;
+            this.barDockControl2.Size = new System.Drawing.Size(1309, 0);
+            // 
+            // barDockControl3
+            // 
+            this.barDockControl3.CausesValidation = false;
+            this.barDockControl3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.barDockControl3.Location = new System.Drawing.Point(0, 35);
+            this.barDockControl3.Manager = this.barManager2;
+            this.barDockControl3.Size = new System.Drawing.Size(0, 698);
+            // 
+            // barDockControl4
+            // 
+            this.barDockControl4.CausesValidation = false;
+            this.barDockControl4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.barDockControl4.Location = new System.Drawing.Point(1309, 35);
+            this.barDockControl4.Manager = this.barManager2;
+            this.barDockControl4.Size = new System.Drawing.Size(0, 698);
+            // 
+            // Classify_1Form
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1309, 733);
+            this.Controls.Add(this.groupControl3);
+            this.Controls.Add(this.splitter2);
+            this.Controls.Add(this.groupControl2);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.groupControl1);
+            this.Controls.Add(this.barDockControlLeft);
+            this.Controls.Add(this.barDockControlRight);
+            this.Controls.Add(this.barDockControlBottom);
+            this.Controls.Add(this.barDockControlTop);
+            this.Controls.Add(this.barDockControl3);
+            this.Controls.Add(this.barDockControl4);
+            this.Controls.Add(this.barDockControl2);
+            this.Controls.Add(this.barDockControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Classify_1Form";
+            this.Text = "管辖分类设置";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Classify_1Form_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
+            this.groupControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
+            this.groupControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
+            this.groupControl3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).EndInit();
+            this.groupControl5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();
+            this.xtraTabControl2.ResumeLayout(false);
+            this.xtraTabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            this.xtraTabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
+            this.xtraTabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
+            this.groupControl4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager2)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
 		}
 	}
 }

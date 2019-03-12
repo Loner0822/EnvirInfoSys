@@ -714,213 +714,277 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.MapSetForm));
-			barManager1 = new DevExpress.XtraBars.BarManager(components);
-			barDockControlTop = new DevExpress.XtraBars.BarDockControl();
-			barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
-			barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
-			barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-			barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
-			treeList1 = new DevExpress.XtraTreeList.TreeList();
-			groupControl1 = new DevExpress.XtraEditors.GroupControl();
-			splitter1 = new System.Windows.Forms.Splitter();
-			panelControl1 = new DevExpress.XtraEditors.PanelControl();
-			flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			panelControl2 = new DevExpress.XtraEditors.PanelControl();
-			label1 = new System.Windows.Forms.Label();
-			groupControl2 = new DevExpress.XtraEditors.GroupControl();
-			mapHelper1 = new MapHelper.MapHelper();
-			popupMenu1 = new DevExpress.XtraBars.PopupMenu(components);
-			xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(components);
-			popupMenu2 = new DevExpress.XtraBars.PopupMenu(components);
-			((System.ComponentModel.ISupportInitialize)barManager1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)treeList1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)groupControl1).BeginInit();
-			groupControl1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)panelControl1).BeginInit();
-			panelControl1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)panelControl2).BeginInit();
-			panelControl2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)groupControl2).BeginInit();
-			groupControl2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)popupMenu1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)popupMenu2).BeginInit();
-			SuspendLayout();
-			barManager1.DockControls.Add(barDockControlTop);
-			barManager1.DockControls.Add(barDockControlBottom);
-			barManager1.DockControls.Add(barDockControlLeft);
-			barManager1.DockControls.Add(barDockControlRight);
-			barManager1.Form = this;
-			barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[5]
-			{
-				barButtonItem1,
-				barButtonItem2,
-				barButtonItem3,
-				barButtonItem4,
-				barButtonItem5
-			});
-			barManager1.MaxItemId = 5;
-			barDockControlTop.CausesValidation = false;
-			barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
-			barDockControlTop.Location = new System.Drawing.Point(0, 0);
-			barDockControlTop.Manager = barManager1;
-			barDockControlTop.Size = new System.Drawing.Size(1297, 0);
-			barDockControlBottom.CausesValidation = false;
-			barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			barDockControlBottom.Location = new System.Drawing.Point(0, 696);
-			barDockControlBottom.Manager = barManager1;
-			barDockControlBottom.Size = new System.Drawing.Size(1297, 0);
-			barDockControlLeft.CausesValidation = false;
-			barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			barDockControlLeft.Location = new System.Drawing.Point(0, 0);
-			barDockControlLeft.Manager = barManager1;
-			barDockControlLeft.Size = new System.Drawing.Size(0, 696);
-			barDockControlRight.CausesValidation = false;
-			barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			barDockControlRight.Location = new System.Drawing.Point(1297, 0);
-			barDockControlRight.Manager = barManager1;
-			barDockControlRight.Size = new System.Drawing.Size(0, 696);
-			barButtonItem1.Caption = "设置地图对应级别";
-			barButtonItem1.Id = 0;
-			barButtonItem1.Name = "barButtonItem1";
-			barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem1_ItemClick);
-			barButtonItem2.Caption = "导入单位边界线";
-			barButtonItem2.Id = 1;
-			barButtonItem2.Name = "barButtonItem2";
-			barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem2_ItemClick);
-			barButtonItem3.Caption = "添加单位边界线";
-			barButtonItem3.Id = 2;
-			barButtonItem3.Name = "barButtonItem3";
-			barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem3_ItemClick);
-			barButtonItem4.Caption = "删除单位边界线";
-			barButtonItem4.Id = 3;
-			barButtonItem4.Name = "barButtonItem4";
-			barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem4_ItemClick);
-			barButtonItem5.Caption = "更新单位边界线";
-			barButtonItem5.Id = 4;
-			barButtonItem5.Name = "barButtonItem5";
-			barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem5_ItemClick);
-			treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
-			treeList1.Location = new System.Drawing.Point(2, 31);
-			treeList1.Name = "treeList1";
-			treeList1.OptionsBehavior.Editable = false;
-			treeList1.Size = new System.Drawing.Size(196, 663);
-			treeList1.TabIndex = 0;
-			treeList1.ViewStyle = DevExpress.XtraTreeList.TreeListViewStyle.TreeView;
-			treeList1.FocusedNodeChanged += new DevExpress.XtraTreeList.FocusedNodeChangedEventHandler(treeList1_FocusedNodeChanged);
-			treeList1.MouseDown += new System.Windows.Forms.MouseEventHandler(treeList1_MouseDown);
-			groupControl1.Controls.Add(treeList1);
-			groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
-			groupControl1.Location = new System.Drawing.Point(0, 0);
-			groupControl1.Name = "groupControl1";
-			groupControl1.Size = new System.Drawing.Size(200, 696);
-			groupControl1.TabIndex = 0;
-			groupControl1.Text = "管辖范围";
-			splitter1.Location = new System.Drawing.Point(200, 0);
-			splitter1.Name = "splitter1";
-			splitter1.Size = new System.Drawing.Size(10, 696);
-			splitter1.TabIndex = 2;
-			splitter1.TabStop = false;
-			panelControl1.Controls.Add(flowLayoutPanel1);
-			panelControl1.Controls.Add(panelControl2);
-			panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-			panelControl1.Location = new System.Drawing.Point(2, 31);
-			panelControl1.Name = "panelControl1";
-			panelControl1.Size = new System.Drawing.Size(1083, 63);
-			panelControl1.TabIndex = 1;
-			flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			flowLayoutPanel1.Location = new System.Drawing.Point(2, 2);
-			flowLayoutPanel1.Name = "flowLayoutPanel1";
-			flowLayoutPanel1.Size = new System.Drawing.Size(885, 59);
-			flowLayoutPanel1.TabIndex = 3;
-			panelControl2.Controls.Add(label1);
-			panelControl2.Dock = System.Windows.Forms.DockStyle.Right;
-			panelControl2.Location = new System.Drawing.Point(887, 2);
-			panelControl2.Name = "panelControl2";
-			panelControl2.Size = new System.Drawing.Size(194, 59);
-			panelControl2.TabIndex = 2;
-			label1.Dock = System.Windows.Forms.DockStyle.Fill;
-			label1.Location = new System.Drawing.Point(2, 2);
-			label1.Name = "label1";
-			label1.Size = new System.Drawing.Size(190, 55);
-			label1.TabIndex = 2;
-			label1.Text = "当前级别：";
-			label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			groupControl2.Controls.Add(mapHelper1);
-			groupControl2.Controls.Add(panelControl1);
-			groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-			groupControl2.Location = new System.Drawing.Point(210, 0);
-			groupControl2.Name = "groupControl2";
-			groupControl2.Size = new System.Drawing.Size(1087, 696);
-			groupControl2.TabIndex = 3;
-			groupControl2.Text = "地图显示";
-			mapHelper1.BackColor = System.Drawing.Color.Black;
-			mapHelper1.centerlat = 0.0;
-			mapHelper1.centerlng = 0.0;
-			mapHelper1.Dock = System.Windows.Forms.DockStyle.Fill;
-			mapHelper1.iconspath = null;
-			mapHelper1.Location = new System.Drawing.Point(2, 94);
-			mapHelper1.maparr = null;
-			mapHelper1.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-			mapHelper1.Name = "mapHelper1";
-			mapHelper1.roadmappath = null;
-			mapHelper1.satellitemappath = null;
-			mapHelper1.Size = new System.Drawing.Size(1083, 600);
-			mapHelper1.TabIndex = 3;
-			mapHelper1.webpath = null;
-			mapHelper1.MapRightClick += new MapHelper.MapHelper.DlMapRightClick(mapHelper1_MapRightClick);
-			mapHelper1.LevelChanged += new MapHelper.MapHelper.DlLevelChanged(mapHelper1_LevelChanged);
-			mapHelper1.MapTypeChanged += new MapHelper.MapHelper.DlMapTypeChanged(mapHelper1_MapTypeChanged);
-			popupMenu1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[1]
-			{
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem1)
-			});
-			popupMenu1.Manager = barManager1;
-			popupMenu1.Name = "popupMenu1";
-			xtraOpenFileDialog1.FileName = null;
-			xtraOpenFileDialog1.Filter = "文本文件|*.txt";
-			popupMenu2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[3]
-			{
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem3),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem4),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem5)
-			});
-			popupMenu2.Manager = barManager1;
-			popupMenu2.Name = "popupMenu2";
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.ClientSize = new System.Drawing.Size(1297, 696);
-			base.Controls.Add(groupControl2);
-			base.Controls.Add(splitter1);
-			base.Controls.Add(groupControl1);
-			base.Controls.Add(barDockControlLeft);
-			base.Controls.Add(barDockControlRight);
-			base.Controls.Add(barDockControlBottom);
-			base.Controls.Add(barDockControlTop);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.Name = "MapSetForm";
-			Text = "地图设置";
-			base.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			base.Load += new System.EventHandler(MapSetForm_Load);
-			((System.ComponentModel.ISupportInitialize)barManager1).EndInit();
-			((System.ComponentModel.ISupportInitialize)treeList1).EndInit();
-			((System.ComponentModel.ISupportInitialize)groupControl1).EndInit();
-			groupControl1.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)panelControl1).EndInit();
-			panelControl1.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)panelControl2).EndInit();
-			panelControl2.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)groupControl2).EndInit();
-			groupControl2.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)popupMenu1).EndInit();
-			((System.ComponentModel.ISupportInitialize)popupMenu2).EndInit();
-			ResumeLayout(performLayout: false);
-			PerformLayout();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapSetForm));
+            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
+            this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.mapHelper1 = new MapHelper.MapHelper();
+            this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(this.components);
+            this.popupMenu2 = new DevExpress.XtraBars.PopupMenu(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
+            this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
+            this.panelControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
+            this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu2)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // barManager1
+            // 
+            this.barManager1.DockControls.Add(this.barDockControlTop);
+            this.barManager1.DockControls.Add(this.barDockControlBottom);
+            this.barManager1.DockControls.Add(this.barDockControlLeft);
+            this.barManager1.DockControls.Add(this.barDockControlRight);
+            this.barManager1.Form = this;
+            this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.barButtonItem1,
+            this.barButtonItem2,
+            this.barButtonItem3,
+            this.barButtonItem4,
+            this.barButtonItem5});
+            this.barManager1.MaxItemId = 5;
+            // 
+            // barDockControlTop
+            // 
+            this.barDockControlTop.CausesValidation = false;
+            this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlTop.Manager = this.barManager1;
+            this.barDockControlTop.Size = new System.Drawing.Size(1297, 0);
+            // 
+            // barDockControlBottom
+            // 
+            this.barDockControlBottom.CausesValidation = false;
+            this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 696);
+            this.barDockControlBottom.Manager = this.barManager1;
+            this.barDockControlBottom.Size = new System.Drawing.Size(1297, 0);
+            // 
+            // barDockControlLeft
+            // 
+            this.barDockControlLeft.CausesValidation = false;
+            this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlLeft.Manager = this.barManager1;
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 696);
+            // 
+            // barDockControlRight
+            // 
+            this.barDockControlRight.CausesValidation = false;
+            this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.barDockControlRight.Location = new System.Drawing.Point(1297, 0);
+            this.barDockControlRight.Manager = this.barManager1;
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 696);
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "设置地图对应级别";
+            this.barButtonItem1.Id = 0;
+            this.barButtonItem1.Name = "barButtonItem1";
+            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
+            // 
+            // barButtonItem2
+            // 
+            this.barButtonItem2.Caption = "导入单位边界线";
+            this.barButtonItem2.Id = 1;
+            this.barButtonItem2.Name = "barButtonItem2";
+            this.barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
+            // 
+            // barButtonItem3
+            // 
+            this.barButtonItem3.Caption = "添加单位边界线";
+            this.barButtonItem3.Id = 2;
+            this.barButtonItem3.Name = "barButtonItem3";
+            this.barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem3_ItemClick);
+            // 
+            // barButtonItem4
+            // 
+            this.barButtonItem4.Caption = "删除单位边界线";
+            this.barButtonItem4.Id = 3;
+            this.barButtonItem4.Name = "barButtonItem4";
+            this.barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem4_ItemClick);
+            // 
+            // barButtonItem5
+            // 
+            this.barButtonItem5.Caption = "更新单位边界线";
+            this.barButtonItem5.Id = 4;
+            this.barButtonItem5.Name = "barButtonItem5";
+            this.barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem5_ItemClick);
+            // 
+            // treeList1
+            // 
+            this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeList1.Location = new System.Drawing.Point(2, 31);
+            this.treeList1.Name = "treeList1";
+            this.treeList1.OptionsBehavior.Editable = false;
+            this.treeList1.Size = new System.Drawing.Size(196, 663);
+            this.treeList1.TabIndex = 0;
+            this.treeList1.ViewStyle = DevExpress.XtraTreeList.TreeListViewStyle.TreeView;
+            this.treeList1.FocusedNodeChanged += new DevExpress.XtraTreeList.FocusedNodeChangedEventHandler(this.treeList1_FocusedNodeChanged);
+            this.treeList1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeList1_MouseDown);
+            // 
+            // groupControl1
+            // 
+            this.groupControl1.Controls.Add(this.treeList1);
+            this.groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupControl1.Location = new System.Drawing.Point(0, 0);
+            this.groupControl1.Name = "groupControl1";
+            this.groupControl1.Size = new System.Drawing.Size(200, 696);
+            this.groupControl1.TabIndex = 0;
+            this.groupControl1.Text = "管辖范围";
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(200, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(10, 696);
+            this.splitter1.TabIndex = 2;
+            this.splitter1.TabStop = false;
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Controls.Add(this.flowLayoutPanel1);
+            this.panelControl1.Controls.Add(this.panelControl2);
+            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelControl1.Location = new System.Drawing.Point(2, 31);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(1083, 63);
+            this.panelControl1.TabIndex = 1;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(2, 2);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(885, 59);
+            this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // panelControl2
+            // 
+            this.panelControl2.Controls.Add(this.label1);
+            this.panelControl2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelControl2.Location = new System.Drawing.Point(887, 2);
+            this.panelControl2.Name = "panelControl2";
+            this.panelControl2.Size = new System.Drawing.Size(194, 59);
+            this.panelControl2.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(2, 2);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(190, 55);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "当前级别：";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupControl2
+            // 
+            this.groupControl2.Controls.Add(this.mapHelper1);
+            this.groupControl2.Controls.Add(this.panelControl1);
+            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl2.Location = new System.Drawing.Point(210, 0);
+            this.groupControl2.Name = "groupControl2";
+            this.groupControl2.Size = new System.Drawing.Size(1087, 696);
+            this.groupControl2.TabIndex = 3;
+            this.groupControl2.Text = "地图显示";
+            // 
+            // mapHelper1
+            // 
+            this.mapHelper1.BackColor = System.Drawing.Color.Black;
+            this.mapHelper1.centerlat = 0D;
+            this.mapHelper1.centerlng = 0D;
+            this.mapHelper1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapHelper1.iconspath = null;
+            this.mapHelper1.Location = new System.Drawing.Point(2, 94);
+            this.mapHelper1.maparr = null;
+            this.mapHelper1.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this.mapHelper1.Name = "mapHelper1";
+            this.mapHelper1.roadmappath = null;
+            this.mapHelper1.satellitemappath = null;
+            this.mapHelper1.Size = new System.Drawing.Size(1083, 600);
+            this.mapHelper1.TabIndex = 3;
+            this.mapHelper1.webpath = null;
+            this.mapHelper1.MapRightClick += new MapHelper.MapHelper.DlMapRightClick(this.mapHelper1_MapRightClick);
+            this.mapHelper1.LevelChanged += new MapHelper.MapHelper.DlLevelChanged(this.mapHelper1_LevelChanged);
+            this.mapHelper1.MapTypeChanged += new MapHelper.MapHelper.DlMapTypeChanged(this.mapHelper1_MapTypeChanged);
+            // 
+            // popupMenu1
+            // 
+            this.popupMenu1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem1)});
+            this.popupMenu1.Manager = this.barManager1;
+            this.popupMenu1.Name = "popupMenu1";
+            // 
+            // xtraOpenFileDialog1
+            // 
+            this.xtraOpenFileDialog1.FileName = null;
+            this.xtraOpenFileDialog1.Filter = "文本文件|*.txt";
+            // 
+            // popupMenu2
+            // 
+            this.popupMenu2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem3),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem4),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem5)});
+            this.popupMenu2.Manager = this.barManager1;
+            this.popupMenu2.Name = "popupMenu2";
+            // 
+            // MapSetForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1297, 696);
+            this.Controls.Add(this.groupControl2);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.groupControl1);
+            this.Controls.Add(this.barDockControlLeft);
+            this.Controls.Add(this.barDockControlRight);
+            this.Controls.Add(this.barDockControlBottom);
+            this.Controls.Add(this.barDockControlTop);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "MapSetForm";
+            this.Text = "地图设置";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.MapSetForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
+            this.groupControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
+            this.panelControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
+            this.groupControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu2)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
 		}
 	}
 }

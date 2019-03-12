@@ -421,213 +421,272 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.InfoSetForm));
-			groupControl1 = new DevExpress.XtraEditors.GroupControl();
-			treeList1 = new DevExpress.XtraTreeList.TreeList();
-			splitterControl1 = new DevExpress.XtraEditors.SplitterControl();
-			xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(components);
-			groupControl3 = new DevExpress.XtraEditors.GroupControl();
-			simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-			comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
-			simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-			textEdit2 = new DevExpress.XtraEditors.TextEdit();
-			labelControl2 = new DevExpress.XtraEditors.LabelControl();
-			labelControl1 = new DevExpress.XtraEditors.LabelControl();
-			popupMenu1 = new DevExpress.XtraBars.PopupMenu(components);
-			barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-			barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-			barManager1 = new DevExpress.XtraBars.BarManager(components);
-			barDockControlTop = new DevExpress.XtraBars.BarDockControl();
-			barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
-			barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
-			barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-			((System.ComponentModel.ISupportInitialize)groupControl1).BeginInit();
-			groupControl1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)treeList1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)groupControl3).BeginInit();
-			groupControl3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)comboBoxEdit1.Properties).BeginInit();
-			((System.ComponentModel.ISupportInitialize)textEdit2.Properties).BeginInit();
-			((System.ComponentModel.ISupportInitialize)popupMenu1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)barManager1).BeginInit();
-			SuspendLayout();
-			groupControl1.Controls.Add(treeList1);
-			groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
-			groupControl1.Location = new System.Drawing.Point(0, 0);
-			groupControl1.Name = "groupControl1";
-			groupControl1.Size = new System.Drawing.Size(219, 492);
-			groupControl1.TabIndex = 0;
-			groupControl1.Text = "菜单列表";
-			treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
-			treeList1.Location = new System.Drawing.Point(2, 31);
-			treeList1.Name = "treeList1";
-			treeList1.OptionsBehavior.Editable = false;
-			treeList1.OptionsDragAndDrop.DragNodesMode = DevExpress.XtraTreeList.DragNodesMode.Single;
-			treeList1.Size = new System.Drawing.Size(215, 459);
-			treeList1.TabIndex = 0;
-			treeList1.ViewStyle = DevExpress.XtraTreeList.TreeListViewStyle.TreeView;
-			treeList1.AfterDragNode += new DevExpress.XtraTreeList.AfterDragNodeEventHandler(treeList1_AfterDragNode);
-			treeList1.FocusedNodeChanged += new DevExpress.XtraTreeList.FocusedNodeChangedEventHandler(treeList1_FocusedNodeChanged);
-			treeList1.DragDrop += new System.Windows.Forms.DragEventHandler(treeList1_DragDrop);
-			treeList1.MouseDown += new System.Windows.Forms.MouseEventHandler(treeList1_MouseDown);
-			splitterControl1.Location = new System.Drawing.Point(219, 0);
-			splitterControl1.Name = "splitterControl1";
-			splitterControl1.Size = new System.Drawing.Size(7, 492);
-			splitterControl1.TabIndex = 1;
-			splitterControl1.TabStop = false;
-			xtraOpenFileDialog1.FileName = null;
-			groupControl3.Controls.Add(simpleButton2);
-			groupControl3.Controls.Add(comboBoxEdit1);
-			groupControl3.Controls.Add(simpleButton1);
-			groupControl3.Controls.Add(textEdit2);
-			groupControl3.Controls.Add(labelControl2);
-			groupControl3.Controls.Add(labelControl1);
-			groupControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-			groupControl3.Location = new System.Drawing.Point(226, 0);
-			groupControl3.Name = "groupControl3";
-			groupControl3.Size = new System.Drawing.Size(529, 492);
-			groupControl3.TabIndex = 9;
-			groupControl3.Text = "菜单设置";
-			simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
-			simpleButton2.Location = new System.Drawing.Point(213, 329);
-			simpleButton2.Name = "simpleButton2";
-			simpleButton2.Size = new System.Drawing.Size(112, 34);
-			simpleButton2.TabIndex = 6;
-			simpleButton2.Text = "保存";
-			simpleButton2.Click += new System.EventHandler(simpleButton2_Click);
-			comboBoxEdit1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			comboBoxEdit1.Location = new System.Drawing.Point(195, 155);
-			comboBoxEdit1.Name = "comboBoxEdit1";
-			comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[1]
-			{
-				new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)
-			});
-			comboBoxEdit1.Properties.Items.AddRange(new object[5]
-			{
-				"文档",
-				"PDF",
-				"网页",
-				"应用程序",
-				"列表"
-			});
-			comboBoxEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-			comboBoxEdit1.Size = new System.Drawing.Size(155, 30);
-			comboBoxEdit1.TabIndex = 5;
-			comboBoxEdit1.SelectedIndexChanged += new System.EventHandler(comboBoxEdit1_SelectedIndexChanged);
-			simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			simpleButton1.Location = new System.Drawing.Point(366, 240);
-			simpleButton1.Name = "simpleButton1";
-			simpleButton1.Size = new System.Drawing.Size(117, 34);
-			simpleButton1.TabIndex = 4;
-			simpleButton1.Text = "浏览";
-			simpleButton1.Click += new System.EventHandler(simpleButton1_Click);
-			textEdit2.Anchor = System.Windows.Forms.AnchorStyles.None;
-			textEdit2.Location = new System.Drawing.Point(195, 243);
-			textEdit2.Name = "textEdit2";
-			textEdit2.Size = new System.Drawing.Size(155, 30);
-			textEdit2.TabIndex = 3;
-			textEdit2.EditValueChanged += new System.EventHandler(textEdit2_EditValueChanged);
-			labelControl2.Anchor = System.Windows.Forms.AnchorStyles.None;
-			labelControl2.Location = new System.Drawing.Point(54, 247);
-			labelControl2.Name = "labelControl2";
-			labelControl2.Size = new System.Drawing.Size(115, 22);
-			labelControl2.TabIndex = 1;
-			labelControl2.Text = "文件/网页地址";
-			labelControl1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			labelControl1.Location = new System.Drawing.Point(73, 163);
-			labelControl1.Name = "labelControl1";
-			labelControl1.Size = new System.Drawing.Size(72, 22);
-			labelControl1.TabIndex = 0;
-			labelControl1.Text = "菜单类型";
-			popupMenu1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[4]
-			{
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem1),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem2),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem3),
-				new DevExpress.XtraBars.LinkPersistInfo(barButtonItem4)
-			});
-			popupMenu1.Manager = barManager1;
-			popupMenu1.Name = "popupMenu1";
-			barButtonItem1.Caption = "添加菜单";
-			barButtonItem1.Id = 4;
-			barButtonItem1.Name = "barButtonItem1";
-			barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem1_ItemClick);
-			barButtonItem2.Caption = "添加子菜单";
-			barButtonItem2.Id = 5;
-			barButtonItem2.Name = "barButtonItem2";
-			barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem2_ItemClick);
-			barButtonItem3.Caption = "编辑";
-			barButtonItem3.Id = 6;
-			barButtonItem3.Name = "barButtonItem3";
-			barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem3_ItemClick);
-			barButtonItem4.Caption = "删除";
-			barButtonItem4.Id = 7;
-			barButtonItem4.Name = "barButtonItem4";
-			barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(barButtonItem4_ItemClick);
-			barManager1.DockControls.Add(barDockControlTop);
-			barManager1.DockControls.Add(barDockControlBottom);
-			barManager1.DockControls.Add(barDockControlLeft);
-			barManager1.DockControls.Add(barDockControlRight);
-			barManager1.Form = this;
-			barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[4]
-			{
-				barButtonItem1,
-				barButtonItem2,
-				barButtonItem3,
-				barButtonItem4
-			});
-			barManager1.MaxItemId = 8;
-			barDockControlTop.CausesValidation = false;
-			barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
-			barDockControlTop.Location = new System.Drawing.Point(0, 0);
-			barDockControlTop.Manager = barManager1;
-			barDockControlTop.Size = new System.Drawing.Size(755, 0);
-			barDockControlBottom.CausesValidation = false;
-			barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			barDockControlBottom.Location = new System.Drawing.Point(0, 492);
-			barDockControlBottom.Manager = barManager1;
-			barDockControlBottom.Size = new System.Drawing.Size(755, 0);
-			barDockControlLeft.CausesValidation = false;
-			barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			barDockControlLeft.Location = new System.Drawing.Point(0, 0);
-			barDockControlLeft.Manager = barManager1;
-			barDockControlLeft.Size = new System.Drawing.Size(0, 492);
-			barDockControlRight.CausesValidation = false;
-			barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			barDockControlRight.Location = new System.Drawing.Point(755, 0);
-			barDockControlRight.Manager = barManager1;
-			barDockControlRight.Size = new System.Drawing.Size(0, 492);
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.ClientSize = new System.Drawing.Size(755, 492);
-			base.Controls.Add(groupControl3);
-			base.Controls.Add(splitterControl1);
-			base.Controls.Add(groupControl1);
-			base.Controls.Add(barDockControlLeft);
-			base.Controls.Add(barDockControlRight);
-			base.Controls.Add(barDockControlBottom);
-			base.Controls.Add(barDockControlTop);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.Name = "InfoSetForm";
-			base.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			Text = "菜单设置";
-			base.FormClosed += new System.Windows.Forms.FormClosedEventHandler(InfoSetForm_FormClosed);
-			base.Shown += new System.EventHandler(InfoSetForm_Shown);
-			((System.ComponentModel.ISupportInitialize)groupControl1).EndInit();
-			groupControl1.ResumeLayout(performLayout: false);
-			((System.ComponentModel.ISupportInitialize)treeList1).EndInit();
-			((System.ComponentModel.ISupportInitialize)groupControl3).EndInit();
-			groupControl3.ResumeLayout(performLayout: false);
-			groupControl3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)comboBoxEdit1.Properties).EndInit();
-			((System.ComponentModel.ISupportInitialize)textEdit2.Properties).EndInit();
-			((System.ComponentModel.ISupportInitialize)popupMenu1).EndInit();
-			((System.ComponentModel.ISupportInitialize)barManager1).EndInit();
-			ResumeLayout(performLayout: false);
-			PerformLayout();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InfoSetForm));
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.splitterControl1 = new DevExpress.XtraEditors.SplitterControl();
+            this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(this.components);
+            this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.textEdit2 = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
+            this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
+            this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
+            this.groupControl3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // groupControl1
+            // 
+            this.groupControl1.Controls.Add(this.treeList1);
+            this.groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupControl1.Location = new System.Drawing.Point(0, 0);
+            this.groupControl1.Name = "groupControl1";
+            this.groupControl1.Size = new System.Drawing.Size(219, 492);
+            this.groupControl1.TabIndex = 0;
+            this.groupControl1.Text = "菜单列表";
+            // 
+            // treeList1
+            // 
+            this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeList1.Location = new System.Drawing.Point(2, 31);
+            this.treeList1.Name = "treeList1";
+            this.treeList1.OptionsBehavior.Editable = false;
+            this.treeList1.OptionsDragAndDrop.DragNodesMode = DevExpress.XtraTreeList.DragNodesMode.Single;
+            this.treeList1.Size = new System.Drawing.Size(215, 459);
+            this.treeList1.TabIndex = 0;
+            this.treeList1.ViewStyle = DevExpress.XtraTreeList.TreeListViewStyle.TreeView;
+            this.treeList1.AfterDragNode += new DevExpress.XtraTreeList.AfterDragNodeEventHandler(this.treeList1_AfterDragNode);
+            this.treeList1.FocusedNodeChanged += new DevExpress.XtraTreeList.FocusedNodeChangedEventHandler(this.treeList1_FocusedNodeChanged);
+            this.treeList1.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeList1_DragDrop);
+            this.treeList1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeList1_MouseDown);
+            // 
+            // splitterControl1
+            // 
+            this.splitterControl1.Location = new System.Drawing.Point(219, 0);
+            this.splitterControl1.Name = "splitterControl1";
+            this.splitterControl1.Size = new System.Drawing.Size(7, 492);
+            this.splitterControl1.TabIndex = 1;
+            this.splitterControl1.TabStop = false;
+            // 
+            // xtraOpenFileDialog1
+            // 
+            this.xtraOpenFileDialog1.FileName = null;
+            // 
+            // groupControl3
+            // 
+            this.groupControl3.Controls.Add(this.simpleButton2);
+            this.groupControl3.Controls.Add(this.comboBoxEdit1);
+            this.groupControl3.Controls.Add(this.simpleButton1);
+            this.groupControl3.Controls.Add(this.textEdit2);
+            this.groupControl3.Controls.Add(this.labelControl2);
+            this.groupControl3.Controls.Add(this.labelControl1);
+            this.groupControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl3.Location = new System.Drawing.Point(226, 0);
+            this.groupControl3.Name = "groupControl3";
+            this.groupControl3.Size = new System.Drawing.Size(529, 492);
+            this.groupControl3.TabIndex = 9;
+            this.groupControl3.Text = "菜单设置";
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.simpleButton2.Location = new System.Drawing.Point(213, 329);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton2.TabIndex = 6;
+            this.simpleButton2.Text = "保存";
+            this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
+            // 
+            // comboBoxEdit1
+            // 
+            this.comboBoxEdit1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.comboBoxEdit1.Location = new System.Drawing.Point(195, 155);
+            this.comboBoxEdit1.Name = "comboBoxEdit1";
+            this.comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comboBoxEdit1.Properties.Items.AddRange(new object[] {
+            "文档",
+            "PDF",
+            "网页",
+            "应用程序",
+            "列表"});
+            this.comboBoxEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.comboBoxEdit1.Size = new System.Drawing.Size(155, 30);
+            this.comboBoxEdit1.TabIndex = 5;
+            this.comboBoxEdit1.SelectedIndexChanged += new System.EventHandler(this.comboBoxEdit1_SelectedIndexChanged);
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.simpleButton1.Location = new System.Drawing.Point(366, 240);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(117, 34);
+            this.simpleButton1.TabIndex = 4;
+            this.simpleButton1.Text = "浏览";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
+            // textEdit2
+            // 
+            this.textEdit2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textEdit2.Location = new System.Drawing.Point(195, 243);
+            this.textEdit2.Name = "textEdit2";
+            this.textEdit2.Size = new System.Drawing.Size(155, 30);
+            this.textEdit2.TabIndex = 3;
+            this.textEdit2.EditValueChanged += new System.EventHandler(this.textEdit2_EditValueChanged);
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelControl2.Location = new System.Drawing.Point(54, 247);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(115, 22);
+            this.labelControl2.TabIndex = 1;
+            this.labelControl2.Text = "文件/网页地址";
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelControl1.Location = new System.Drawing.Point(73, 163);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(72, 22);
+            this.labelControl1.TabIndex = 0;
+            this.labelControl1.Text = "菜单类型";
+            // 
+            // popupMenu1
+            // 
+            this.popupMenu1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem1),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem2),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem3),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem4)});
+            this.popupMenu1.Manager = this.barManager1;
+            this.popupMenu1.Name = "popupMenu1";
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "添加菜单";
+            this.barButtonItem1.Id = 4;
+            this.barButtonItem1.Name = "barButtonItem1";
+            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
+            // 
+            // barButtonItem2
+            // 
+            this.barButtonItem2.Caption = "添加子菜单";
+            this.barButtonItem2.Id = 5;
+            this.barButtonItem2.Name = "barButtonItem2";
+            this.barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
+            // 
+            // barButtonItem3
+            // 
+            this.barButtonItem3.Caption = "编辑";
+            this.barButtonItem3.Id = 6;
+            this.barButtonItem3.Name = "barButtonItem3";
+            this.barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem3_ItemClick);
+            // 
+            // barButtonItem4
+            // 
+            this.barButtonItem4.Caption = "删除";
+            this.barButtonItem4.Id = 7;
+            this.barButtonItem4.Name = "barButtonItem4";
+            this.barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem4_ItemClick);
+            // 
+            // barManager1
+            // 
+            this.barManager1.DockControls.Add(this.barDockControlTop);
+            this.barManager1.DockControls.Add(this.barDockControlBottom);
+            this.barManager1.DockControls.Add(this.barDockControlLeft);
+            this.barManager1.DockControls.Add(this.barDockControlRight);
+            this.barManager1.Form = this;
+            this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.barButtonItem1,
+            this.barButtonItem2,
+            this.barButtonItem3,
+            this.barButtonItem4});
+            this.barManager1.MaxItemId = 8;
+            // 
+            // barDockControlTop
+            // 
+            this.barDockControlTop.CausesValidation = false;
+            this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlTop.Manager = this.barManager1;
+            this.barDockControlTop.Size = new System.Drawing.Size(755, 0);
+            // 
+            // barDockControlBottom
+            // 
+            this.barDockControlBottom.CausesValidation = false;
+            this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 492);
+            this.barDockControlBottom.Manager = this.barManager1;
+            this.barDockControlBottom.Size = new System.Drawing.Size(755, 0);
+            // 
+            // barDockControlLeft
+            // 
+            this.barDockControlLeft.CausesValidation = false;
+            this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlLeft.Manager = this.barManager1;
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 492);
+            // 
+            // barDockControlRight
+            // 
+            this.barDockControlRight.CausesValidation = false;
+            this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.barDockControlRight.Location = new System.Drawing.Point(755, 0);
+            this.barDockControlRight.Manager = this.barManager1;
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 492);
+            // 
+            // InfoSetForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(755, 492);
+            this.Controls.Add(this.groupControl3);
+            this.Controls.Add(this.splitterControl1);
+            this.Controls.Add(this.groupControl1);
+            this.Controls.Add(this.barDockControlLeft);
+            this.Controls.Add(this.barDockControlRight);
+            this.Controls.Add(this.barDockControlBottom);
+            this.Controls.Add(this.barDockControlTop);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "InfoSetForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "菜单设置";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InfoSetForm_FormClosed);
+            this.Shown += new System.EventHandler(this.InfoSetForm_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
+            this.groupControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
+            this.groupControl3.ResumeLayout(false);
+            this.groupControl3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
 		}
 	}
 }

@@ -422,59 +422,75 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.DataForm));
-			panelControl1 = new DevExpress.XtraEditors.PanelControl();
-			simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-			simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-			propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-			((System.ComponentModel.ISupportInitialize)panelControl1).BeginInit();
-			panelControl1.SuspendLayout();
-			SuspendLayout();
-			panelControl1.Controls.Add(simpleButton2);
-			panelControl1.Controls.Add(simpleButton1);
-			panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			panelControl1.Location = new System.Drawing.Point(0, 442);
-			panelControl1.Name = "panelControl1";
-			panelControl1.Size = new System.Drawing.Size(411, 50);
-			panelControl1.TabIndex = 5;
-			simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			simpleButton2.Location = new System.Drawing.Point(286, 7);
-			simpleButton2.Name = "simpleButton2";
-			simpleButton2.Size = new System.Drawing.Size(112, 34);
-			simpleButton2.TabIndex = 1;
-			simpleButton2.Text = "取消";
-			simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			simpleButton1.Location = new System.Drawing.Point(168, 7);
-			simpleButton1.Name = "simpleButton1";
-			simpleButton1.Size = new System.Drawing.Size(112, 34);
-			simpleButton1.TabIndex = 0;
-			simpleButton1.Text = "确认";
-			simpleButton1.Click += new System.EventHandler(button1_Click);
-			propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-			propertyGrid1.Enabled = false;
-			propertyGrid1.HelpVisible = false;
-			propertyGrid1.ImeMode = System.Windows.Forms.ImeMode.Hangul;
-			propertyGrid1.Location = new System.Drawing.Point(0, 0);
-			propertyGrid1.Name = "propertyGrid1";
-			propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-			propertyGrid1.Size = new System.Drawing.Size(411, 442);
-			propertyGrid1.TabIndex = 6;
-			propertyGrid1.ToolbarVisible = false;
-			base.AcceptButton = simpleButton1;
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.CancelButton = simpleButton2;
-			base.ClientSize = new System.Drawing.Size(411, 492);
-			base.Controls.Add(propertyGrid1);
-			base.Controls.Add(panelControl1);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.Name = "DataForm";
-			Text = "属性定义";
-			base.Shown += new System.EventHandler(DataForm_Shown);
-			((System.ComponentModel.ISupportInitialize)panelControl1).EndInit();
-			panelControl1.ResumeLayout(performLayout: false);
-			ResumeLayout(performLayout: false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataForm));
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Controls.Add(this.simpleButton2);
+            this.panelControl1.Controls.Add(this.simpleButton1);
+            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelControl1.Location = new System.Drawing.Point(0, 442);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(411, 50);
+            this.panelControl1.TabIndex = 5;
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.simpleButton2.Location = new System.Drawing.Point(286, 7);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton2.TabIndex = 1;
+            this.simpleButton2.Text = "取消";
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.simpleButton1.Location = new System.Drawing.Point(168, 7);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton1.TabIndex = 0;
+            this.simpleButton1.Text = "确认";
+            this.simpleButton1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Enabled = false;
+            this.propertyGrid1.HelpVisible = false;
+            this.propertyGrid1.ImeMode = System.Windows.Forms.ImeMode.Hangul;
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            this.propertyGrid1.Size = new System.Drawing.Size(411, 442);
+            this.propertyGrid1.TabIndex = 6;
+            this.propertyGrid1.ToolbarVisible = false;
+            // 
+            // DataForm
+            // 
+            this.AcceptButton = this.simpleButton1;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.simpleButton2;
+            this.ClientSize = new System.Drawing.Size(411, 492);
+            this.Controls.Add(this.propertyGrid1);
+            this.Controls.Add(this.panelControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "DataForm";
+            this.Text = "属性定义";
+            this.Shown += new System.EventHandler(this.DataForm_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
 		}
 	}
 }

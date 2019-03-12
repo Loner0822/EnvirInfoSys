@@ -35,26 +35,33 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.HelpForm));
-			webBrowser1 = new System.Windows.Forms.WebBrowser();
-			SuspendLayout();
-			webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-			webBrowser1.Location = new System.Drawing.Point(0, 0);
-			webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-			webBrowser1.Name = "webBrowser1";
-			webBrowser1.Size = new System.Drawing.Size(1007, 529);
-			webBrowser1.TabIndex = 0;
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.ClientSize = new System.Drawing.Size(1007, 529);
-			base.Controls.Add(webBrowser1);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.Name = "HelpForm";
-			base.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			Text = "帮助文档";
-			base.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			base.Shown += new System.EventHandler(HelpForm_Shown);
-			ResumeLayout(performLayout: false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpForm));
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.SuspendLayout();
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(1007, 529);
+            this.webBrowser1.TabIndex = 0;
+            // 
+            // HelpForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1007, 529);
+            this.Controls.Add(this.webBrowser1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "HelpForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "帮助文档";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Shown += new System.EventHandler(this.HelpForm_Shown);
+            this.ResumeLayout(false);
+
 		}
 	}
 }

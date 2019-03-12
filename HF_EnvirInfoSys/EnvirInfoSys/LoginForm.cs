@@ -102,63 +102,82 @@ namespace EnvirInfoSys
 
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(EnvirInfoSys.LoginForm));
-			simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-			simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-			textEdit1 = new DevExpress.XtraEditors.TextEdit();
-			labelControl1 = new DevExpress.XtraEditors.LabelControl();
-			labelControl2 = new DevExpress.XtraEditors.LabelControl();
-			((System.ComponentModel.ISupportInitialize)textEdit1.Properties).BeginInit();
-			SuspendLayout();
-			simpleButton1.Location = new System.Drawing.Point(96, 142);
-			simpleButton1.Name = "simpleButton1";
-			simpleButton1.Size = new System.Drawing.Size(112, 34);
-			simpleButton1.TabIndex = 8;
-			simpleButton1.Text = "确定";
-			simpleButton1.Click += new System.EventHandler(button1_Click);
-			simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			simpleButton2.Location = new System.Drawing.Point(236, 142);
-			simpleButton2.Name = "simpleButton2";
-			simpleButton2.Size = new System.Drawing.Size(112, 34);
-			simpleButton2.TabIndex = 9;
-			simpleButton2.Text = "取消";
-			simpleButton2.Click += new System.EventHandler(button2_Click);
-			textEdit1.Location = new System.Drawing.Point(156, 42);
-			textEdit1.Name = "textEdit1";
-			textEdit1.Properties.PasswordChar = '*';
-			textEdit1.Size = new System.Drawing.Size(192, 30);
-			textEdit1.TabIndex = 10;
-			labelControl1.Location = new System.Drawing.Point(96, 46);
-			labelControl1.Name = "labelControl1";
-			labelControl1.Size = new System.Drawing.Size(54, 22);
-			labelControl1.TabIndex = 11;
-			labelControl1.Text = "密码：";
-			labelControl2.Location = new System.Drawing.Point(75, 95);
-			labelControl2.Name = "labelControl2";
-			labelControl2.Size = new System.Drawing.Size(298, 22);
-			labelControl2.TabIndex = 12;
-			labelControl2.Text = "初始密码: 1 - 编辑模式; 2 - 查看模式";
-			base.AcceptButton = simpleButton1;
-			base.AutoScaleDimensions = new System.Drawing.SizeF(10f, 22f);
-			base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			base.CancelButton = simpleButton2;
-			base.ClientSize = new System.Drawing.Size(438, 209);
-			base.ControlBox = false;
-			base.Controls.Add(labelControl2);
-			base.Controls.Add(labelControl1);
-			base.Controls.Add(textEdit1);
-			base.Controls.Add(simpleButton2);
-			base.Controls.Add(simpleButton1);
-			base.Icon = (System.Drawing.Icon)componentResourceManager.GetObject("$this.Icon");
-			base.MaximizeBox = false;
-			base.MinimizeBox = false;
-			base.Name = "LoginForm";
-			base.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			Text = "请登录";
-			base.Shown += new System.EventHandler(LoginForm_Shown);
-			((System.ComponentModel.ISupportInitialize)textEdit1.Properties).EndInit();
-			ResumeLayout(performLayout: false);
-			PerformLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(96, 142);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton1.TabIndex = 8;
+            this.simpleButton1.Text = "确定";
+            this.simpleButton1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.simpleButton2.Location = new System.Drawing.Point(236, 142);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton2.TabIndex = 9;
+            this.simpleButton2.Text = "取消";
+            this.simpleButton2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // textEdit1
+            // 
+            this.textEdit1.Location = new System.Drawing.Point(156, 42);
+            this.textEdit1.Name = "textEdit1";
+            this.textEdit1.Properties.PasswordChar = '*';
+            this.textEdit1.Size = new System.Drawing.Size(192, 30);
+            this.textEdit1.TabIndex = 10;
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Location = new System.Drawing.Point(96, 46);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(54, 22);
+            this.labelControl1.TabIndex = 11;
+            this.labelControl1.Text = "密码：";
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(75, 95);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(298, 22);
+            this.labelControl2.TabIndex = 12;
+            this.labelControl2.Text = "初始密码: 1 - 编辑模式; 2 - 查看模式";
+            // 
+            // LoginForm
+            // 
+            this.AcceptButton = this.simpleButton1;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.simpleButton2;
+            this.ClientSize = new System.Drawing.Size(438, 209);
+            this.ControlBox = false;
+            this.Controls.Add(this.labelControl2);
+            this.Controls.Add(this.labelControl1);
+            this.Controls.Add(this.textEdit1);
+            this.Controls.Add(this.simpleButton2);
+            this.Controls.Add(this.simpleButton1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "LoginForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "请登录";
+            this.Shown += new System.EventHandler(this.LoginForm_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
 		}
 	}
 }
