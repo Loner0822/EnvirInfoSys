@@ -329,7 +329,7 @@ namespace PublishSys
                 }
                 else
                 {
-                    sql = "insert into PASSWORD_H0001Z000E00 (PGUID, S_UDTIME, PWNAME, PWMD5, UNITID) values ('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '管理员密码', '95d565ef66e7dff9', '" + pNode["Id"].ToString() + "')";
+                    sql = "insert into PASSWORD_H0001Z000E00 (PGUID, S_UDTIME, PWNAME, PWMD5, UNITID) values ('" + "'管理员密码_" + pNode["Id"].ToString() + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '管理员密码', '95d565ef66e7dff9', '" + pNode["Id"].ToString() + "')";
                     ahp.ExecuteSql(sql);
                 }
                 sql = "select PGUID from PASSWORD_H0001Z000E00 where ISDELETE = 0 and PWNAME = '编辑模式' and UNITID = '" + pNode["Id"].ToString() + "'";
@@ -341,7 +341,7 @@ namespace PublishSys
                 }
                 else
                 {
-                    sql = "insert into PASSWORD_H0001Z000E00 (PGUID, S_UDTIME, PWNAME, PWMD5, UNITID) values ('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '编辑模式', 'a0b923820dcc509a', '" + pNode["Id"].ToString() + "')";
+                    sql = "insert into PASSWORD_H0001Z000E00 (PGUID, S_UDTIME, PWNAME, PWMD5, UNITID) values ('" + "'编辑模式_" + pNode["Id"].ToString() + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '编辑模式', 'a0b923820dcc509a', '" + pNode["Id"].ToString() + "')";
                     ahp.ExecuteSql(sql);
                 }
                 sql = "select PGUID from PASSWORD_H0001Z000E00 where ISDELETE = 0 and PWNAME = '查看模式' and UNITID = '" + pNode["Id"].ToString() + "'";
@@ -353,7 +353,7 @@ namespace PublishSys
                 }
                 else
                 {
-                    sql = "insert into PASSWORD_H0001Z000E00 (PGUID, S_UDTIME, PWNAME, PWMD5, UNITID) values ('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '查看模式', '9d4c2f636f067f89', '" + pNode["Id"].ToString() + "')";
+                    sql = "insert into PASSWORD_H0001Z000E00 (PGUID, S_UDTIME, PWNAME, PWMD5, UNITID) values ('" + "'查看模式_" + pNode["Id"].ToString() + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '查看模式', '9d4c2f636f067f89', '" + pNode["Id"].ToString() + "')";
                     ahp.ExecuteSql(sql);
                 }
                 ahp.CloseConn();

@@ -84,8 +84,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnvirInfoSys.Properties\Resources.cs" />
-    <Compile Include="EnvirInfoSys.Properties\Settings.cs" />
     <Compile Include="EnvirInfoSys\AccessHelper.cs" />
     <Compile Include="EnvirInfoSys\BorderForm.cs">
       <SubType>Form</SubType>

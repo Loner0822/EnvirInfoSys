@@ -273,7 +273,7 @@ namespace PublishSys
                 }
                 else
                 {
-                    sql = "insert into ICONDUIYING_H0001Z000E00 (PGUID, S_UDTIME, LEVELGUID, ICONGUID, UNITEID) values ('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + levelguid + "', '" + iconguid + "', '" + unitid + "')";
+                    sql = "insert into ICONDUIYING_H0001Z000E00 (PGUID, S_UDTIME, LEVELGUID, ICONGUID, UNITEID) values ('" + levelguid + "_" + iconguid + "_" + unitid + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + levelguid + "', '" + iconguid + "', '" + unitid + "')";
                     ahp6.ExecuteSql(sql);
                 }
             }
@@ -408,7 +408,7 @@ namespace PublishSys
                         }
                         else
                         {
-                            sql = "insert into ICONDUIYING_H0001Z000E00 (PGUID, S_UDTIME, LEVELGUID, ICONGUID, UNITEID) values ('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + levelguid + "', '" + control.IconPguid + "', '" + unitid + "')";
+                            sql = "insert into ICONDUIYING_H0001Z000E00 (PGUID, S_UDTIME, LEVELGUID, ICONGUID, UNITEID) values ('" +levelguid + "_" + control.IconPguid + "_" + unitid + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + levelguid + "', '" + control.IconPguid + "', '" + unitid + "')";
                             ahp6.ExecuteSql(sql);
                         }
                     }
@@ -699,7 +699,7 @@ namespace PublishSys
                 }
                 else
                 {
-                    sql = "insert into MAPDUIYING_H0001Z000E00 (PGUID, S_UDTIME, LEVELGUID, MAPLEVEL, UNITEID) values ('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + levelguid + "', '" + mplevel + "', '" + unitid + "')";
+                    sql = "insert into MAPDUIYING_H0001Z000E00 (PGUID, S_UDTIME, LEVELGUID, MAPLEVEL, UNITEID) values ('" + levelguid + "_" + unitid + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + levelguid + "', '" + mplevel + "', '" + unitid + "')";
                     ahp6.ExecuteSql(sql);
                 }
             }
