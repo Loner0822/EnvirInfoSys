@@ -339,7 +339,7 @@ namespace EnvirInfoSys
 			text3 = text3.Substring(0, 4);
 			int width = FileReader.inip.ReadInteger("Individuation", "listwidth", 200);
 			dockPanel1.Width = width;
-			MapPath = FileReader.inip.ReadString("Individuation", "mappath", "");
+			MapPath = FileReader.inip.ReadString("Individuation", "mappath", WorkPath + "googlemap");
 			MapPath = MapPath.Replace("\0", "");
 			int width2 = TextRenderer.MeasureText("-", new Font("宋体", 6f)).Width;
 			int width3 = TextRenderer.MeasureText("管辖范围", new Font("宋体", 6f)).Width;

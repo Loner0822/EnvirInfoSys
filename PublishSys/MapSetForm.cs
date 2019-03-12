@@ -525,6 +525,8 @@ namespace PublishSys
                 }
                 mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
             }
+            FileReader.line_ahp.CloseConn();
+            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
         }
 
         private void BarButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -534,6 +536,8 @@ namespace PublishSys
             FileReader.line_ahp.ExecuteSql(sql);
             borList.Remove(border_guid);
             mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+            FileReader.line_ahp.CloseConn();
+            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
         }
 
         private void BarButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -567,6 +571,8 @@ namespace PublishSys
                 }
                 mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
             }
+            FileReader.line_ahp.CloseConn();
+            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
         }
 
         private void MapHelper1_LevelChanged(int lastLevel, int currLevel, string showLevel)

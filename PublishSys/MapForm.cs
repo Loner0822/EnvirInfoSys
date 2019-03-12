@@ -134,6 +134,7 @@ namespace PublishSys
 
         private void Get_Icon_Lib()
         {
+            xtraTabControl2.Controls.Clear();
             xtraTabControl2.TabPages.Clear();
             ahp2 = new AccessHelper(WorkPath + "Publish\\data\\ZSK_H0001Z000K00.mdb");
             string sql = "select UPGUID, PROPVALUE from ZSK_PROP_H0001Z000K00 where ISDELETE = 0 and PROPNAME = '图符库' order by PROPVALUE, SHOWINDEX";
@@ -173,10 +174,11 @@ namespace PublishSys
                         WrapContents = true,
                         AutoScroll = true
                     };
-                    flp.Controls.Clear();
+                    //flp.Controls.Clear();
                     flp.MouseDown += IconLib_MouseDown;
                     Add_Icon(flp, pguid);
                     xtraTabControl2.TabPages[num].Name = name;
+                    xtraTabControl2.TabPages[num].BackColor = SystemColors.Control;
                     xtraTabControl2.TabPages[num].Controls.Add(flp);
                 }
             }
@@ -341,12 +343,14 @@ namespace PublishSys
 
         private void FlowLayoutPanel1_MouseDown(object sender, MouseEventArgs e)
         {
-            popupMenu1.ShowPopup(MousePosition);
+            if (e.Button == MouseButtons.Right)
+                popupMenu1.ShowPopup(MousePosition);
         }
 
         private void IconLib_MouseDown(object sender, MouseEventArgs e)
         {
-            popupMenu2.ShowPopup(MousePosition);
+            if (e.Button == MouseButtons.Right)
+                popupMenu2.ShowPopup(MousePosition);
         }
 
         private void BarButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -467,12 +471,57 @@ namespace PublishSys
             {
                 double m_lat = double.Parse(dataTable.Rows[0]["LAT"].ToString());
                 double m_lng = double.Parse(dataTable.Rows[0]["LNG"].ToString());
-                mapHelper1.SetMapCenter(m_lat, m_lng);
+                //mapHelper1.SetMapCenter(m_lat, m_lng);
                 inip = new IniOperator(WorkPath + "Publish\\parameter.ini");
                 inip.WriteString("mapproperties", "centerlng", m_lng.ToString());
                 inip.WriteString("mapproperties", "centerlat", m_lat.ToString());
             }
-            
+            int selectedIndex = checkedListBoxControl1.SelectedIndex;
+            mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+            // 导入边界线
+            borList = new Dictionary<string, List<double[]>>();
+            borderDic = new Dictionary<string, object>
+            {
+                { "type", "实线" },
+                { "width", 1 },
+                { "color", "#000000" },
+                { "opacity", 1 }
+            };
+            sql = "select LAT, LNG, BORDERGUID from BORDERDATA where ISDELETE = 0 and UNITID = '" + unitid + "' order by SHOWINDEX";
+            DataTable dt = ahp5.ExecuteDataTable(sql, null);
+            for (int i = 0; i < dt.Rows.Count; ++i)
+            {
+                string pguid = dt.Rows[i]["BORDERGUID"].ToString();
+                if (borList.ContainsKey(pguid))
+                    borList[pguid].Add(new double[] { double.Parse(dt.Rows[i]["LAT"].ToString()), double.Parse(dt.Rows[i]["LNG"].ToString()) });
+                else
+                {
+                    borList[pguid] = new List<double[]>
+                    {
+                        new double[] { double.Parse(dt.Rows[i]["LAT"].ToString()), double.Parse(dt.Rows[i]["LNG"].ToString()) }
+                    };
+                }
+            }
+            if (dt.Rows.Count > 0)
+                borderDic.Add("path", borList);
+            else
+                borderDic = null;
+            if (borderDic != null)
+            {
+                Dictionary<string, List<double[]>> dictionary = (Dictionary<string, List<double[]>>)borderDic["path"];
+                foreach (KeyValuePair<string, List<double[]>> item in dictionary)
+                {
+                    Dictionary<string, object> dictionary2 = new Dictionary<string, object>
+                    {
+                        ["type"] = borderDic["type"],
+                        ["width"] = borderDic["width"],
+                        ["color"] = borderDic["color"],
+                        ["opacity"] = borderDic["opacity"],
+                        ["path"] = item.Value
+                    };
+                    mapHelper1.DrawBorder(unitid, dictionary2);
+                }
+            }
         }
 
         private void TreeList1_FocusedNodeChanged(object sender, FocusedNodeChangedEventArgs e)
@@ -574,6 +623,11 @@ namespace PublishSys
                     ucPB.Double_Click += Icon_DoubleClick;
                     ucPB.IconCheck = false;
                 }
+            }
+            if (flowLayoutPanel1.Controls.Count > 0)
+            {
+                ucPictureBox ucPictureBox = (ucPictureBox)flowLayoutPanel1.Controls[0];
+                Icon_SingleClick(flowLayoutPanel1.Controls[0], new EventArgs(), ucPictureBox.IconPguid);
             }
         }
 

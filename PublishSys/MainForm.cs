@@ -9,6 +9,7 @@ using DevExpress.XtraTreeList;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraTreeList.Nodes;
 using System.Net.Sockets;
+using System.Linq;
 
 namespace PublishSys
 {
@@ -193,8 +194,6 @@ namespace PublishSys
                 return;
             }
             
-
-
             if (textEdit1.Text == "" || textEdit2.Text == "")
             {
                 if (XtraMessageBox.Show("是否从网上获取 " + pNode["Name"].ToString() + " 的经纬度?", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
@@ -318,6 +317,8 @@ namespace PublishSys
                 inip.WriteString("packup", "source_exe_path", WorkPath + "Publish\\EnvirInfoSys.exe");
                 inip.WriteString("packup", "source_path", WorkPath + "Publish");
                 inip.WriteString("packup", "registry_subkey", "环境信息化系统");
+                
+
                 ahp = new AccessHelper(WorkPath + "Publish\\data\\PASSWORD_H0001Z000E00.mdb");
                 string sql = "select PGUID from PASSWORD_H0001Z000E00 where ISDELETE = 0 and PWNAME = '管理员密码' and UNITID = '" + pNode["Id"].ToString() + "'";
                 DataTable dataTable = ahp.ExecuteDataTable(sql);
@@ -391,5 +392,53 @@ namespace PublishSys
                 Get_Publish_Record();
             }
         }
+
+        private void simpleButton3_Click(object sender, EventArgs e)
+        {
+            if (XtraMessageBox.Show("是否要下载单位地图到打包目录?", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                TreeListNode pNode = treeList1.FocusedNode;
+                string pguid = pNode["Id"].ToString();
+                string lvlist = Get_Level_List(pguid);
+                Process p = Process.Start(WorkPath + "Publish\\DownOrgMapByBorder.exe", pguid + " " + lvlist + " 1");
+                p.WaitForExit();
+                if (p.ExitCode != 0)
+                {
+                    MessageBox.Show("下载地图失败!请重新发布");
+                    return;
+                }
+            }
+            else
+            {
+
+            }
+        }
+
+        private string Get_Level_List(string pguid)
+        {
+            string lvlist = "";
+            ahp = new AccessHelper(WorkPath + "Publish\\data\\ENVIRDYDATA_H0001Z000E00.mdb");
+            string sql = "select MAPLEVEL from MAPDUIYING_H0001Z000E00 where ISDELETE = 0 and UNITEID = '" + pguid + "'";
+            DataTable dt = ahp.ExecuteDataTable(sql);
+            ahp.CloseConn();
+            for (int i = 0; i < dt.Rows.Count; ++i)
+                lvlist += dt.Rows[i]["MAPLEVEL"].ToString() + ",";
+            List<string> tmp = new List<string>(lvlist.Split(','));
+            List<int> tmp_num = new List<int>();
+            for (int i = 0; i < tmp.Count; ++i)
+                if (tmp[i] != "")
+                    tmp_num.Add(int.Parse(tmp[i]));
+            tmp_num.Sort();
+            tmp_num = tmp_num.Distinct().ToList();
+
+            lvlist = "";
+            for (int i = 0; i < tmp_num.Count; ++i)
+            {
+                if (tmp_num[i] != 0)
+                    lvlist += tmp_num[i].ToString() + ",";
+            }
+            return lvlist.Substring(0, lvlist.Length - 1);
+        }
+
     }
 }

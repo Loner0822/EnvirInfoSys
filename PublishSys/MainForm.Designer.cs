@@ -62,6 +62,8 @@
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.mapHelper1 = new MapHelper.MapHelper();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.xtraFolderBrowserDialog1 = new DevExpress.XtraEditors.XtraFolderBrowserDialog(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
@@ -250,6 +252,7 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.simpleButton3);
             this.panelControl1.Controls.Add(this.simpleButton2);
             this.panelControl1.Controls.Add(this.simpleButton1);
             this.panelControl1.Controls.Add(this.labelControl3);
@@ -267,7 +270,7 @@
             // simpleButton2
             // 
             this.simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.simpleButton2.Location = new System.Drawing.Point(362, 88);
+            this.simpleButton2.Location = new System.Drawing.Point(476, 88);
             this.simpleButton2.Name = "simpleButton2";
             this.simpleButton2.Size = new System.Drawing.Size(112, 34);
             this.simpleButton2.TabIndex = 7;
@@ -287,7 +290,7 @@
             // labelControl3
             // 
             this.labelControl3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelControl3.Location = new System.Drawing.Point(128, 95);
+            this.labelControl3.Location = new System.Drawing.Point(94, 95);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(72, 22);
             this.labelControl3.TabIndex = 5;
@@ -314,7 +317,7 @@
             // textEdit3
             // 
             this.textEdit3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textEdit3.Location = new System.Drawing.Point(206, 91);
+            this.textEdit3.Location = new System.Drawing.Point(172, 91);
             this.textEdit3.MenuManager = this.barManager1;
             this.textEdit3.Name = "textEdit3";
             this.textEdit3.Size = new System.Drawing.Size(150, 30);
@@ -383,16 +386,30 @@
             this.mapHelper1.centerlat = 0D;
             this.mapHelper1.centerlng = 0D;
             this.mapHelper1.iconspath = null;
-            this.mapHelper1.Location = new System.Drawing.Point(102, 129);
+            this.mapHelper1.Location = new System.Drawing.Point(113, 158);
             this.mapHelper1.maparr = null;
-            this.mapHelper1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.mapHelper1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.mapHelper1.Name = "mapHelper1";
             this.mapHelper1.roadmappath = null;
             this.mapHelper1.satellitemappath = null;
-            this.mapHelper1.Size = new System.Drawing.Size(498, 231);
+            this.mapHelper1.Size = new System.Drawing.Size(553, 282);
             this.mapHelper1.TabIndex = 1;
             this.mapHelper1.Visible = false;
             this.mapHelper1.webpath = null;
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.simpleButton3.Location = new System.Drawing.Point(345, 88);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(112, 34);
+            this.simpleButton3.TabIndex = 8;
+            this.simpleButton3.Text = "下载地图";
+            this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
+            // 
+            // xtraFolderBrowserDialog1
+            // 
+            this.xtraFolderBrowserDialog1.SelectedPath = "xtraFolderBrowserDialog1";
             // 
             // MainForm
             // 
@@ -466,5 +483,7 @@
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private MapHelper.MapHelper mapHelper1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.XtraFolderBrowserDialog xtraFolderBrowserDialog1;
     }
 }
