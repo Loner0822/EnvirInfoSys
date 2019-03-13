@@ -16,12 +16,9 @@ namespace EnvirInfoSys
 		public string unitid = "";
 
 		private DataTable Log_dt;
-
-		private IContainer components = null;
-
-		private GridControl gridControl1;
-
-		private GridView gridView1;
+        private GridControl gridControl1;
+        private GridView gridView1;
+        private IContainer components = null;
 
 		public LogForm()
 		{
@@ -49,7 +46,9 @@ namespace EnvirInfoSys
 			gridView1.Columns[1].Width = 150;
 			gridView1.Columns[2].Width = 200;
 			gridView1.Columns[3].Width = 150;
-		}
+            for (int i = 0; i < 4; ++i)
+                gridView1.Columns[i].OptionsFilter.FilterPopupMode = DevExpress.XtraGrid.Columns.FilterPopupMode.CheckedList;
+        }
 
 		protected override void Dispose(bool disposing)
 		{
@@ -72,27 +71,34 @@ namespace EnvirInfoSys
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2);
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.Margin = new System.Windows.Forms.Padding(2);
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(1310, 745);
-            this.gridControl1.TabIndex = 0;
+            this.gridControl1.Size = new System.Drawing.Size(917, 474);
+            this.gridControl1.TabIndex = 1;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
             // 
             // gridView1
             // 
+            this.gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            this.gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridView1.DetailHeight = 223;
+            this.gridView1.FixedLineWidth = 1;
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
             // LogForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1310, 745);
+            this.ClientSize = new System.Drawing.Size(917, 474);
             this.Controls.Add(this.gridControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "LogForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "操作日志";

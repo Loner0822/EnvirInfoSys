@@ -24,11 +24,11 @@ namespace EnvirInfoSys
 			{
 				SkinManager.EnableFormSkins();
 				SkinManager.EnableMdiFormSkins();
-				Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-Hans");
-				Thread.CurrentThread.CurrentCulture = new CultureInfo("zh-Hans");
-				Localizer.Active = new MessageboxClass();
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-Hans");
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-Hans");
+				//Localizer.Active = new MessageboxClass();
 				DialogsLocalizer.Active = new BrowserFolder();
-				GridLocalizer.Active = new GridViewer();
+				//GridLocalizer.Active = new GridViewer();
 				IniOperator iniOperator = new IniOperator(AppDomain.CurrentDomain.BaseDirectory + "RegInfo.ini");
 				string skinStyle = iniOperator.ReadString("Individuation", "skin", "DevExpress Style");
 				UserLookAndFeel.Default.SetSkinStyle(skinStyle);

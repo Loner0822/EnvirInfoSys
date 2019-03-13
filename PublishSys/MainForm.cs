@@ -169,6 +169,9 @@ namespace PublishSys
 
         private void TreeList1_FocusedNodeChanged(object sender, FocusedNodeChangedEventArgs e)
         {
+            simpleButton1.Enabled = true;
+            simpleButton2.Enabled = true;
+            simpleButton3.Enabled = true;
             textEdit1.Text = "";
             textEdit2.Text = "";
             TreeListNode pNode = treeList1.FocusedNode;
@@ -245,6 +248,11 @@ namespace PublishSys
             IniOperator iniOperator = new IniOperator(WorkPath + "Publish\\SyncInfo.ini");
             string ip = iniOperator.ReadString("MapLogin", "ip", "");
             string port = iniOperator.ReadString("MapLogin", "port", "");
+            if (port == "")
+            {
+                XtraMessageBox.Show("请先设置服务器IP!");
+                return;
+            }
             if (TestServerConnection(ip, int.Parse(port), 500))
             {
                 MapForm mapForm = new MapForm
@@ -260,7 +268,7 @@ namespace PublishSys
                 textEdit2.Text = inip.ReadString("mapproperties", "centerlat", "");
             }
             else
-                XtraMessageBox.Show("请连接地图下载服务器");
+                XtraMessageBox.Show("请连接地图下载服务器!");
         }
 
         private bool TestServerConnection(string host, int port, int millisecondsTimeout)

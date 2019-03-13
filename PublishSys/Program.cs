@@ -23,7 +23,7 @@ namespace PublishSys
                 Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-Hans");
                 Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-Hans");
                 //DevExpress.XtraEditors.Controls.Localizer.Active = new MessageboxClass();
-                //DevExpress.Dialogs.Core.Localization.DialogsLocalizer.Active = new BrowserFolder();
+                DevExpress.Dialogs.Core.Localization.DialogsLocalizer.Active = new BrowserFolder();
                 //DevExpress.XtraGrid.Localization.GridLocalizer.Active = new GridViewer();
 
                 IniOperator inip = new IniOperator(AppDomain.CurrentDomain.BaseDirectory + "RegInfo.ini");
