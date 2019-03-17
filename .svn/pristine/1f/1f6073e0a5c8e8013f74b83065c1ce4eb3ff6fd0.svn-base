@@ -1,0 +1,1476 @@
+﻿var Manage = window.Manage || {};
+var iconopacity = "1.0";
+var iconSize = 20;
+var button="";
+var mpbutton = "";
+var rbutton = 0;
+var upIdx = 0;
+var shineTimer = null;     //闪烁时钟
+var tinterval = 1000;      //时钟间隔
+var upTimer = null;
+var currlevel = "";
+var lastLevel = 0;
+var canedit = false;
+var mkmousedown = false;  //标注鼠标是否落下
+var siconArr = [];        //小图标数组
+var biconArr = [];        //大图标数组
+var lblevel = document.getElementById("lblevel");
+var container = document.getElementById("map_canvas");
+
+//图纸初始化
+Manage.iniOverlay = function () {
+    lastLevel = 0;
+    try{
+       //屏蔽右键菜单
+       document.oncontextmenu = function (event) {
+          if (window.event) {
+             event = window.event;
+          }
+          try {
+             var the = event.srcElement;
+             if (!((the.tagName == "INPUT" && the.type.toLowerCase() == "text") || the.tagName == "TEXTAREA")) {
+                return false;
+             }
+             return true;
+          } catch (e) {
+             return false;
+          }
+       }
+       document.onmousedown=function(){
+          var e = event||window.event;
+          rbutton = e.button;
+          upTimer = setTimeout("eventFun();",388);
+       }
+       document.onmouseup=function(){
+          upIdx++;
+       }
+
+       //创建移动图标 div
+       var subobj = document.createElement("div");
+       var style = "position:absolute;left:100px;top:100px;visibility:hidden !important";
+       subobj.setAttribute('style', style);
+       var markerimg = document.createElement("img");
+       markerimg.setAttribute("src", "");
+       subobj.appendChild(markerimg);
+       container.appendChild(subobj);
+       Manage.markerDiv = subobj;
+       Manage.markerImg = markerimg;
+       Manage.markers = [];
+       //获取并设置图纸参数
+       Manage.getMapParameter();
+    }catch(e){
+       alert(e);
+    } 
+};
+
+//隐藏右下角的放大缩小 div
+Manage.hideZoomDiv=function(){
+  var clsnm = "gmnoprint gm-bundled-control gm-bundled-control-on-bottom";
+  var aEle=container.getElementsByTagName('*');
+  for(var i=0;i<aEle.length;i++){
+     if(aEle[i].className==clsnm)
+     {
+         aEle[i].style.visibility="hidden";
+         break;
+     }
+  }
+};
+
+function eventFun(){
+   if(upIdx == 2 && rbutton == 2){
+       Manage.map.setZoom( parseInt( currlevel ));
+   }
+   upIdx = 0;
+   rbutton= 0;
+   if( upTimer != null){
+       clearTimeout( upTimer);
+   }
+}
+
+//经度到像素 x
+function lngToPixelX(lng, zoom) {
+   return (lng + 180) * (256 << zoom) / 360;
+};
+
+//像素X到经度
+function  pixelXToLng(pixelX,zoom){
+   return pixelX * 360 / (256 << zoom) - 180;
+};
+
+//纬度到像素
+function latToPixelY(lat,zoom){
+   var PI = Math.PI;
+   var siny = Math.sin(lat*PI/180);
+ 
+
+  var y = Math.log((1 + siny) / (1 - siny));
+   return (128 << zoom) * (1 - y / (2 * PI));
+};
+
+//像素Y到纬度
+
+
+function pixelYToLat(pixelY,zoom){
+   var E = Math.E;
+   var PI = Math.PI;
+   
+
+var y = 2 * PI * (1 - pixelY / (128 << zoom));
+   
+
+var z = Math.pow(E, y);
+   
+
+var siny = (z - 1) / (z + 1);
+   
+
+return Math.asin(siny) * 180 / PI;
+
+
+};
+
+//获取图纸参数
+Manage.getMapParameter = function(){
+   var tmp = window.external.getMapParameter();
+   if( tmp == ""){
+      return;
+   }
+   var arr = tmp.split(";");
+   if( arr.length != 10){
+      return;
+   }
+
+   iconopacity = arr[0];
+
+   currlevel = arr[1];
+
+   lblevel.value = "当前级别：" + arr[2];
+   canedit = arr[3]=="True";
+   container.style.top = "0px";
+   var lat = parseFloat(arr[4]);
+   var lng = parseFloat(arr[5]);
+   var center = new google.maps.LatLng(lat, lng);
+   Manage.center = center;
+   Manage.map.setCenter( center );
+   roadmappath = arr[6];
+   satellitemappath= arr[7];
+   Manage.map.setMapTypeId(arr[8]);
+   Manage.map.setZoom( parseInt( currlevel ));
+   if(canedit){
+       //Manage.setIcon( currlevel );
+   }
+   tinterval = parseInt(arr[9]);
+   if(tinterval < 0){
+      if(shineTimer != null){
+         clearInterval( shineTimer );
+         shineTimer = null;
+      }
+   }else{
+      shineTimer = setInterval("shineMarker();",tinterval);
+   }
+
+   Manage.setMarkers( currlevel );
+   window.external.OnLevelChanged(lastLevel,parseInt(currlevel),"");
+   lastLevel = parseInt(currlevel);
+};
+
+function shineMarker(){
+   for(var i = 0; i < Manage.markers.length; i++){
+      var mk = Manage.markers[i];
+      if( mk.shine != null && mk.shine){
+          mk.setVisible(!mk.visible);
+      }
+   }
+};
+
+function drawBorder(bdguid,borderstr ){
+    try{
+       var bobj = JSON.parse(borderstr);
+       if(bobj == null){
+          return;
+       }
+       var p = [];
+       for (var i = 0; i <bobj.path.length; i++) {
+          var t = new google.maps.LatLng(bobj.path[i][0],bobj.path[i][1]);
+          p.push(t);
+       }
+       var mk = null;
+       p.push(p[0]);
+       if( bobj.type == "实线"){
+          mk = new google.maps.Polyline({
+             map: Manage.map,
+             path: p,
+             strokeColor: bobj.color,
+             strokeWeight: bobj.width,
+             strokeOpacity:bobj.opacity,
+             fillColor: bobj.color,
+             fillOpacity:bobj.opacity
+          });
+       }else{
+           var wd = parseInt(bobj.width) + 1;
+           var lineSymbol = {path: 'M 0,-1 0,1',stokeOpacity:1,scale:wd}; 
+           mk = new google.maps.Polyline({
+              map: Manage.map,
+              path: p,
+              strokeColor: bobj.color,
+              strokeWeight:0,
+              strokeOpacity:bobj.opacity,
+              fillColor:bobj.color,  
+              fillOpacity:bobj.opacity,
+              icons:[{icon:lineSymbol,offset: '0',repeat: '12px'}]
+           });
+       }
+       mk.id = bdguid;
+       Manage.markers.push(mk);
+    }
+    catch(e){
+    }
+};
+
+//设置图标
+Manage.setIcon = function(level){
+   //获取大小图标
+   var tmp = window.external.getIcons( level ).split(";");
+   if(tmp.length != 3){
+      alert(level+ " 级别的图符不存在");
+      return;
+   }
+   if(tmp[0].length < 1 || tmp[1].length < 1){
+      alert(level+ " 级别的图符不存在");
+      return;
+   }
+
+   siconArr = tmp[0].split(",");
+   biconArr = tmp[1].split(",");
+   hintArr = tmp[2].split(",");
+   //在 top_left_div 中添加图标
+   var bpath = "mapfiles/icons/sicon" + currlevel + "/";
+   var html = "";
+   var top_left_div = document.getElementById("top_left_div");
+   var ty = (top_left_div.offsetHeight - iconSize) / 2;
+   var tmp = "";
+   for(var i = 0; i < siconArr.length; i++){
+       tmp = '<img alt="' + i + '" src="' + bpath + siconArr[i] + '" onmouseover="showHint(this,1,\'' + hintArr[i] + '\');"' +
+             ' onmouseout="showHint(this,0,\'\');" style="width:' + iconSize + 'px;height:'+ iconSize + 'px;opacity:' + iconopacity + ';border:solid 1px #c0c0c0;' + 'margin:0px 2px 0px 2px"/>';
+       html += tmp;
+   }
+   var top_left_div = document.getElementById("top_left_div");
+   top_left_div.innerHTML = html;
+   document.getElementById("top_div").style.opacity = iconopacity;
+};
+
+//设置标注
+Manage.setMarkers = function(level){
+    //先删除地图中的标注
+    for(var i = 0; i < Manage.markers.length; i++){
+        Manage.markers[i].setMap(null);
+    }
+    Manage.markers = [];
+    var tmp = window.external.getMarkers( level );
+    if(tmp == ""){
+       return;
+    }
+    var markerData = tmp.split(";");   
+    for(var i = 0; i < markerData.length; i++){
+       var obj = Manage.parseJSON(markerData[i]);
+       var mk = null;
+       var p = ("" + canedit).toLocaleLowerCase() == "true";
+       switch( obj.type){
+          case "标注":
+             mk = Manage.drawMarker({
+                overlay_id: obj.guid,
+                center_lat: obj.lat,
+                center_lng: obj.lng,
+                icon: obj.iconpath,
+                title: obj.name,
+             }, p);
+             break;
+          case "线":
+             var tmp = obj.message.replace(/'/g,'"');
+             var jdata = JSON.parse( tmp );
+             mk = Manage.drawLine( jdata );
+             break;
+          case "circle":
+             var tmp = obj.message.replace(/'/g,'"');
+             var jdata = JSON.parse( tmp );
+             jdata.lat = obj.lat; 
+             jdata.lng = obj.lng;
+             mk = Manage.drawCircle( jdata );
+             break;
+          case "rectangle":
+             var tmp = obj.message.replace(/'/g,'"');
+             var jdata = JSON.parse( tmp );
+             mk = Manage.drawRectangle( jdata );
+             break;
+          case "polygon":
+             var tmp = obj.message.replace(/'/g,'"');
+             var jdata = JSON.parse( tmp );
+             mk = Manage.drawPolygon(jdata);
+             break;
+       }//switch
+       mk.id = obj.guid==null?"12345678":obj.guid;
+       mk.name = obj.name;
+       mk.type = obj.type;
+       mk.topoint = obj.topoint;
+       mk.message = obj.message;
+       mk.lat = obj.lat;
+       mk.lng = obj.lng;
+       mk.canedit = p;
+       mk.icon = obj.iconpath;
+       Manage.markers.push(mk);
+       if(obj.topoint != null){
+           drawPointLine(mk.id,mk.lat,mk.lng,mk.icon,obj.topoint);
+       }
+    }
+};
+
+//获取标注中心点坐标
+function getMarkerCenter(mkguid,level){
+   var result = "0,0";
+   for(var i = 0; i < Manage.markers.length; i++){
+        if( Manage.markers[i].id == mkguid){
+           var mk = Manage.markers[i];
+           Manage.markerImg.src = mk.icon;
+           var wd = Manage.markerImg.offsetWidth;
+           var ht = Manage.markerImg.offsetHeight;
+           Manage.markerImg.src = "";
+           var yc = latToPixelY(mk.lat,level);
+           var lat = pixelYToLat( yc - ht / 2,level);
+           var lng = mk.lng;
+           result = lat + "," + lng;
+        }
+   }
+   return result;
+}
+
+function drawPointLine(mkguid,lat,lng,iconpath,pobj ){
+    if(pobj == null||pobj.type == null){
+        return;
+    }
+    Manage.markerImg.src = iconpath;
+    var wd = Manage.markerImg.offsetWidth;
+    var ht = Manage.markerImg.offsetHeight;
+    Manage.markerImg.src = "";
+
+    var lat1 = parseFloat(lat);
+    var lng1 = parseFloat(lng);
+
+    var zm = parseInt( currlevel );
+    var yc = latToPixelY(lat1,zm);
+
+    lat1 = pixelYToLat( yc - ht / 2,zm);
+
+    var lat2 = parseFloat(pobj.lat);
+    var lng2 = parseFloat(pobj.lng);
+    var detar = 0.0000000001;
+    if( Math.abs(lng1 - lng2) < detar && Math.abs(lat1 - lat2) < detar){
+         return;
+    }
+   
+    try{
+       var color =  pobj.color;
+       var weight = pobj.width;
+       var fillColor = color;
+       var fillOpacity = 1.0;
+       var p = [];
+       var t = new google.maps.LatLng(lat1,lng1);
+       p.push(t);
+       t = new google.maps.LatLng(lat2,lng2);
+       p.push(t);
+       
+       //划线
+       var mk = null;
+       if(pobj.type == "实线"){
+           mk = new google.maps.Polyline({
+              map: Manage.map,
+              path: p,
+              strokeColor: color,
+              strokeWeight: weight,
+              strokeOpacity:pobj.opacity,
+              fillColor:color,  
+              fillOpacity: fillOpacity
+          });
+        }else{
+            var wd = parseInt(weight) + 1;
+            var lineSymbol = {path: 'M 0,-1 0,1',stokeOpacity:1,scale:wd}; 
+            mk = new google.maps.Polyline({
+              map: Manage.map,
+              path: p,
+              strokeColor: color,
+              strokeWeight:0,
+              strokeOpacity:pobj.opacity,
+              fillColor:color,  
+              fillOpacity: fillOpacity,
+              icons:[{icon:lineSymbol,offset: '0',repeat: '12px'}]
+            });
+        }
+        mk.id = mkguid + "_line";
+        mk.addListener('mouseup', function (eve) {
+            var button = event.button == 2?"right":"left";
+            if(button=="right"){
+               window.external.OnMarkerRightClick(Manage.currX, Manage.currY,this.lat,this.lng,currlevel,this.id, this.title,this.canedit,this.message);
+            } 
+        });
+
+        Manage.markers.push(mk);
+
+        if(pobj.arrow.toLocaleLowerCase() != "true"){
+           return;
+        }
+
+        //画箭头
+        var dl = 18;    //箭头长度,像素数
+        var dh = 5;    //箭头半高,像素数 
+        var zm = parseInt(currlevel); 
+        var x1 = lngToPixelX(lng1,zm);
+        var y1 = latToPixelY(lat1,zm);
+        var x2 = lngToPixelX(lng2,zm);
+        var y2 = latToPixelY(lat2,zm);
+
+        var xc1=0.0;
+        var yc1 = 0.0;
+        var xc2 = 0.0;
+        var yc2 = 0.0;
+
+        if( Math.abs(x2 - x1) > detar){
+            //斜线
+            var a = (y2 - y1) / (x2 - x1);
+            if(Math.abs(a) < detar){
+               xc1 = x2 > x1?x2 - dl:x2 + dl
+               xc2 = xc1;
+               yc1 = y1 + dh;
+               yc2 = y1 - dh;    
+            }
+            else{
+               var b = y1 - a * x1;
+               var arf = Math.abs(Math.atan(a));
+               var dx = Math.abs(dl*Math.cos(arf));
+               var dy = Math.abs(dl*Math.sin(arf));
+               var x0 = 0.0;
+               if( x2 > x1 ){
+                  x0 = x2 - dx;
+               }else{
+                  x0 = x2 + dx;
+               }
+               var y0 = a * x0 + b;
+               b = y0 + x0 / a;
+               var a1 = (1.0 + 1.0/a/a);
+               var b1 = -2.0*((x0 + (b-y0)/a));
+               var c1 = x0*x0 + (b-y0)*(b-y0) - dh * dh;
+               var t = 0.5*Math.sqrt(b1*b1 - 4.0*a1*c1)/a1;
+               xc1 = -0.5*b1/a1 + t;
+               yc1 = -1.0/a*xc1 + b;
+               xc2 = -0.5*b1/a1 - t;
+               yc2 = -1.0/a*xc2 + b;
+            }
+        }
+        else{
+           //垂直线
+           var y0 = 0.0;
+           if( y2 > y1){
+              y0 = y2 - dl;
+           }else{
+              y0 = y2 + dl;
+           }
+           xc1 = x2 - dh;
+           yc1 = y0;
+           xc2 = x2 + dh;
+           yc2 = y0;
+        } 
+        
+        xc1 = pixelXToLng(xc1,zm);
+        yc1 = pixelYToLat(yc1,zm);
+        xc2 = pixelXToLng(xc2,zm);
+        yc2 = pixelYToLat(yc2,zm);
+       
+        p=[]; 
+        var t = new google.maps.LatLng(yc1,xc1);
+        p.push(t);
+        t = new google.maps.LatLng(yc2,xc2);
+        p.push(t);
+        t = new google.maps.LatLng(lat2,lng2);
+        p.push(t);           
+        mk = new google.maps.Polygon({
+           map: Manage.map,
+           path: p,
+           strokeColor:color,
+           strokeWeight:weight,
+           fillColor:fillColor,
+           strokeOpacity:pobj.opacity,
+           fillOpacity:pobj.opacity
+        }); 
+        mk.id = mkguid + "_arrow";
+        mk.addListener('mouseup', function (eve) {
+            var button = event.button == 2?"right":"left";
+            if(button=="right"){
+               window.external.OnMarkerRightClick(Manage.currX, Manage.currY,this.lat,this.lng,currlevel,this.id, this.title,this.canedit,this.message);
+            } 
+        });
+        Manage.markers.push(mk);
+    }catch(e){
+       alert(e);
+    }
+}
+
+//图符 div 单击事件
+$("#top_left_div").click(function (eve) {
+    if( eve.target.tagName == "IMG"){
+       var idx =  parseInt(eve.target.alt);
+       Manage.currIcon = "mapfiles/icons/bicon" + currlevel + "/" + biconArr[ idx ];
+       Manage.markerImg.setAttribute("src", Manage.currIcon);
+       var pth = "" + window.location;
+       var k = pth.lastIndexOf("/");
+       pth = pth.substring(0,k);
+       k = pth.indexOf("///");
+       pth = pth.substring(k+3) + "/" + Manage.currIcon;
+       window.external.OnIconSelected(currlevel,pth);
+    }
+});
+
+//带 px 的字符串转整数
+Manage.stringToInt = function (strval) {
+    var k = strval.indexOf("px");
+    var str = strval.substring(0, k);
+    var val = parseInt(str);
+    return val;
+};
+
+//图容器div鼠标移动事件
+$("#map_canvas").mousemove(function (eve) {
+    var e = e || window.event;
+    var x = e.clientX + 5;
+    var y = e.clientY - Manage.stringToInt(document.getElementById("map_canvas").style.top) + 5;
+    Manage.currX = x;
+    Manage.currY = y;
+});
+
+//添加标注
+//flag = 0,新添; =1,修改
+Manage.addMarker = function (flag,sguid,lat,lng,title,canedit,iconPath,message) {
+    lat = $.trim(lat);
+    lng = $.trim(lng);
+    //title = $.trim(title);
+    iconPath = $.trim(iconPath);
+
+    var p = ("" + canedit).toLocaleLowerCase() == "true";
+    if ( !isNaN(lat) && !isNaN(lng) && title!="" && iconPath != "") {
+        var mk = Manage.drawMarker({
+           overlay_id: sguid,
+           center_lat: lat,
+           center_lng: lng,
+           icon: iconPath,
+           title:title
+        }, p);
+        mk.id = sguid==null?"12345678":sguid;
+        mk.type="marker";
+        mk.lat = lat;
+        mk.lng = lng;
+        mk.title = title;
+        mk.canedit = p;
+        mk.icon = iconPath;
+        mk.message = message;
+       
+        Manage.markers.push(mk);
+        Manage.currMarker = mk;
+        Manage.currIcon = null;
+        Manage.markerDiv.style.visibility = "hidden";
+        if( flag == 0){
+           window.external.OnAddMarkerFinished(sguid,lat,lng,title,p,iconPath,message);
+        }else{
+           window.external.OnModifyMarkerFinished(sguid,lat,lng,title,p,iconPath,message);
+        }
+    }
+};
+
+//在地图上画标注
+Manage.drawMarker = function (marker_data, p) {
+    Manage.currLat = marker_data.center_lat;
+    Manage.currLng = marker_data.center_lng;
+    var center = new google.maps.LatLng(Manage.currLat, Manage.currLng);
+    var icon = marker_data.icon ? marker_data.icon : '';
+    var marker = new google.maps.Marker({
+        map: Manage.map,
+        position: center,
+        draggable: p,
+        title: marker_data.title,
+        icon: icon
+    });
+    var mapLabel = new MapLabel({
+        text: marker_data.title,
+        position: center,
+        map: Manage.map,
+        fontSize:12,
+        fontColor:"#000000",
+        //strokeColor:marker_data.fontColor,
+        align: 'bottom'
+    });
+    marker.bindTo('position', mapLabel);
+    marker.bindTo('map', mapLabel);
+    marker.set('label_obj', mapLabel);
+    Manage.addEvent(marker,p);
+    return marker;
+};
+
+//画线
+Manage.drawLine = function( mguid,ldata ) {
+    /* jdata 格式
+       {"color":"#ff0000","weight":1,
+        "points":"[[lat,lng],[lat,lng],...,[lat,lng]]"}
+    */
+    var mk = null;
+    try{
+       jdata = JSON.parse(ldata);
+       var color = jdata.color;
+       var weight = jdata.weight;
+       var fillColor = color;
+       var fillOpacity = 1.0;
+       var points = jdata.points;
+       var p = [];
+       for (var itm in points) {
+         var t = new google.maps.LatLng(points[itm][0],points[itm][1]);
+         p.push(t);
+       }
+       mk = new google.maps.Polyline({
+          map: Manage.map,
+          path: p,
+          strokeColor: color,
+          strokeWeight: weight,
+          fillColor: fillColor,
+          fillOpacity: fillOpacity
+       });
+       mk.id = mguid;
+       mk.type="线";
+       mk.lat = points[0][0];
+       mk.lng = points[0][1];
+       mk.endpoint = points[1];
+       Manage.addEvent(mk,canedit);
+       Manage.markers.push(mk);
+    }catch(e){
+       alert(e);
+    }
+    return mk;
+};
+
+//画圆
+Manage.drawCircle = function(mkguid,cdata) {
+    /* cdata 数据格式
+     color,
+     weight,
+     fillColor,
+     opacity,
+     lat,
+     lng,
+     radius
+    */
+    try{
+       var zoom = parseInt(currlevel);
+       var jdata = JSON.parse(cdata);
+       var color = jdata.color;
+       var rds = parseFloat(jdata.radius) * zoom;
+       var wt = parseFloat(jdata.weight);
+       var opc = parseFloat(jdata.opacity);
+       var center = new google.maps.LatLng(jdata.lat,jdata.lng);
+       var mk = new google.maps.Circle({
+          map: Manage.map,
+          center: center,
+          radius: rds,
+          strokeColor:color,
+          strokeWeight:wt,
+          fillColor:color,
+          fillOpacity:opc
+       });
+       mk.id = mkguid;
+       mk.type="圆";
+       mk.lat = jdata.lat;
+       mk.lng = jdata.lng; 
+       Manage.addEvent(mk,canedit);
+       Manage.markers.push(mk);
+    }catch(e){
+       alert(e);
+    }
+};
+
+//画矩形 
+Manage.drawRectangle = function( rdata ) {
+    /* rdata 格式
+     * {"color":"#ff0000","weight":1,"fillColor":"#00ff00","fillOpacity":0.5,"points":"[[lat1,lng1],[lat2,lng2]]"}
+    */
+    var mk = null;
+    try{
+       var dt = JSON.parse(rdata.points);
+       var lat1 = dt[1][0];
+       var lng1 = dt[1][1];
+       var lat2 = dt[0][0];
+       var lng2 = dt[0][1];
+
+       var bound = new google.maps.LatLngBounds({
+          lat: lat2,
+          lng: lng2
+        },{
+          lat: lat1,
+          lng: lng1
+        });
+
+        mk = new google.maps.Rectangle({
+           map: Manage.map,
+           bounds: bound,
+           strokeColor: rdata.color,
+           strokeWeight: rdata.weight,
+           fillColor:rdata.fillColor,
+           fillOpacity: rdata.fillOpacity
+        });
+        Manage.addEvent(mk,canedit);
+     }catch(e){
+        alert(e);
+     }
+     return mk;
+};
+
+//画多边形
+Manage.drawPolygon = function(pdata) {
+    /* pdata 格式
+       {"color":"#ff0000","weight":1,"fillColor":"#00ff00","fillOpacity":0.5,
+        "points":"[[lat,lng],[lat,lng],...,[lat,lng]]"}
+    */
+    try{
+       var jdata = JSON.parse(pdata);
+       var points = jdata.points;
+       var p = [];
+       for (var itm in points) {
+          var t = new google.maps.LatLng(points[itm][0],points[itm][1]);
+          p.push(t);
+       }
+       var mk = new google.maps.Polygon({
+          map: Manage.map,
+          path: p,
+          strokeColor: jdata.color,
+          strokeWeight: jdata.weight,
+          fillColor: jdata.fillColor,
+          fillOpacity: jdata.fillOpacity
+       });
+       return mk;
+    }catch(e){
+        alert(e);
+    }
+};
+
+//淡化周围
+Manage.darkOuter=function(pdata){
+   var jdata = JSON.parse(pdata);
+   var points = jdata.points;
+
+   var np = points.length;
+   if(np < 3 ){
+      return;
+   }
+
+   //如果尾点与始点相同，删除尾点
+   if(Math.abs(points[0][0] - points[np-1][0]) < 1.0e-8 && Math.abs(points[0][1]-points[np-1][1])<1.0e-8){
+      points.splice(np-1,1);
+      np = points.length;
+   }
+
+   //获取视图边界
+   var str = "" + Manage.map.getBounds();
+   str = str.replace(/\(/g,'[').replace(/\)/g,']');
+   var jobj = JSON.parse(str);
+   var llat = jobj[0][0] - 3.8; //左上角坐标
+   var llng = jobj[0][1] - 3.8; 
+   var rlat = jobj[1][0] + 3.8;//右下角坐标
+   var rlng = jobj[1][1] + 3.8;
+
+   //获取经纬度最低点,最小经度，最大经度
+   var minlat = 888;
+   var minlng = 888;
+   var maxlng = -888;
+   var k = 0;
+   for(var i = 0; i < np; i++){
+       if(points[i][0] < minlat){
+          minlat = points[i][0];
+          k = i;
+       }
+       if(points[i][1] < minlng){
+          minlng = points[i][1];
+       }
+       if(points[i][1] > maxlng){
+          maxlng = points[i][1];
+       }
+   }   
+
+   if( Math.abs(points[k][1] - minlng) > 0.02 &&  Math.abs(points[k][1] - maxlng) > 0.02){
+       mouth = "南";
+   }else{
+      mouth = Math.abs(points[k][1] - minlng) < 0.02?"西":"东";
+   }
+
+   var p = [];
+   switch( mouth ){
+      case "南":
+         var t = new google.maps.LatLng(llat,points[k][1]);
+         p.push(t);
+         for(var i = k; i > -1; i--){
+            t = new google.maps.LatLng(points[i][0],points[i][1]);
+            p.push(t);
+         }
+         for(var i = np - 1; i > k; i--){
+            t = new google.maps.LatLng(points[i][0],points[i][1]);
+            p.push(t);
+         }
+         var x = k == np - 1?0:k + 1;
+         t = new google.maps.LatLng(llat,points[x][1]);
+         p.push(t); 
+         if(points[x][1] > points[k][1]){
+            t = new google.maps.LatLng(llat,rlng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,rlng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(llat,llng);
+            p.push(t);
+         }else{
+            t = new google.maps.LatLng(llat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,rlng);
+            p.push(t);
+            t = new google.maps.LatLng(llat,rlng);
+            p.push(t);
+         } 
+         t = new google.maps.LatLng(llat,points[x][1]);
+         p.push(t);
+         t = new google.maps.LatLng(points[x][0],points[x][1]);
+         p.push(t);
+         t = new google.maps.LatLng(points[k][0],points[k][1]);
+         p.push(t);
+         break;
+      case "西":
+         var t = new google.maps.LatLng(points[k][1],llng);
+         p.push(t);
+         for(var i = k; i > -1; i--){
+            t = new google.maps.LatLng(points[i][0],points[i][1]);
+            p.push(t);
+         }
+         for(var i = np - 1; i > k; i--){
+            t = new google.maps.LatLng(points[i][0],points[i][1]);
+            p.push(t);
+         }
+         var x = k == np - 1?0:k + 1;
+         t = new google.maps.LatLng(points[x][1],llng);
+         p.push(t); 
+         if(points[x][0] > points[k][0]){
+            t = new google.maps.LatLng(rlat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,rlng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(llat,llng);
+            p.push(t);
+         }else{
+            t = new google.maps.LatLng(llat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(llat,rlng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,rlng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,llng);
+            p.push(t);
+         } 
+         t = new google.maps.LatLng(points[x][1],llng);
+         p.push(t);
+         t = new google.maps.LatLng(points[x][0],points[x][1]);
+         p.push(t);
+         t = new google.maps.LatLng(points[k][0],points[k][1]);
+         p.push(t);
+         break;
+      case "东":
+         var t = new google.maps.LatLng(points[k][1],rlng);
+         p.push(t);
+         for(var i = k; i > -1; i--){
+            t = new google.maps.LatLng(points[i][0],points[i][1]);
+            p.push(t);
+         }
+         for(var i = np - 1; i > k; i--){
+            t = new google.maps.LatLng(points[i][0],points[i][1]);
+            p.push(t);
+         }
+         var x = k == np - 1?0:k + 1;
+         t = new google.maps.LatLng(points[x][1],rlng);
+         p.push(t); 
+         if(points[x][0] > points[k][0]){
+            t = new google.maps.LatLng(rlat,rlng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(llat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(llat,rlng);
+            p.push(t);
+         }else{
+            t = new google.maps.LatLng(llat,rlng);
+            p.push(t);
+            t = new google.maps.LatLng(llat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,llng);
+            p.push(t);
+            t = new google.maps.LatLng(rlat,rlng);
+            p.push(t);
+         } 
+         t = new google.maps.LatLng(points[x][1],rlng);
+         p.push(t);
+         t = new google.maps.LatLng(points[x][0],points[x][1]);
+         p.push(t);
+         t = new google.maps.LatLng(points[k][0],points[k][1]);
+         p.push(t);
+         break;
+   }
+
+   var mk = new google.maps.Polygon({
+       map: Manage.map,
+       path: p,
+       strokeColor: jdata.color,
+       strokeWeight: jdata.weight,
+       fillColor: jdata.fillColor,
+       fillOpacity: jdata.fillOpacity
+   });
+   return mk;
+};
+
+
+Manage.addEvent=function(marker,p)
+{
+    //右键菜单
+    if (p === true) {
+        marker.addListener('rightclick', function (eve) {
+            Manage.currMarker = this;
+            eventIdx = 2;
+        });
+        marker.addListener('dragstart',function(eve){
+            window.external.OnMarkerDragBegin(this.id,this.canedit);
+        });
+
+        marker.addListener('drag', function (eve) {
+            Manage.currLat = eve.latLng.lat();
+            Manage.currLng = eve.latLng.lng();
+            this.shine = false;
+            this.setVisible(true);
+            this.dragging = true;
+            if( marker.topoint == null){
+                return;
+            }
+            var mguid = marker.id;
+           
+            for(var i = 0; i < Manage.markers.length; i++){
+                if(Manage.markers[i].id == null){
+                      continue;
+                }
+                if(Manage.markers[i].id == mguid + "_arrow"){
+                    Manage.markers[i].setMap(null);
+                    Manage.markers.splice(i, 1);
+                   break;
+                }
+            }
+            for(var i = 0; i < Manage.markers.length; i++){
+               if( Manage.markers[i].id == null){
+                  continue;
+               }
+               if(Manage.markers[i].id == mguid + "_line"){
+                  Manage.markers[i].setMap(null);
+                  Manage.markers.splice(i, 1);
+                  break;
+               }
+            }
+            drawPointLine(mguid,Manage.currLat,Manage.currLng,marker.icon,marker.topoint);
+        });
+
+        marker.addListener('dragend', function (eve) {
+            this.dragging = false;
+            eventIdx = 18;
+            Manage.currLat = eve.latLng.lat();
+            Manage.currLng = eve.latLng.lng();
+            Manage.currMarker.lat = Manage.currLat;
+            Manage.currMarker.lng = Manage.currLng;
+            window.external.OnMarkerDragEnd(Manage.currMarker.id,Manage.currMarker.canedit,Manage.currMarker.lat, Manage.currMarker.lng);
+        });
+    }
+
+    marker.addListener('mouseup', function () {      
+       Manage.markerImg.getAttribute("src") == "";
+       Manage.currMarker = this;
+       if( this.dragging ){
+           this.dragging = false;
+           return;
+       }
+       mkmousedown = false;
+       var button = event.button == 2?"right":"left";
+       if( button == "left"){
+           window.external.OnMapMouseup(button,Manage.currMarker.canedit,Manage.currMarker.lat,Manage.currMarker.lng,Manage.currX,Manage.currY,Manage.currMarker.id,Manage.currMarker.icon); 
+        }else if(button=="right"){
+           window.external.OnMarkerRightClick(Manage.currX, Manage.currY,Manage.currMarker.lat,Manage.currMarker.lng,currlevel,Manage.currMarker.id, Manage.currMarker.title,Manage.currMarker.canedit,Manage.currMarker.message);
+        } 
+         
+    });
+
+    marker.addListener('mousemove', function () {
+       Manage.hideZoomDiv();
+    });
+ 
+    marker.addListener('dblclick', function () {
+       Manage.markerImg.getAttribute("src") == "";
+       Manage.currMarker = this;
+       var button = event.button == 2?"right":"left";
+       window.external.OnMapDblClick(button,Manage.currMarker.canedit,Manage.currMarker.lat,Manage.currMarker.lng,Manage.currX,Manage.currY,Manage.currMarker.id);
+    });
+};
+
+Manage.map.addListener('mouseover', function (args) {
+    if( Manage.currIcon != ""){ 
+        var lat = args.latLng.lat();
+        var lng = args.latLng.lng();
+        var wd = Manage.markerImg.offsetWidth;
+        var ht = Manage.markerImg.offsetHeight;
+        var zoom = parseInt(currlevel);
+        var y = latToPixelY(lat,zoom) + ht - 15;
+        lat = pixelYToLat(y,zoom);
+        window.external.OnMapMouseOver(lat,lng);
+    }
+});
+
+Manage.map.addListener('mouseup', function (args) {
+    if(mkmousedown){
+       return;
+    }
+    Manage.currLat = args.latLng.lat();
+    Manage.currLng = args.latLng.lng();
+    Manage.markerDiv.style.visibility = "hidden";
+    Manage.markerImg.setAttribute("src","");
+
+    var button = event.button == 2?"right":"left";
+    if( button == "left"){
+        window.external.OnMapMouseup(button,false,Manage.currLat,Manage.currLng,Manage.currX,Manage.currY,"",""); 
+    }else if(button=="right"){
+        window.external.OnMapRightClick(canedit, Manage.currLat,Manage.currLng,Manage.currX,Manage.currY );
+    }
+});
+
+//地图双击事件
+Manage.map.addListener('dblclick', function(args){
+     var button = event.button == 2?"right":"left";
+     setTimeout("recoverSize();",3);
+     window.external.OnMapDblClick(button,false,Manage.currLat,Manage.currLng, Manage.currX,Manage.currY,"");
+});
+
+function recoverSize(){
+   Manage.map.setZoom( parseInt( currlevel ));
+}
+
+Manage.map.addListener('mousemove',function(evt){
+   Manage.center = Manage.map.getCenter();
+   window.external.OnMapMouseMove(Manage.center.lat(),Manage.center.lng());
+   if (Manage.markerImg == null || Manage.markerImg.getAttribute("src") == "") {
+        Manage.markerDiv.style.visibility = "hidden";
+    } else {
+        Manage.markerDiv.style.visibility = "visible";
+    }
+    if (Manage.markerDiv.style.visibility == "visible") {
+        Manage.markerDiv.style.left = Manage.currX + "px";
+        Manage.markerDiv.style.top = Manage.currY + "px";
+    }
+    Manage.hideZoomDiv();
+});
+
+Manage.parseJSON = function (data) {
+    var result={};
+    try {
+        result = JSON.parse(data);
+    } catch (e) {
+        alert(e);
+    }
+    return result;
+};
+
+//*****************************************************//
+//*************  供webbrowser调用的方法  **************//
+//*****************************************************//
+//图纸刷新
+function mapRefresh(){
+   Manage.getMapParameter();
+};
+//添加标注
+function addMarker(sguid,lat,lng,title,canedit,iconPath,message){ 
+   Manage.addMarker(0,sguid,lat,lng,title,canedit,iconPath,message); 
+};
+//更新标注
+function updateMarker(id,title,message){
+   var lat = Manage.currMarker.lat;
+   var lng = Manage.currMarker.lng;
+   var iconPath = Manage.currMarker.icon;
+   deleteMarker( id );
+   Manage.addMarker(lat,lng,title,iconPath,message); 
+};
+//删除标注
+function deleteMarker( sguid ){
+   if( sguid == ""){
+       return;
+   }
+   var ok = false;
+   if( sguid.indexOf("_arrow") > 0){
+       for(var i = 0; i < Manage.markers.length; i++){
+          if( Manage.markers[i].id == sguid){
+             Manage.markers[i].setMap(null);
+             Manage.markers.splice(i, 1);
+             break;
+          }
+       }
+       var k =  sguid.indexOf("_");
+       var gid = sguid.substring(0,k);
+       for(var i = 0; i < Manage.markers.length; i++){
+          if( Manage.markers[i].id == gid){
+             Manage.markers[i].topoint.arrow = "false";
+             break;
+          }
+       }
+   }
+   if( sguid.indexOf("_line") > 0){
+       for(var i = 0; i < Manage.markers.length; i++){
+          if( Manage.markers[i].id == sguid){
+             Manage.markers[i].setMap(null);
+             Manage.markers.splice(i, 1);
+             break;
+          }
+       } 
+       var k = sguid.indexOf("_");
+       var gid = sguid.substring(0,k);
+       for(var i = 0; i < Manage.markers.length; i++){
+          if( Manage.markers[i].id == (gid +"_arrow")){
+             Manage.markers[i].setMap(null);
+             Manage.markers.splice(i, 1);
+             break;
+          }
+       } 
+       for(var i = 0; i < Manage.markers.length; i++){
+         if( Manage.markers[i].id == gid){
+             Manage.markers[i].topoint = null;
+             break;
+          }
+       }
+   }
+
+   //删除标注
+   var mk = null;
+   for(var i = 0; i < Manage.markers.length; i++){
+      if( Manage.markers[i].id == sguid){
+         mk = Manage.markers[i];
+         Manage.markers[i].setMap(null);
+         Manage.markers.splice(i, 1);
+         break;
+      }
+   }
+   
+   //删除指向线
+   for(var j = 0; j < Manage.markers.length; j++){
+      if( Manage.markers[j].id == sguid + "_line"){
+          Manage.markers[j].setMap(null);
+          Manage.markers.splice(j, 1);
+          break;
+      }
+   }
+   //删除指向箭头
+   for(var j = 0; j < Manage.markers.length; j++){
+        if( Manage.markers[j].id == sguid + "_arrow"){
+           Manage.markers[j].setMap(null);
+           Manage.markers.splice(j, 1);
+           break;
+        }
+    }
+    ok = true;
+    window.external.OnRemoveMarkerFinished(sguid,ok);
+};
+
+//画线
+function drawLine( mguid,ldata ){
+   try{
+      Manage.drawLine(mguid,ldata);
+   }catch(e){
+      alert(e);
+   }
+};
+
+//画矩形
+function drawRectangle(rcdata){
+   try{
+      var rdata = JSON.parse( rcdata );
+      var mk = Manage.drawRectangle( rdata );
+      if( mk != null){
+         saveMarker("rectangle",mk,rdata);
+      }
+   }catch(e){
+      alert(e);
+   }    
+};
+
+//画圆
+function drawCircle(mkguid,cdata){
+   try{
+      Manage.drawCircle(mkguid,cdata);
+   }catch(e){
+      alert(e)
+   }
+};
+
+//修改标注
+function modifyMarker(mguid,title,canedit,lat,lng,msg){
+    for(var i = 0; i < Manage.markers.length; i++){
+       if( Manage.markers[i].id == mguid){
+           var mkobj = Manage.markers[i];
+           var topoint = mkobj.topoint;
+           mkobj.setMap(null);
+           Manage.markers.splice(i, 1); 
+           var message = msg == null?mkobj.message:msg;
+           Manage.addMarker(1,mguid,lat,lng,title,canedit,mkobj.icon,message);
+           var mk = null;
+           for(var j = 0; j < Manage.markers.length; j++){
+               if(Manage.markers[j].id == mguid){
+                  mk = Manage.markers[j];
+                  mk.shine = false;
+                  mk.topoint = topoint;
+                  break;
+               }
+           }
+           if( mk != null && mk.topoint != null){
+               mk.shine = false;
+               mk.setVisible(true);
+               for(var k = 0; k < Manage.markers.length; k++){
+                   if( Manage.markers[k].id == mguid + "_arrow"){
+                      Manage.markers[k].setMap(null);
+                      Manage.markers.splice(k, 1); 
+                   }
+               }
+               for(var k = 0; k < Manage.markers.length; k++){
+                   if( Manage.markers[k].id == mguid + "_line"){
+                      Manage.markers[k].setMap(null);
+                      Manage.markers.splice(k, 1); 
+                   }
+               }
+               drawPointLine(mguid,lat,lng,mkobj.icon,mk.topoint )
+           }
+           break;
+       }
+    }
+};
+
+//设置地图级别
+function setMapLevel(level,slevel){
+   currlevel = "" + level;
+   Manage.map.setZoom(level);
+   Manage.setMarkers( currlevel );
+   window.external.OnLevelChanged(lastLevel,level,"");
+   lastLevel = level;
+};
+
+//画标注指向
+function drawMarkerPointer(mkguid,lat,lng,jsonstr){
+    var pobj = JSON.parse(jsonstr);
+    var pmk = null;
+    for(var i = 0; i < Manage.markers.length; i++){
+        if( Manage.markers[i].id == mkguid){
+            pmk = Manage.markers[i];
+            break;
+        }
+    }
+    if( pmk == null){
+        return;
+    }
+    pmk.topoint = pobj;
+    drawPointLine(mkguid,lat,lng,pmk.icon,pobj );
+    window.external.OnPointerDone(mkguid);
+}
+
+//获取地图中心点
+function getMapCenter(){
+   var xy = Manage.center.lat() + "," + Manage.center.lng();
+   return xy;
+}
+
+//设置地图中心点
+function setMapCenter( lat, lng){
+   var center = new google.maps.LatLng(lat, lng);
+   Manage.center = center;
+   Manage.map.setCenter( center );   
+};
+
+//设置图符路径
+function setBigIconPath( iconPath){
+   if(Manage.markerImg != null){
+        Manage.currIcon = iconPath;
+        Manage.markerImg.setAttribute("src",iconPath);
+   }
+}
+
+//获取标注指向长度
+function getPointerLineLength( mkguid ){
+   var mkobj = null;
+   for(var i = 0; i < Manage.markers.length; i++){
+      if(Manage.markers[i].id == mkguid){
+          mkobj = Manage.markers[i];
+          break;
+      }
+   }
+   if( mkobj == null || mkobj.topoint == null ){
+       return 0;
+   }
+   var zoom = parseInt( currlevel );
+   var x1 = lngToPixelX(mkobj.lng, zoom);
+   var y1 = latToPixelY(mkobj.lat,zoom);
+   var x2 = lngToPixelX(mkobj.topoint.lng, zoom);
+   var y2 = latToPixelY(mkobj.topoint.lat,zoom);
+   x1 -= x2;
+   y1 -= y2;
+   var lth = Math.sqrt(x1*x1 + y1*y1);
+   return lth;
+};
+
+//设置标注跳动
+function setMarkerBounce( mkguid,bounce){
+   try{
+       var mk = null;
+       for(var i = 0; i < Manage.markers.length; i++){
+          if(Manage.markers[i].id == mkguid){
+             mk = Manage.markers[i];
+             break;
+          }
+       }
+       if ( mk != null ){
+          if( bounce ){
+             var obj = mk.getAnimation();
+             if(obj == null){
+                mk.setAnimation(google.maps.Animation.BOUNCE);
+             }else if( obj == google.maps.Animation.BOUNCE){
+                mk.setAnimation(google.maps.Animation.DROP);
+             }else{
+                mk.setAnimation(google.maps.Animation.BOUNCE);
+             }
+          }else{
+             mk.setAnimation( null );
+          }
+      }
+   }catch(e){
+   }
+};
+
+//设置标注闪烁
+function setMarkerShine(mkguid,shine){
+   for(var i = 0; i < Manage.markers.length; i++){
+       if(Manage.markers[i].id == mkguid){
+           Manage.markers[i].shine=shine;
+           if(!shine){
+               Manage.markers[i].setVisible(true);
+           }
+           break;
+       }
+   }
+}
+
+//凸显区域
+function lightArea(mkguid,pdata){
+   var mk = Manage.drawPolygon( pdata );
+   mk.id = mkguid;
+   mk.addListener('dblclick', function () {
+       setTimeout("Manage.map.setZoom( parseInt( currlevel ));",3);
+    });
+   Manage.markers.push( mk );
+};
+
+//淡化周围
+function darkOuter(mkguid,pdata){
+   //删除原有淡化区
+   for(var i = 0; i < Manage.markers.length; i++){
+       if(Manage.markers[i].id == mkguid){
+          Manage.markers[i].setMap(null);
+          Manage.markers.splice(i,1);
+          break;
+       }
+   }
+   if( pdata == ""){
+      return;
+   }
+    var mk = Manage.darkOuter(pdata);
+    mk.addListener('dblclick', function () {
+       setTimeout("Manage.map.setZoom( parseInt( currlevel ));",3);
+    });
+    mk.addListener('mousemove',function(){
+       Manage.hideZoomDiv();
+    });  
+    mk.id = mkguid;
+    Manage.markers.push( mk );
+}
+
+//获取行政区边界
+function getAreaBorder( dname ){
+   var bdary = new BMap.Boundary();
+   bdary.get(dname, function(rs){
+     var count = rs.boundaries.length;
+     var bds = "";
+     for(var i = 0; i < count; i++){
+        var arr = rs.boundaries[i].split(";");
+        var tmp ="";
+        for(var j = 0; j < arr.length; j++){
+           var brr = arr[j].split(",");
+           var a = "[" + brr[1] + "," + brr[0] + "]";
+           tmp = tmp==""?a:tmp + "," + a;
+        }
+        tmp = "[" + tmp + "]";
+        bds = bds ==""?tmp:bds + "," + tmp;
+     }
+     bds = "[" + bds +"]";
+     window.external.GetAreaBorder(dname,bds);   
+  });
+}
+
+//停止标注闪烁
+function stopMarkerShine(){
+   for(var i = 0; i < Manage.markers.length; i++){
+       Manage.markers[i].shine = false;
+       Manage.markers[i].setVisible(true);
+   }
+};
+
+//设置标注可显性
+function setMarkerVisibleByIconPath(iconPath,visible){
+
+    for(var i = 0; i < Manage.markers.length; i++){
+       if(Manage.markers[i].icon == iconPath){
+           var mk = Manage.markers[i];
+           if( visible ){
+              mk.setMap(Manage.map);
+           }else{
+              mk.setMap(null);
+           }
+           var mguid = mk.id;
+           for(var j = 0; j < Manage.markers.length; j++){
+              if(Manage.markers[j].id == mguid +"_arrow"){
+                 var arrow = Manage.markers[j];
+                 if( visible ){
+                    arrow.setMap(Manage.map);
+                 }else{
+                    arrow.setMap(null);
+                 }
+              }
+           }
+           for(var j = 0; j < Manage.markers.length; j++){
+              if(Manage.markers[j].id == mguid +"_line"){
+                 var line = Manage.markers[j];
+                 if( visible ){
+                    line.setMap(Manage.map);
+                 }else{
+                    line.setMap(null);
+                 }
+              }
+           }
+       }
+    }
+}
+
+

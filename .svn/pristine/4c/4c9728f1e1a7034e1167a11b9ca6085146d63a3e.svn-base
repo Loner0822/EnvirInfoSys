@@ -1,0 +1,1062 @@
+//此JS是manage.php文件使用的
+var Manage = window.Manage || {};
+
+Manage.hideContextMenu = function() {
+    $('#overlay_menu').hide();
+    $('#map_add_marker').hide();
+};
+
+//将一个infoWindow实例化好
+Manage.info_window = new google.maps.InfoWindow();
+Manage.draw_style = {
+    fillColor: "#13c2f7",
+    strokeColor: "#468EF7",
+    strokeWeight: 3,
+    strokeOpacity: 0.8,
+    fillOpacity: 0.2
+};
+Manage.draw = new google.maps.drawing.DrawingManager({
+    map: Manage.map,
+    circleOptions: Manage.draw_style,
+    //多边形
+    polygonOptions: Manage.draw_style,
+    //矩形
+    rectangleOptions: Manage.draw_style,
+    //线
+    polylineOptions: Manage.draw_style
+});
+
+Manage.draw.addListener('overlaycomplete', function(args) {
+    var post_data = {
+        points: [],
+        type: args.type
+    }, o = args.overlay, t, del_data = {
+        action: 'del_overlay_by_id'
+    };
+    var overlay_id = Manage.makeOverlayId();
+    del_data.overlay_id = overlay_id;
+    post_data.overlay_id = overlay_id;
+    switch (post_data.type) {
+    case 'rectangle':
+        t = o.getBounds();
+        post_data.points.push(t.getNorthEast());
+        post_data.points.push(t.getSouthWest());
+        // post_data.center={lng:t.getCenter().lng(),lat:t.getCenter().lat()};
+        break;
+    case 'circle':
+        t = o.getCenter();
+        post_data.points.push(t);
+        // post_data.center={lng:t.lng(),lat:t.lat()};
+        post_data.radius = o.getRadius();
+        break;
+    case 'marker':
+        t = o.getPosition();
+        post_data.points.push(t);
+        // post_data.center={lat:t.lat(),lng:t.lng()};
+        break;
+    case 'polyline':
+    case 'polygon':
+        post_data.points = o.getPath().getArray();
+        break;
+    default:
+        return false;
+    }
+    if (post_data.type === 'marker') {
+        //如果是标注数据的话，为了添加右键先将原来的隐藏,然后添加新的
+        var mm = Manage.drawMarker({
+            overlay_id: overlay_id,
+            center_lat: t.lat(),
+            center_lng: t.lng(),
+            icon: 'mapfiles/icon/8.png',
+            title:'风景区'
+        }, true);
+        Manage.overlay_arr.push(mm);
+        o.setMap(null);
+    } else {
+        o.addListener('rightclick', function() {
+            $.post('saveData.php', del_data, function() {
+                o.setMap(null);
+            });
+        });
+        //然后将新添加的数据放到自己的私有用户数据当中,方便后面的显示与隐藏
+        Manage.overlay_arr.push(o);
+    }
+
+    t = [];
+    var c_lat = 0
+      , c_lng = 0;
+    for (var key in post_data.points) {
+        var l = post_data.points[key].lat();
+        var n = post_data.points[key].lng();
+        c_lat += parseFloat(l);
+        c_lng += parseFloat(n);
+        t.push({
+            lat: l,
+            lng: n
+        });
+    }
+    post_data.center = {
+        lat: c_lat / (post_data.points.length),
+        lng: c_lng / (post_data.points.length)
+    };
+    post_data.points = t;
+    post_data.action = 'add_overlay';
+    post_data.style = Manage.draw_style;
+    Manage.saveDrawData(post_data);
+});
+
+/*
+Manage.map.addListener('click', function(args) {
+    Manage.hideContextMenu();
+    $('#input_map_center').val(args.latLng.lng() + ',' + args.latLng.lat());
+    Manage.info_window.close();
+});
+
+Manage.map.addListener('rightclick', function(args) {
+    Manage.hideContextMenu();
+    if (Manage.draw.getDrawingMode() === null) {
+        $('#map_add_marker').show().css({
+            left: args.pixel.x + 5 + 'px',
+            top: args.pixel.y + 5 + 'px'
+        });
+        Manage.current_lng = args.latLng.lng();
+        Manage.current_lat = args.latLng.lat();
+    }
+    Manage.draw.setDrawingMode(null);
+});
+Manage.map.addListener('dragstart', function(args) {
+    Manage.hideContextMenu();
+});
+
+Manage.map.addListener('zoom_changed', function(args) {
+    Manage.hideContextMenu();
+    $('#span_current_zoom').html(this.getZoom());
+    Manage.getData();
+});
+Manage.map.addListener('mousemove', function(eve) {
+    $('#span_current_position').html(eve.latLng.lng() + ',' + eve.latLng.lat());
+});
+Manage.map.addListener('dragend', function () {
+    Manage.getData();
+});
+
+Manage.parseJSON = function(data) {
+    try {
+        data = JSON.parse(data);
+    } catch (e) {
+        Manage.error('服务器在打盹，请稍后再试!');
+        console.error(e.message);
+        //让代码停止在这里
+        throw 'error';
+    }
+    return data;
+}
+;
+//此函数是当边界变换时显示的数据
+Manage.getData = function() {
+    //每次执行时先将一上次还没有执行的函数取消，防止因为拖动或者缩放太快，增加请求次数
+    if (this.bounds_timer) {
+        window.clearTimeout(this.bounds_timer);
+        this.bounds_timer = null;
+    }
+    this.bounds_timer = window.setTimeout(function() {
+        var bounds = Manage.map.getBounds();
+        var north_east = bounds.getNorthEast();
+        var south_west = bounds.getSouthWest();
+        $.ajax({
+            type: 'post',
+            url: "getData.php",
+            data: {
+                north_east: {
+                    lat: north_east.lat(),
+                    lng: north_east.lng()
+                },
+                south_west: {
+                    lat: south_west.lat(),
+                    lng: south_west.lng()
+                },
+                action: 'get_overlay'
+            },
+            success: function(data) {
+                data = Manage.parseJSON(data);
+                if (data.status == '1') {
+                    Manage.drawOverlay(data.data, true);
+                }
+            }
+        });
+    }, 400);
+}
+;
+// $.post('makeData.php','',function (data) {
+//
+// });
+/**
+ *
+ * @param data
+ * @param p 表示是否私有数据
+ */
+Manage.drawOverlay = function(data, p) {
+    //将上一次的覆盖物先隐藏起来，不会隐藏公开的数据
+    if (p === true) {
+        //私有数据,当前登陆者自己的数据都是私有数据,隐藏这些数据
+        Manage.hideSelfData();
+        Manage.overlay_arr = [];
+    } else {
+        Manage.public_arr = [];
+    }
+    var t;
+    var marker_datas = data.marker
+      , line_data = data.polyline
+      , polygon_data = data.polygon
+      , rectangle_data = data.rectangle
+      , circle_data = data.circle;
+    for (var key in rectangle_data) {
+        t = Manage.drawRectangle(rectangle_data[key], key);
+        if (p === true) {
+            Manage.overlay_arr.push(t);
+            Manage.addConfirmLayer(t, key);
+        } else {
+            Manage.public_arr.push(t);
+        }
+    }
+
+    for (var key in marker_datas) {
+        var marker = Manage.drawMarker(marker_datas[key], p);
+        if (p === true) {
+            Manage.map.data.add(marker);
+            Manage.overlay_arr.push(marker);
+        } else {
+            Manage.public_arr.push(marker);
+        }
+    }
+    for (var key in circle_data) {
+        t = Manage.drawCircle(circle_data[key]);
+        if (p === true) {
+            Manage.overlay_arr.push(t);
+            Manage.addConfirmLayer(t, circle_data[key]['overlay_id']);
+        } else {
+            Manage.public_arr.push(t);
+        }
+    }
+    for (var key in line_data) {
+        t = Manage.drawLine(line_data[key]);
+        if (p === true) {
+            Manage.overlay_arr.push(t);
+            Manage.addConfirmLayer(t, key);
+        } else {
+            Manage.public_arr.push(t);
+        }
+    }
+    for (var key in polygon_data) {
+        t = Manage.drawPoly(polygon_data[key]);
+        if (p === true) {
+            Manage.overlay_arr.push(t);
+            Manage.addConfirmLayer(t, key);
+        } else {
+            Manage.public_arr.push(t);
+        }
+    }
+
+}
+;
+/**
+ *
+ * @param marker_data
+ * @param p
+ * @returns {google.maps.Marker}
+ */
+Manage.drawMarker = function (marker_data, p) {
+    var center = new google.maps.LatLng(marker_data.center_lat,marker_data.center_lng);
+    var icon = marker_data.icon ? marker_data.icon: '';
+    var marker = new google.maps.Marker({
+        map: Manage.map,
+        position: center,
+        draggable: p,
+        title: marker_data.title,
+        icon: icon
+    });
+    var mapLabel = new MapLabel({
+        text: marker_data.title,
+        position: center,
+        map: Manage.map,
+        fontSize: 12,
+        fontColor: '#ef5a08',
+        strokeColor: '#f9f9f9',
+        align: 'bottom'
+    });
+    marker.bindTo('position', mapLabel);
+    marker.bindTo('map', mapLabel);
+    marker.set('label_obj', mapLabel);
+    //将主键设置好，方便后面的更新操作
+    marker.marker_id = marker_data.overlay_id;
+    //右键菜单
+    if (p === true) {
+        marker.addListener('rightclick', function(eve) {
+            Manage.hideContextMenu();
+            Manage.selected_marker = this;
+            $('#overlay_menu').show().css({
+                left: eve.za.clientX + 10 + 'px',
+                top: eve.za.clientY + 5 + 'px'
+            });
+        });
+        marker.addListener('dragend', function() {
+            $.post('saveData.php', {
+                action: 'update_marker_position',
+                marker_id: this.marker_id,
+                lng: this.getPosition().lng(),
+                lat: this.getPosition().lat()
+            }, function(data) {
+            });
+        });
+    }
+    //单击事件，主要是显示当前标注的数据
+    marker.addListener('click', function() {
+        Manage.showMarkerInfo(this);
+    });
+
+    return marker;
+}
+;
+
+Manage.drawCircle = function(circle_data) {
+    var center = new google.maps.LatLng(circle_data.center_lat,circle_data.center_lng)
+      , radius = parseFloat(circle_data.radius);
+    var circle = new google.maps.Circle({
+        map: Manage.map,
+        center: center,
+        radius: radius,
+        strokeColor: circle_data.stroke_color,
+        strokeWeight: circle_data.stroke_weight,
+        fillColor: circle_data.fill_color,
+        fillOpacity: circle_data.fill_opacity,
+    });
+    return circle;
+}
+;
+
+Manage.drawRectangle = function(rectangle_data) {
+    var l1 = parseFloat(rectangle_data[0].lat)
+      , lng1 = parseFloat(rectangle_data[0].lng)
+      , l2 = parseFloat(rectangle_data[1].lat)
+      , lng2 = parseFloat(rectangle_data[1].lng);
+    var b = new google.maps.LatLngBounds({
+        lat: l2,
+        lng: lng2
+    },{
+        lat: l1,
+        lng: lng1
+    });
+    var r = new google.maps.Rectangle({
+        map: Manage.map,
+        bounds: b,
+        strokeColor: rectangle_data[0].stroke_color,
+        strokeWeight: rectangle_data[0].stroke_weight,
+        fillColor: rectangle_data[0].fill_color,
+        fillOpacity: rectangle_data[0].fill_opacity,
+    });
+    return r;
+}
+;
+Manage.addConfirmLayer = function(overlay, overlay_id) {
+    overlay.addListener('rightclick', function(args) {
+        layer.confirm('你真的要删除这条数据吗?', {
+            title: '删除',
+            icon: 3
+        }, function(index) {
+            layer.close(index);
+            $.post('saveData.php', {
+                action: 'del_overlay_by_id',
+                overlay_id: overlay_id
+            }, function(data) {
+                data = Manage.parseJSON(data);
+                if (data.status == '1') {
+                    overlay.setMap(null);
+                    overlay = null;
+                }
+
+            });
+        })
+    });
+}
+;
+Manage.drawLine = function(line_data) {
+    var p = [];
+    for (var key in line_data) {
+        var t = new google.maps.LatLng(line_data[key].lat,line_data[key].lng);
+        p.push(t);
+    }
+    var l = new google.maps.Polyline({
+        map: Manage.map,
+        path: p,
+        strokeColor: line_data[0].stroke_color,
+        strokeWeight: line_data[0].stroke_weight,
+        fillColor: line_data[0].fill_color,
+        fillOpacity: line_data[0].fill_opacity,
+    });
+    return l;
+}
+;
+Manage.drawPoly = function(poly_data) {
+    var p = [];
+    for (var key in poly_data) {
+        var t = new google.maps.LatLng(poly_data[key].lat,poly_data[key].lng);
+        p.push(t);
+    }
+    var l = new google.maps.Polygon({
+        map: Manage.map,
+        path: p,
+        strokeColor: poly_data[0].stroke_color,
+        strokeWeight: poly_data[0].stroke_weight,
+        fillColor: poly_data[0].fill_color,
+        fillOpacity: poly_data[0].fill_opacity,
+    });
+    return l;
+}
+;
+Manage.hideSelfData = function() {
+    for (var k in Manage.overlay_arr) {
+        Manage.overlay_arr[k].setMap(null);
+    }
+}
+;
+Manage.showSelfData = function() {
+    for (var k in Manage.overlay_arr) {
+        Manage.overlay_arr[k].setMap(Manage.map);
+    }
+}
+;
+Manage.showPublicData = function() {
+    for (var k in Manage.public_arr) {
+        Manage.public_arr[k].setMap(Manage.map);
+    }
+}
+;
+
+Manage.hidePublicData = function() {
+    for (var k in Manage.public_arr) {
+        Manage.public_arr[k].setMap(null);
+    }
+}
+;
+
+Manage.showMarkerInfo = function(marker) {
+    //将上一个图片轮播停止
+    window.clearInterval(Manage.marker_slide_timer);
+    $.post('getData.php', {
+        action: 'get_marker_data',
+        marker_id: marker.marker_id
+    }, function(data) {
+        data = Manage.parseJSON(data);
+        if (data.status === '0') {
+            Manage.error(data.msg);
+            return false;
+        }
+        var html = Manage.mergeShowHtml(data);
+        Manage.info_window.setContent(html);
+        Manage.info_window.open(Manage.map, marker);
+        Manage.marker_slide_timer = setInterval(function() {
+            Manage.marker_slide_index++;
+            var k = Manage.marker_slide_index % Manage.img_arrs.length;
+            var src = Manage.img_arrs[k];
+            var img = '<img src="' + src + '" class="img_marker_slide" alt="">';
+            $('#marker_icon_img_slide').html(img);
+        }, 2000);
+    });
+}
+;
+
+/**
+ * @param data
+ * @returns {string}
+ * 返回编辑标注时的HTMl内容
+ */
+Manage.mergeEditHtml = function(data) {
+    var html = '';
+    //因为在提交的时候要知道是进行的哪一种操作，所以这里加上了action方便判断
+    var marker_title_html = '<div class="alert alert-info"><span>可连续添加多张图片</span><span><a href="javascript:void(0)" class="a_change_marker_icon">更换图标</a></span> </div>';
+    var img_html = Manage.mergeEditImg(data);
+    var input_html = '<input type="hidden" name="action" value="update_marker">';
+    input_html += '<input type="hidden" name="marker_id" value="' + data.marker_id + '">';
+    for (var key in Manage.marker_fields) {
+        var n = Manage.marker_fields[key];
+        data[key] ? true : data[key] = '';
+        if (key === 'info') {
+            input_html += '<p class="input_p col-sm-3">' + n + '</p><p class="input_p col-sm-8"><textarea name="' + key + '" class="textarea input_marker form-control">' + data[key] + '</textarea></p>';
+        } else {
+            input_html += '<p class="input_p col-sm-3">' + n + '</p><p class="input_p col-sm-8"><input type="text" name="' + key + '" value="' + data[key] + '" class="input_marker form-control"></p>';
+        }
+    }
+    input_html += '<p></p>';
+    input_html += '<p class="input_p col-sm-12 text-center"><button class="btn btn-sm btn_save_marker btn-primary"><span class="glyphicon-save glyphicon"></span>&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;</button></p>';
+    input_html = '<div class="row">' + input_html + '</div>';
+    var marker_edit_data = '<div class="marker_data_div"><form class="form" action="saveData.php" target="iframe_marker" method="post" enctype="multipart/form-data">' + marker_title_html + img_html + input_html + '</form></div>';
+    var marker_icon_data = $('#marker_icon_container').html();
+    html = '<div>' + marker_edit_data + marker_icon_data + '</div>';
+    return html;
+}
+;
+
+Manage.mergeShowHtml = function(data) {
+    //从第一张开始轮播
+    Manage.marker_slide_index = 0;
+    //默认总共有一张图片
+    Manage.img_arrs = ['mapfiles/images/sorry.png'];
+    if (data.img) {
+        var i_arr = data.img.toString().split(';;');
+        if (i_arr.length > 0) {
+            Manage.img_arrs = i_arr;
+        }
+    }
+    var link = data.link ? data.link : 'javascript:void(0);';
+    var html = '<div class="row"> <div class="alert alert-info"> <span>' + data.title + '</span> <span><a href="' + link + '">详情</a></span> </div> </div> <div id="marker_icon_img_slide"><img class="img_marker_slide" src="' + Manage.img_arrs[0] + '" alt=""></div>';
+
+    for (var key in Manage.marker_fields) {
+        var n = Manage.marker_fields[key];
+        if (data[key] && data[key] != 'null') {
+            data[key] ? html += '<p class="show_p">' + n + ':' + data[key] + '</p>' : true;
+        }
+    }
+    return html;
+}
+;
+
+Manage.showEmployeeData = function(employee_id) {
+    $.post('getData.php', {
+        action: 'show_employee_data',
+        user_id: employee_id
+    }, function(data) {
+        data = Manage.parseJSON(data);
+        Manage.drawOverlay(data.data, true);
+    });
+
+    Manage.hideSelfData();
+    Manage.hidePublicData();
+    //显示别的用户名的时候，防止此时如果是随机显示的话，在拖动和移动的过程当中，标注点会消失
+    Manage.clearGetDataFn();
+    Manage.employee_index && layer.close(Manage.employee_index);
+    Manage.employee_index = null;
+}
+
+/**
+ * 生成标注的ID
+ * @returns {string}
+ */
+Manage.makeOverlayId = function() {
+    return new Date().getTime() + '' + parseInt(Math.random() * 99);
+}
+Manage.error = function(str) {
+    layer.msg(str, {
+        icon: 5,
+        time: 3000,
+        shade: [0.8, '#ccc'],
+        closeBtn: true
+    });
+}
+;
+Manage.success = function(str) {
+    layer.msg(str, {
+        icon: 1,
+        time: 1000,
+        shade: [0.8, '#ccc'],
+        closeBtn: true
+    });
+}
+;
+/**
+ * 当是显示全部的数据时候，将getData函数清空，不再请求数据
+ */
+Manage.clearGetDataFn = function() {
+    Manage.getData = function() {
+    }
+}
+/**
+ * 编辑标注的时候图片显示
+ * @param data
+ * @returns {string}
+ */
+Manage.mergeEditImg = function(data) {
+    var img_html = '<div class="row" id="marker_img_show"> <div> <input type="file" name="marker_img[]" multiple="multiple" accept=".gif,.bmp,.jpg,.png"> </div> </div>';
+    if (data.img) {
+        //默认以两个分号作为分隔
+        var img_arr = data.img.toString().split(';;');
+    }
+    var img_container = '';
+    for (var key in img_arr) {
+        img_container += '<div class="col-sm-3"><img class="img_marker_info" src="' + img_arr[key] + '" alt=""><a href="javascript:void(0);" class="a_marker_del_img" img_src="' + img_arr[key] + '" marker_id="' + data.marker_id + '" title="删除此图片"><span class="glyphicon glyphicon-trash"></span></a></div>';
+    }
+    img_container = '<div class="row">' + img_container + '</div>';
+    return img_html + img_container;
+}
+;
+//编辑标注时切换icon使用
+$(document).on('click', '.a_change_marker_icon', function() {
+    $(this).parents('.marker_data_div').hide().parent().find('.marker_icon_div').show();
+});
+//编辑marker时从选择icon界面返回使用
+$(document).on('click', '.btn_back', function() {
+    $(this).parents('.marker_icon_div').hide().parent().find('.marker_data_div').show();
+});
+//在marker编辑的时候删除一张照片使用
+$(document).on('click', '.a_marker_del_img', function() {
+    $(this).parent().hide();
+    $.post('saveData.php', {
+        action: 'del_marker_img',
+        marker_id: $(this).attr('marker_id'),
+        src: $(this).attr('img_src')
+    }, function() {
+    });
+});
+//在高级设置中有一个是测试数据库连结的事件
+$(document).on('click', '#a_test_db_connect', function() {
+    var post_data = {
+        action: 'test_connect',
+        db_type: $('#db_type').val()
+    };
+    if ($('#db_type').val() == 'mysql') {
+        post_data.db_username = $('input[name=db_username]').val();
+        post_data.db_password = $('input[name=db_password]').val();
+        post_data.db_name = $('input[name=db_name]').val();
+    } else {
+        post_data.db_host = $('input[name=db_host]').val();
+    }
+
+    $.post('saveData.php', post_data, function(data) {
+        data = Manage.parseJSON(data);
+
+        if (data.status == '1') {
+            Manage.success('测试成功!');
+        } else {
+
+            Manage.error(data.msg);
+        }
+    });
+});
+
+$('#setting_icon').click(function () {
+    if ($('#tool_container').parent().is(':hidden')) {
+        $('#tool_container').parent().show();
+        $('#map_canvas').css('width', '100%');
+        $(this).css('right', '0%');
+    } else {
+        $('#tool_container').parent().hide();
+        $('#map_canvas').css('width', '100%');
+        $(this).css('right', '0%');
+    }
+    google.maps.event.trigger(Manage.map, 'resize');
+});
+
+
+//右键菜单的编辑
+$('#a_edit_marker').click(function() {
+    var marker_id = Manage.selected_marker.marker_id;
+    $.post('getData.php', {
+        marker_id: marker_id,
+        action: 'get_marker_data'
+    }, function(data) {
+        data = Manage.parseJSON(data);
+        if (data.status === '0') {
+            Manage.error(data.msg);
+            return;
+        }
+        var info_html = Manage.mergeEditHtml(data);
+        Manage.hideContextMenu();
+        Manage.info_window.setContent(info_html);
+        Manage.info_window.open(Manage.map, Manage.selected_marker);
+    });
+});
+//右键菜单的删除marker
+$('#a_del_marker').click(function() {
+    Manage.hideContextMenu();
+    var marker_id = Manage.selected_marker.marker_id;
+    var layer_index = layer.confirm('你真的要删除这条数据吗?', {
+        title: '删除标注',
+        yes: function() {
+            layer.close(layer_index);
+            Manage.selected_marker.setMap(null);
+            $.post('saveData.php', {
+                action: 'del_overlay_by_id',
+                overlay_id: marker_id
+            }, function(data) {
+            });
+        }
+    });
+});
+//编辑marker时点击相应的图片，设置marker的图标
+$(document).on('click', '.img_marker_icon', function() {
+    var icon = 'mapfiles/icon/' + $(this).attr('alt') + '.png';
+    Manage.selected_marker.setIcon(icon);
+    $(this).parents('.marker_icon_div').hide().parent().find('.marker_data_div').show();
+    $.post('saveData.php', {
+        marker_id: Manage.selected_marker.marker_id,
+        icon: $(this).attr('alt'),
+        action: 'update_marker_icon'
+    }, function() {
+    });
+});
+//在高级设置中切换数据库类型的时候使用的
+$(document).on('change', '#db_type', function() {
+    if ($(this).val() === 'mysql') {
+        $('.mysql_config_div').show();
+        $('.sqlite_config_div').hide();
+    } else {
+        $('.mysql_config_div').hide();
+        $('.sqlite_config_div').show();
+    }
+});
+
+$(document).on('click', '.btn_save_marker', function() {
+    var t = $('input[name=title]').val();
+    Manage.selected_marker.setTitle(t);
+    Manage.selected_marker.get('label_obj').set('text', t);
+    setTimeout(function() {
+        Manage.info_window.close();
+    }, 100);
+});
+$(document).on('change', '#overlay_show_type', function() {
+    var _this = $(this);
+    if ($(this).val() === 'all') {
+        var layer_index = layer.confirm('选择显示全部有可能会大大降低性能，你真的要这么做吗?', {
+            icon: 3,
+            title: '警告',
+            yes: function() {
+                layer.close(layer_index);
+                $('.overlay_show_random_sum').hide();
+            },
+            cancel: function() {
+                _this.val('random');
+            }
+        });
+    } else {
+        $('.overlay_show_random_sum').show();
+    }
+});
+$(document).on('click', '.li_del_all', function() {
+    var type = $(this).attr('del_type')
+      , title = ''
+      , title_a = {
+        marker: '标注',
+        circle: '圆',
+        polyline: '线段',
+        polygon: '多边形',
+        rectangle: '矩形'
+    };
+    if (title_a[type]) {
+        layer.confirm('您真的要删除您的所有的&nbsp;&nbsp;' + title_a[type] + '吗?此操作不可以撤销', {
+            title: '删除我的所有:' + title_a[type],
+            icon: 3
+        }, function(index) {
+            layer.close(index);
+            $.post('saveData.php', {
+                action: 'del_selected_type',
+                type: type
+            }, function(data) {
+                data = Manage.parseJSON(data);
+                if (data.status == '1') {
+                    Manage.success('共删除条' + data.sum + '数据');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    Manage.error(data.msg);
+                }
+            });
+        });
+    }
+});
+//标题使用
+$('#input_map_title').blur(function() {
+    if ($(this).val() != '') {
+        document.title = $(this).val();
+        var map_type = Manage.map.getMapTypeId() === 'google' ? 'google' : 'satellite';
+        $.post('saveData.php', {
+            action: 'update_title',
+            map_type: map_type,
+            title: $(this).val()
+        }, function(data) {
+        });
+    }
+});
+
+$('#select_default_level').change(function() {
+    var map_type = Manage.map.getMapTypeId() === 'google' ? 'google' : 'satellite';
+    var z = parseInt($(this).val());
+    if (isNaN(z)) {
+        return false;
+    }
+    Manage.map.setZoom(z);
+    $.post('saveData.php', {
+        action: 'save_default_level',
+        map_type: map_type,
+        level: $(this).val()
+    }, function(data) {
+    });
+});
+$('#a_import_data').click(function() {
+    layer.open({
+        type: 2,
+        title: '导入数据',
+        content: 'import_data.php',
+        area: ['950px', '600px'],
+    });
+});
+
+$('#a_export_data').click(function() {
+    Manage.iniModalWidth();
+    $('#export_data_modal').modal();
+});
+$('#li_show_hide_public').click(function() {
+    if ($(this).attr('status') == 'show') {
+        $(this).attr('status', 'hide').html('显示公共数据');
+        Manage.hidePublicData();
+    } else {
+        $(this).attr('status', 'show').html('隐藏公共数据');
+        Manage.showPublicData();
+    }
+});
+$('#li_show_hide_self').click(function() {
+    if ($(this).attr('status') == 'show') {
+        $(this).attr('status', 'hide').html('显示我的数据');
+        Manage.hideSelfData();
+    } else {
+        $(this).attr('status', 'show').html('隐藏我的数据');
+        Manage.showSelfData();
+    }
+});
+$('#a_manage_employee').click(function() {
+    Manage.employee_index = layer.open({
+        type: 2,
+        title: '管理员工',
+        content: 'manage_employee.php',
+        area: ['900px', '600px'],
+    });
+});
+
+$('#a_edit_marker_table').click(function() {
+    layer.open({
+        type: 2,
+        title: '修改标注字段',
+        content: 'edit_field.php',
+        area: ['800px', '600px'],
+    });
+});
+
+//新建一个标注使用
+$('#a_add_marker').click(function () {
+    var lng = parseFloat($('#input_lng').val())
+      , lat = parseFloat($('#input_lat').val());
+    if (isNaN(lng) || isNaN(lat)) {
+        Manage.error('经纬度数据不合理');
+        return;
+    }
+    if (Math.abs(lng) > 180 || Math.abs(lat) > 90) {
+        Manage.error('经纬度范围太大!');
+        return;
+    }
+    $('#input_lng').val('');
+    $('#input_lat').val('');
+    var marker_id = Manage.makeOverlayId();
+    var position = new google.maps.LatLng(lat,lng);
+
+    Manage.drawMarker({
+        overlay_id: marker_id,
+        center_lat: lat,
+        center_lng: lng,
+        icon: 0
+    }, true);
+    Manage.map.setCenter(position);
+    //提交数据到后台进行保存!,写成这样是文件后台同时保存
+    var post_data = {
+        action: 'add_overlay',
+        overlay_id: marker_id,
+        type: 'marker'
+    };
+    post_data.points = [];
+    post_data.points.push({
+        lat: lat,
+        lng: lng
+    });
+    post_data.center = {
+        lat: lat,
+        lng: lng
+    };
+    Manage.saveDrawData(post_data);
+});
+Manage.saveDrawData = function(post_data) {
+    $.post('saveData.php', post_data, function(data) {
+        data = Manage.parseJSON(data);
+        if (data.status != '1') {
+            Manage.error(data.msg);
+        }
+    });
+}
+;
+Manage.iniModalWidth = function() {
+    $('.modal-dialog').width(350);
+}
+;
+
+$('.a_export_type').hover(function() {
+    $('.a_export_type').addClass('btn-default').removeClass('btn-primary');
+    $(this).removeClass('btn-default').addClass('btn-primary');
+});
+//modal提交的时候使用 在新增用户和修改密码使用了
+$('#save_modal_button').click(function() {
+    $.post('saveData.php', $('#modal_form').serialize(), function(data) {
+        data = Manage.parseJSON(data);
+        if (data.status == '1') {
+            $('#field_modal').modal('hide');
+            if (data.action) {
+                //表明这是修改了密码
+                Manage.success('修改成功!,请重新登陆');
+                setTimeout(function() {
+                    location.href = 'manage.php?action=loginout';
+                }, 2000);
+            } else {
+                Manage.success('保存成功!');
+            }
+        } else {
+            Manage.error(data.msg);
+        }
+    });
+});
+//设置地图中心点使用
+$('#a_save_map_center').click(function() {
+    var center_v = $('#input_map_center').val();
+    if (center_v != '') {
+        center_v = center_v.replace('，', ',', center_v);
+        var center_a = center_v.split(',');
+        var center_lat = parseFloat(center_a['1']);
+        var center_lng = parseFloat(center_a['0']);
+        if (isNaN(center_lat) || Math.abs(center_lat) > 90 || isNaN(center_lng) || Math.abs(center_lng) > 180) {
+            Manage.error('经纬度数据不合理!');
+            return false;
+        }
+        Manage.map.setCenter(new google.maps.LatLng(center_lat,center_lng));
+        $.post('saveData.php', {
+            action: 'update_center',
+            center: center_v
+        }, function(data) {
+            data = Manage.parseJSON(data);
+            if (data.status == '1') {
+                $('#p_show_map_center').html($('#input_map_center').val()).parent().show();
+                $('#div_map_center_container').hide();
+            } else {
+                Manage.error(data.msg);
+            }
+        });
+    }
+});
+//鼠标右键地图时创建一个图文标注
+$('#map_add_marker').click(function() {
+    Manage.hideContextMenu();
+    if (!Manage.current_lng || !Manage.current_lat) {
+        return;
+    }
+    var marker_id = Manage.makeOverlayId()
+      , marker_data = {
+        overlay_id: marker_id,
+        center_lat: Manage.current_lat,
+        center_lng: Manage.current_lng,
+        icon: ''
+    };
+    //提交数据到后台进行保存!
+    //提交数据到后台进行保存!,写成这样是文件后台同时保存
+    var post_data = {
+        action: 'add_overlay',
+        overlay_id: marker_id,
+        type: 'marker'
+    };
+    post_data.points = [];
+    var t_p = {
+        lat: Manage.current_lat,
+        lng: Manage.current_lng
+    };
+    post_data.points.push(t_p);
+    post_data.center = t_p;
+    Manage.saveDrawData(post_data);
+    Manage.drawMarker(marker_data, true);
+    Manage.current_lat = Manage.current_lng = '';
+});
+//设置地图中心点时候的切换
+$('#a_edit_map_center').click(function() {
+    $('#div_map_center_container').show();
+    $('#input_map_center').val('');
+    $('#p_show_map_center').parent().hide();
+});
+
+$('#a_add_employee').click(function() {
+    Manage.iniModalWidth();
+    $('#modal_title').html('添加员工');
+    $('#modal_form').html($('#add_user_div').html());
+    $('#field_modal').modal();
+});
+
+//高级设置
+$('#a_edit_config').click(function() {
+    $('.modal-dialog').width(750);
+    $('#modal_title').html('高级设置');
+    $('#modal_form').html('正在请求数据...');
+    $('#field_modal').modal();
+    $.post('getData.php', {
+        action: 'get_config'
+    }, function(data) {
+        data = Manage.parseJSON(data);
+        if (data.status == '1') {
+            $('#modal_form').html(data.data);
+        } else {
+            $('#field_modal').modal('hide');
+            Manage.error(data.msg);
+        }
+    });
+});
+$('#btn_change_style').click(function() {
+    $('.modal-dialog').width(550);
+    $('#change_style_modal').modal();
+});
+$('#a_edit_password').click(function() {
+    Manage.iniModalWidth();
+    $('#modal_title').html('修改密码');
+    $('#modal_form').html($('#edit_user_password').html());
+    $('#field_modal').modal();
+});
+
+//颜色的设置
+$('#div_stroke_color').colorpicker({
+    format: 'hex'
+});
+$('#div_fill_color').colorpicker({
+    format: 'hex'
+});
+//颜色设置之后的保存
+$('#save_color_button').click(function() {
+    $('#change_style_modal').modal('hide');
+    Manage.draw_style.fillColor = $('#input_fill_color').val();
+    Manage.draw_style.strokeColor = $('#input_stroke_color').val();
+    Manage.draw_style.fillOpacity = $('#select_fill_opacity').val();
+    Manage.draw_style.strokeOpacity = $('#select_stroke_opacity').val();
+    Manage.draw_style.strokeWeight = $('#select_stroke_weight').val();
+    Manage.success('设置成功!');
+});
+
+Manage.iniOverlay = function() {
+    Manage.getData();
+    if (Manage.show_all) {
+        //如果显示全部的数据,那么将getData函数清空
+        Manage.clearGetDataFn();
+    }
+};
+
+$.post('getPublicData.php', {
+    action: 'public'
+}, function(data) {
+    data = Manage.parseJSON(data);
+    if (data.status == '1') {
+        Manage.drawOverlay(data.data, false);
+    }
+});
+
+function con(str) {
+    console.log(str);
+}
+;
+*/

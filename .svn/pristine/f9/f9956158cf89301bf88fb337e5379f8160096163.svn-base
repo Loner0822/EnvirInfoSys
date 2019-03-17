@@ -1,0 +1,10 @@
+[packup]
+my_app_name =环境信息化系统
+my_app_version =1.00.00
+my_app_publisher =旌德县
+my_app_exe_name =EnvirInfoSys.exe
+my_app_id ={{9bb8c2af-25cb-4c67-9adf-dc89e87c548a}
+source_exe_path =D:\环境信息化发布系统\Publish\EnvirInfoSys.exe
+source_path =D:\环境信息化发布系统\Publish
+registry_subkey =环境信息化系统
+map_path=D:\MapDownload\googlemaps

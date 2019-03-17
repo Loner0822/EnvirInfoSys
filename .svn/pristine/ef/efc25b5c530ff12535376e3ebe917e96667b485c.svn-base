@@ -1,0 +1,32 @@
+﻿var Index = {
+    createNew: function () {
+        var index = {};
+        index.iconpath = "";
+        return index;
+    }
+};
+
+var index = Index.createNew();
+
+//top div 的 单击事件
+$("#top_div").click(function (event) {
+    event.stopPropagation();
+    var obj = event.target;
+    index.iconpath = obj.src;
+    alert(index.iconpath);
+});
+
+//top_div的拖拽事件
+$("img").on({
+    mousedown: function (e) {
+        var el = $(this);
+        var os = el.offset(); dx = e.pageX - os.left, dy = e.pageY - os.top;
+        $(document).on('mousemove.drag', function (e) {
+            el.offset({ top: e.pageY - dy, left: e.pageX - dx });
+        });
+    },
+    mouseup: function (e) {
+        $(document).off('mousemove.drag');
+        alert("dragover");
+    }
+});

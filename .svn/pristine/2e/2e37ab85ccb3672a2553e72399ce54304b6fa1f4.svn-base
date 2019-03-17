@@ -1,0 +1,143 @@
+[2019-01-23 16:46:56]
+****************************异常文本****************************
+【出现时间】：2019-01-23 16:46:56
+【异常类型】：IndexOutOfRangeException
+【异常信息】：在位置 0 处没有任何行。
+【堆栈调用】：   在 System.Data.RBTree`1.GetNodeByIndex(Int32 userIndex)
+   在 System.Data.DataRowCollection.get_Item(Int32 index)
+   在 PublishSys.PubForm.treeView1_AfterSelect(Object sender, TreeViewEventArgs e)
+   在 System.Windows.Forms.TreeView.OnAfterSelect(TreeViewEventArgs e)
+   在 System.Windows.Forms.TreeView.TvnSelected(NMTREEVIEW* nmtv)
+   在 System.Windows.Forms.TreeView.WmNotify(Message& m)
+   在 System.Windows.Forms.TreeView.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+【异常方法】：NodePath GetNodeByIndex(Int32)
+***************************************************************
+
+================================================================================
+[2019-01-23 16:47:39]
+****************************异常文本****************************
+【出现时间】：2019-01-23 16:47:39
+【异常类型】：IndexOutOfRangeException
+【异常信息】：在位置 0 处没有任何行。
+【堆栈调用】：   在 System.Data.RBTree`1.GetNodeByIndex(Int32 userIndex)
+   在 System.Data.DataRowCollection.get_Item(Int32 index)
+   在 PublishSys.PubForm.treeView1_AfterSelect(Object sender, TreeViewEventArgs e)
+   在 System.Windows.Forms.TreeView.OnAfterSelect(TreeViewEventArgs e)
+   在 System.Windows.Forms.TreeView.TvnSelected(NMTREEVIEW* nmtv)
+   在 System.Windows.Forms.TreeView.WmNotify(Message& m)
+   在 System.Windows.Forms.TreeView.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+【异常方法】：NodePath GetNodeByIndex(Int32)
+***************************************************************
+
+================================================================================
+[2019/3/4 9:26:07]
+****************************异常文本****************************
+【出现时间】：2019/3/4 9:26:07
+【异常类型】：NullReferenceException
+【异常信息】：未将对象引用设置到对象的实例。
+【堆栈调用】：   在 MapHelper.MapHelper.setMapLevel(Int32 level, String slevel)
+   在 PublishSys.MapForm.TreeList1_FocusedNodeChanged(Object sender, FocusedNodeChangedEventArgs e) 位置 D:\工作\环境信息化系统\EnvirInfoSys\PublishSys\MapForm.cs:行号 497
+   在 DevExpress.XtraTreeList.TreeList.RaiseFocusedNodeChanged(TreeListNode oldNode, TreeListNode newNode)
+   在 DevExpress.XtraTreeList.TreeList.InternalSetFocusedRowIndex(Int32 newFocusedRowIndex)
+   在 DevExpress.XtraTreeList.TreeList.set_FocusedRowIndex(Int32 value)
+   在 DevExpress.XtraTreeList.TreeList.SetFocusedNode(TreeListNode node)
+   在 DevExpress.XtraTreeList.TreeList.set_FocusedNode(TreeListNode value)
+   在 DevExpress.XtraTreeList.TreeList.DoDataSourceChanged()
+   在 DevExpress.XtraTreeList.TreeList.UpdateDataSource(Boolean updateContent)
+   在 DevExpress.XtraTreeList.TreeList.UpdateDataSourceOnChangeDataSource()
+   在 DevExpress.XtraTreeList.TreeList.set_DataSource(Object value)
+   在 PublishSys.MapForm.Get_Level_List() 位置 D:\工作\环境信息化系统\EnvirInfoSys\PublishSys\MapForm.cs:行号 434
+   在 PublishSys.MapForm.MapForm_Load(Object sender, EventArgs e) 位置 D:\工作\环境信息化系统\EnvirInfoSys\PublishSys\MapForm.cs:行号 69
+   在 System.EventHandler.Invoke(Object sender, EventArgs e)
+   在 System.Windows.Forms.Form.OnLoad(EventArgs e)
+   在 DevExpress.XtraEditors.XtraForm.OnLoad(EventArgs e)
+   在 System.Windows.Forms.Form.OnCreateControl()
+   在 System.Windows.Forms.Control.CreateControl(Boolean fIgnoreVisible)
+   在 System.Windows.Forms.Control.CreateControl()
+   在 System.Windows.Forms.Control.WmShowWindow(Message& m)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   在 System.Windows.Forms.Form.WmShowWindow(Message& m)
+   在 System.Windows.Forms.Form.WndProc(Message& m)
+   在 DevExpress.XtraEditors.XtraForm.WndProc(Message& msg)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+【异常方法】：Void setMapLevel(Int32, System.String)
+***************************************************************
+
+================================================================================
+[2019/3/4 10:05:49]
+****************************异常文本****************************
+【出现时间】：2019/3/4 10:05:49
+【异常类型】：NullReferenceException
+【异常信息】：未将对象引用设置到对象的实例。
+【堆栈调用】：   在 MapHelper.MapHelper.setMapLevel(Int32 level, String slevel)
+   在 PublishSys.MapForm.TreeList1_FocusedNodeChanged(Object sender, FocusedNodeChangedEventArgs e) 位置 D:\工作\环境信息化系统\EnvirInfoSys\PublishSys\MapForm.cs:行号 497
+   在 DevExpress.XtraTreeList.TreeList.RaiseFocusedNodeChanged(TreeListNode oldNode, TreeListNode newNode)
+   在 DevExpress.XtraTreeList.TreeList.InternalSetFocusedRowIndex(Int32 newFocusedRowIndex)
+   在 DevExpress.XtraTreeList.TreeList.set_FocusedRowIndex(Int32 value)
+   在 DevExpress.XtraTreeList.TreeList.SetFocusedNode(TreeListNode node)
+   在 DevExpress.XtraTreeList.TreeList.set_FocusedNode(TreeListNode value)
+   在 DevExpress.XtraTreeList.TreeList.DoDataSourceChanged()
+   在 DevExpress.XtraTreeList.TreeList.UpdateDataSource(Boolean updateContent)
+   在 DevExpress.XtraTreeList.TreeList.UpdateDataSourceOnChangeDataSource()
+   在 DevExpress.XtraTreeList.TreeList.set_DataSource(Object value)
+   在 PublishSys.MapForm.Get_Level_List() 位置 D:\工作\环境信息化系统\EnvirInfoSys\PublishSys\MapForm.cs:行号 434
+   在 PublishSys.MapForm.MapForm_Load(Object sender, EventArgs e) 位置 D:\工作\环境信息化系统\EnvirInfoSys\PublishSys\MapForm.cs:行号 69
+   在 System.EventHandler.Invoke(Object sender, EventArgs e)
+   在 System.Windows.Forms.Form.OnLoad(EventArgs e)
+   在 DevExpress.XtraEditors.XtraForm.OnLoad(EventArgs e)
+   在 System.Windows.Forms.Form.OnCreateControl()
+   在 System.Windows.Forms.Control.CreateControl(Boolean fIgnoreVisible)
+   在 System.Windows.Forms.Control.CreateControl()
+   在 System.Windows.Forms.Control.WmShowWindow(Message& m)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   在 System.Windows.Forms.Form.WmShowWindow(Message& m)
+   在 System.Windows.Forms.Form.WndProc(Message& m)
+   在 DevExpress.XtraEditors.XtraForm.WndProc(Message& msg)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+【异常方法】：Void setMapLevel(Int32, System.String)
+***************************************************************
+
+================================================================================
+[2019/3/4 15:23:51]
+****************************异常文本****************************
+【出现时间】：2019/3/4 15:23:51
+【异常类型】：ArgumentException
+【异常信息】：不支持 URI 格式。
+【堆栈调用】：   在 System.IO.Path.LegacyNormalizePath(String path, Boolean fullCheck, Int32 maxPathLength, Boolean expandShortPaths)
+   在 System.IO.Path.NormalizePath(String path, Boolean fullCheck, Int32 maxPathLength, Boolean expandShortPaths)
+   在 System.IO.Path.GetFullPathInternal(String path)
+   在 System.IO.Directory.InternalCreateDirectoryHelper(String path, Boolean checkHost)
+   在 System.IO.Directory.CreateDirectory(String path)
+   在 MapHelper.MapHelper.copyIcons()
+   在 MapHelper.MapHelper.ShowMap(Int32 mapLevel, String showLevel, Boolean canEdit, String mapType, Dictionary`2 iconHintDic, Dictionary`2 borderDic, List`1 markerLst, Double iconopacity, Int32 tinterval)
+   在 PublishSys.MapSetForm.MapSetForm_Load(Object sender, EventArgs e) 位置 D:\工作\环境信息化系统\EnvirInfoSys\PublishSys\MapSetForm.cs:行号 133
+   在 System.Windows.Forms.Form.OnLoad(EventArgs e)
+   在 DevExpress.XtraEditors.XtraForm.OnLoad(EventArgs e)
+   在 System.Windows.Forms.Form.OnCreateControl()
+   在 System.Windows.Forms.Control.CreateControl(Boolean fIgnoreVisible)
+   在 System.Windows.Forms.Control.CreateControl()
+   在 System.Windows.Forms.Control.WmShowWindow(Message& m)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   在 System.Windows.Forms.Form.WmShowWindow(Message& m)
+   在 System.Windows.Forms.Form.WndProc(Message& m)
+   在 DevExpress.XtraEditors.XtraForm.WndProc(Message& msg)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+【异常方法】：System.String LegacyNormalizePath(System.String, Boolean, Int32, Boolean)
+***************************************************************
+
+================================================================================

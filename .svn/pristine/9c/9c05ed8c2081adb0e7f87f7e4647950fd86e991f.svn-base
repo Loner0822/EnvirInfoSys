@@ -1,0 +1,13 @@
+[Folders]
+Count =4
+1=Publish\data
+2=Publish\PNGICONFOLDER
+3=data
+4=Publish\ICONDER
+[Application]
+Name = PublishSys.exe
+[Files]
+Count =1
+1=Publish\parameter.ini
+
+

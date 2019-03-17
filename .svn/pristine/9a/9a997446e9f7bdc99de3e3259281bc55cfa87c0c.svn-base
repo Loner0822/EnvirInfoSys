@@ -1,0 +1,43 @@
+[mdbfile]
+count=1
+1=data\PersonMange.mdb
+[dbfile]
+count=0
+1=
+[up_only]
+count=0
+[down_only]
+count=5
+1=RG_单位注册
+2=RG_行业划分
+3=RG_行政级别
+4=RY_MangeUnit
+5=RY_PersonInfo
+[up_down]
+count=0
+1=
+[autodb]
+count=0
+[BlobFiled]
+count=0
+1_tablename= ZSK_ICON_H0001Z000K00
+1_fdcount=1
+1_1_fdname=ICON
+1_1_expand=.png
+[aftersync]
+count = 0
+1=AutoCreateTable.exe
+1_parmcount = 0
+2=CteatePng.exe
+2_parmcount = 0
+[icon]
+DestDir=
+y_zskcode=
+deflevelcode=
+
+
+
+
+
+
+

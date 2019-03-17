@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+   <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+       <meta http-equiv="content-type" content="text/html; charset=gb2312"/>
+       <title>绩溪县</title>
+       <link rel="stylesheet" href="css/bootstrap.min.css">
+       <link href="css/bootstrap-colorpicker.css" rel="stylesheet">
+       <link rel="stylesheet" href="css/manage.css">
+
+       <script type="text/javascript" src="js/jQuery.js"></script>
+       <script type="text/javascript" src="js/bootstrap.min.js"></script>    
+       <script type="text/javascript" src="js/layer.js"></script>
+       <script type="text/javascript" src="js/main.js"></script>
+       <script type="text/javascript" src="js/drawing.js"></script>
+       <script type="text/javascript" src="js/maplabel-compiled.js"></script>
+       <script src="js/bootstrap-colorpicker.js"></script>
+    </head>
+   
+    <body style="overflow: hidden" onload="Manage.iniOverlay()">
+       <div id="map_canvas" style="position:absolute;width:100%;height:100%;">
+       </div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    var mappath = "";
+    var satellitepath="";
+    var Manage = window.Manage || {};
+    Manage.show_all = true;
+
+    //自定义地图
+    Manage.BigeMap = function () {
+    };
+
+    //地图下属瓦片大小
+    Manage.BigeMap.prototype.tileSize = new google.maps.Size(256, 256);
+
+    //地图最大级别
+    Manage.BigeMap.prototype.maxZoom = 19;
+
+    //地图最小级别
+    Manage.BigeMap.prototype.minZoom = 1;
+
+    //地图名称
+    Manage.BigeMap.prototype.name = "电子地图";
+
+    //此地图种类获取URL的地址
+    Manage.BigeMap.prototype.getTile = function (coord, zoom, ownerDocument) {
+        var img = ownerDocument.createElement("img");
+        img.style.width = this.tileSize.width + "px";
+        img.style.height = this.tileSize.height + "px";
+        var strURL = mappath + '/' + zoom + '/' + coord.x + '/' + coord.y + '.png';
+        img.src = strURL;
+        img.onerror = function () {
+            this.src = 'mapfiles/images/noimg.jpg';
+        };
+        return img;
+    };
+
+    Manage.google_map = new Manage.BigeMap();
+
+    Manage.satellite = new Manage.BigeMap();
+    Manage.satellite.name = '卫星地图';
+    Manage.satellite.getTile = function (coord, zoom, ownerDocument) {
+        var img = ownerDocument.createElement("img");
+        img.style.width = this.tileSize.width + "px";
+        img.style.height = this.tileSize.height + "px";
+        var strURL = satellitepath + '/' + zoom + '/' + coord.x + '/' + coord.y + '.jpg';
+        img.src = strURL;
+        img.onerror = function () {
+            this.src = 'mapfiles/images/noimg.jpg';
+        };
+        return img;
+    };
+    var myOptions = {
+        //设置中心点
+        center: new google.maps.LatLng(30.067, 118.5784),
+        //默认显示级别
+        zoom: 12,
+        panControl: true,
+        signInControl: false,
+        rotateControl: true,
+        scaleControl: true,
+        streetViewControl: false,
+        mapTypeControlOptions: {
+            mapTypeIds: ['g_map', 'g_satellite'],
+            position: google.maps.ControlPosition.TOP_RIGHT,
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+        }
+    };
+
+    //初始化map对象
+    Manage.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+    //像map对象中添加两种种地图
+    Manage.map.mapTypes.set('g_map', Manage.google_map);
+    Manage.map.mapTypes.set('g_satellite', Manage.satellite);
+
+    //设置map对象默认显示 google 地图 也就是上面的google_map对象
+    Manage.map.setMapTypeId('g_map');
+    Manage.marker_fields = { "title": "test", "link": "\u5f90", "linkk": "\u4e86\u6a21\u62df", "qwe": "23", "wwwwww": "eeeeeeee", "name": "\u59d3\u540d", "cs": "\u6d12\u6d12\u6c34", "info": "\u5355\u4f4d\u94fe\u63a5123" };
+    document.oncontextmenu = function (eve) {
+        eve.stopPropagation();
+        eve.preventDefault();
+    };
+</script>
+<script type="text/javascript" src="js/setmap.js"></script>

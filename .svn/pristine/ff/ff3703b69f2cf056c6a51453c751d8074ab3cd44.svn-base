@@ -1,0 +1,34 @@
+﻿var Manage = window.Manage || {};
+//图纸初始化
+Manage.iniOverlay = function () {
+    try{
+       Manage.map.setZoom(4);
+       var container = document.getElementById("map_canvas");
+       window.external.SetMapParameter();
+    }catch(e){
+       alert(e);
+    } 
+};
+
+//供webbrowser调用的方法
+function setmapPath( mpath,spath ){
+   mappath = mpath;
+   satellitepath = spath;
+};
+
+function setminZoom( zoom ){
+   Manage.BigeMap.prototype.minZoom = zoom;
+};
+
+function setmaxZoom( zoom ){
+   Manage.BigeMap.prototype.maxZoom = zoom;
+};
+
+function setZoom( zoom ){
+   Manage.map.setZoom( zoom );
+};
+
+function setCenter(lat,lng){
+   var position = new google.maps.LatLng(lat,lng);
+   Manage.map.setCenter(position);
+};

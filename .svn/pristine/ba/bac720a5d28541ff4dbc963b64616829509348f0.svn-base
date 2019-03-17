@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+   <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+       <meta http-equiv="content-type" content="text/html; charset=gb2312"/>
+       <title>绩溪县</title>
+       <link rel="stylesheet" href="css/bootstrap.min.css">
+       <link href="css/bootstrap-colorpicker.css" rel="stylesheet">
+       <link rel="stylesheet" href="css/manage.css">
+
+       <script type="text/javascript" src="js/jQuery.js"></script>
+       <script type="text/javascript" src="js/bootstrap.min.js"></script>    
+       <script type="text/javascript" src="js/layer.js"></script>
+       <script type="text/javascript" src="js/main.js"></script>
+       <script type="text/javascript" src="js/drawing.js"></script>
+       <script type="text/javascript" src="js/maplabel-compiled.js"></script>
+       <script src="js/bootstrap-colorpicker.js"></script>
+       <!--
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=CUxEzgq2r5G83ny790Xga3Av0ZGaRI66"></script>
+        -->
+
+       <script type="text/javascript">
+           var hintDiv = null;
+           $(document).ready(initd);
+           function initd(){
+               hintDiv = document.getElementById("hintDiv");
+               window.addEventListener("mousewheel",function(eve){
+                   var e=e || window.event; 
+                   var direction = e.wheelDelta >0?"up":"down";
+                   window.external.OnMapMouseWheel(direction);
+               });
+           }
+           function getPos( obj ){
+              var x = 0,y=0;
+              do{
+                 x += obj.offsetLeft;
+                 y += obj.offsetTop;
+              }while(obj = obj.offsetParent);
+              return x+"," +y;
+           }
+
+           function showHint(obj,flag,msg){
+              if( flag == 1){
+                 var arr = getPos( obj ).split(",");
+                 hintDiv.style.left = arr[0] + "px";
+                 hintDiv.style.top = (parseInt(arr[1]) + obj.offsetHeight) + "px";
+                 hintDiv.innerText = msg;
+                 hintDiv.style.visibility="visible";
+              }
+              else{
+                 hintDiv.style.visibility="hidden";
+              }
+           }
+       </script>
+    </head>
+   
+    <body style="overflow: hidden" onload="Manage.iniOverlay()">
+       <div id="top_div" style="height:40px;background-color:#f0f0f0;opacity:1.0">
+           <div id="top_left_div" style="float:left;width:100%;height:40px;margin-left:-138px;padding-left:138px;overfollow:hidden"></div>
+           <div id="top_right_div" style="float:left;width:138px;height:40px">
+                <input type="lable" id="lblevel" readonly="readonly" value="当前级别:00" style="position:relative;top:6px;width:138px;height:30px;border:none;background-color:#f0f0f0;opacity:1.0"/>
+           <div>
+       </div>
+       <div id="map_canvas" style="position:absolute;width:100%;top:40px;bottom:0px">
+             <input type="button" value="click" style="position:absolute;left:300px;top:200px" onclick="alert('hello');"/>
+       </div>
+       <div id="hintDiv" style="position:absolute;visibility:hidden">
+       </div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    var Manage = window.Manage || {};
+    Manage.show_all = true;
+    var roadmappath = "";
+    var satellitemappath = "";
+   
+    //自定义地图
+    Manage.BigeMap = function () {
+    };
+
+    //地图下属瓦片大小
+    Manage.BigeMap.prototype.tileSize = new google.maps.Size(256, 256);
+
+    //地图最大级别
+    Manage.BigeMap.prototype.maxZoom = 22;
+
+    //地图最小级别
+    Manage.BigeMap.prototype.minZoom = 1;
+
+    //地图名称
+    Manage.BigeMap.prototype.name = "电子地图";
+
+    //此地图种类获取URL的地址
+    Manage.BigeMap.prototype.getTile = function (coord, zoom, ownerDocument) {
+        var img = ownerDocument.createElement("img");
+        img.style.width = this.tileSize.width + "px";
+        img.style.height = this.tileSize.height + "px";
+        var strURL = roadmappath + '/' + zoom + '/' + coord.x + '/' + coord.y + '.png';
+        img.src = strURL;
+        img.onerror = function () {
+            this.src = 'mapfiles/images/noimg.jpg';
+        };
+        return img;
+    };
+
+    Manage.google_map = new Manage.BigeMap();
+
+    Manage.satellite = new Manage.BigeMap();
+    Manage.satellite.name = '卫星地图';
+    Manage.satellite.getTile = function (coord, zoom, ownerDocument) {
+        var img = ownerDocument.createElement("img");
+        img.style.width = this.tileSize.width + "px";
+        img.style.height = this.tileSize.height + "px";
+        var strURL = satellitemappath + '/' + zoom + '/' + coord.x + '/' + coord.y + '.jpg';
+        img.src = strURL;
+        img.onerror = function () {
+            this.src = 'mapfiles/images/noimg.jpg';
+        };
+        return img;
+    };
+    var myOptions = {
+        //设置中心点
+        center: new google.maps.LatLng(30.067, 118.5784),
+        //默认显示级别
+        zoom: 10,
+        panControl: true,
+        signInControl: false,
+        rotateControl: true,
+        scaleControl: true,
+        streetViewControl: false,
+        mapTypeControlOptions: {
+            mapTypeIds: ['g_map', 'g_satellite'],
+            //position: google.maps.ControlPosition.TOP_RIGHT,
+            //style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+        }
+    };
+
+    //初始化map对象
+    Manage.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+    //像map对象中添加两种种地图
+    Manage.map.mapTypes.set('g_map', Manage.google_map);
+    Manage.map.mapTypes.set('g_satellite', Manage.satellite);
+
+    //设置map对象默认显示 google 地图 也就是上面的google_map对象
+    //Manage.map.setMapTypeId('g_satellite');
+    //Manage.map.setMapTypeId('g_map');
+    Manage.marker_fields = { "title": "test", "link": "\u5f90", "linkk": "\u4e86\u6a21\u62df", "qwe": "23", "wwwwww": "eeeeeeee", "name": "\u59d3\u540d", "cs": "\u6d12\u6d12\u6c34", "info": "\u5355\u4f4d\u94fe\u63a5123" };
+    document.oncontextmenu = function (eve) {
+        eve.stopPropagation();
+        eve.preventDefault();
+    };
+</script>
+<script type="text/javascript" src="js/manage.js"></script>

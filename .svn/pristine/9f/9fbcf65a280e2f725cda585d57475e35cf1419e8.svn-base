@@ -1,0 +1,225 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+#map_canvas {
+    width: 100%;
+    position: absolute;
+    float: left;
+    top: 0px;
+    left:0px;
+    bottom: 0px;
+}
+
+#setting_icon {
+    position: absolute;
+    top: 40%;
+    right: 25%;
+    z-index: 999;
+    width: 30px;
+    margin-right: -15px;
+    cursor: pointer;
+    height: 30px;
+    border-radius: 10px;
+    /*border :2px solid #369;*/
+}
+
+#tool_container {
+    position: absolute;
+    width: 25%;
+    font-size: 14px;
+    padding: 0 10px;
+    top: 0px;
+    right: 0px;
+    background: #ddd none repeat scroll 0 0;
+    bottom: 0px;
+}
+
+.google_maps_contextmenu {
+    background-color: #ccc;
+    padding: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 70px;
+}
+
+.row {
+    margin: 0px;
+}
+
+.row p {
+    margin: 2px;
+}
+
+.col-md-3 {
+    padding: 0px;
+}
+
+.btn-sm {
+    padding: 5px;
+}
+
+.alert {
+    padding: 5px;
+    margin: 5px;
+}
+
+.form-control {
+    padding: 0px;
+}
+
+.show_p {
+    width: 350px ;
+}
+
+.textarea {
+    resize: none;
+    vertical-align: text-top;
+}
+
+#input_lng, #input_lat {
+    height: 25px;
+    line-height: 25px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#marker_icon_container {
+    display: none;
+}
+
+.marker_icon_div, .marker_data_div {
+    width: 450px;
+}
+
+.form {
+    padding: 0;
+    margin: 0;
+    width: 440px;
+}
+
+.marker_icon_div {
+    display: none;
+}
+
+.input_p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.input_marker {
+    height: 25px;
+    margin-left: 10px;
+    line-height: 25px;
+    display: inline-block;
+}
+
+.a_change_marker_icon {
+    display: inline-block;
+    margin-left: 50px;
+}
+
+.span_marker_icon {
+    display: inline-block;
+    width: 30px;
+    height: 40px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+#overlay_menu {
+    display: none;
+    border-radius: 5px;
+    z-index: 999;
+    background: #eee;
+    padding: 5px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.img_marker_info {
+    width: 55px;
+    height: 44px;
+}
+
+.a_marker_del_img {
+    position: absolute;
+    top: 0px;
+    display: inline-block;
+    right: 0px;
+}
+
+.img_marker_slide {
+    width: 350px;
+    height: 200px;
+    display: inline-block;
+}
+
+.a_export_type {
+    width: 150px;
+    margin: 10px 0px;
+}
+
+.tool {
+    width: 495px;
+    height: 35px;
+    line-height: 35px;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    background-color: #FFF;
+    position: absolute;
+    left: 270px;
+    top: 5px
+}
+
+.tool ul {
+    list-style: none;
+}
+
+.tool ul li {
+    color: #696969;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    padding-left: 0px;
+    padding-right: 6px;
+    margin: 0 7px;
+    border-right: 1px solid #EEE;
+    cursor: pointer;
+}
+
+.li_del_all:hover {
+    color: #369;
+}
+
+.tool_point {
+    width: 400px;
+    height: 25px;
+    border: 1px solid #CCC;
+    border-radius: 2px;
+    background-color: #FFF;
+    filter: alpha(opacity=90);
+    opacity: 0.9;
+    position: fixed;
+    left: 1px;
+    bottom: 1px
+}
+
+.tool_point p {
+    font-size: 13px;
+    color: #404040;
+    margin-top: 4px;
+    margin-left: 5px;
+}
+
+.del_line {
+    text-decoration: line-through;
+}
+
+#map_add_marker {
+    display: none;
+    position: absolute;
+    z-index: 999999;
+}

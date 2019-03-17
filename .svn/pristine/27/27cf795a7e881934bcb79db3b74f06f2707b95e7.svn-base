@@ -1,0 +1,11 @@
+[Public]
+UnitLevel=县
+UnitName=旌德县
+UnitID={43E8730A-73B0-4A7F-AA65-CF33E2BC4621}
+AppName=环境信息化系统
+[版本号]
+VerNum=1.00.00
+[Individuation]
+skin=Office 2010 Blue
+listwidth=166
+mappath=D:\MapDownload\旌德\googlemaps

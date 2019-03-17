@@ -1,0 +1,8 @@
+cd /d %~dp0
+regsvr32/s  CreateZJY.dll
+regsvr32/s  DataInOut.dll
+regsvr32/s  DataRecovery.dll
+regsvr32/s  GuidConvert.dll
+regsvr32/s  PyHelper.dll
+regsvr32/s  sqlite3.dll
+regsvr32/s PyHelper.dll
