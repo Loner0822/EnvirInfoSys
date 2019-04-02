@@ -477,7 +477,8 @@ namespace PublishSys
                 inip.WriteString("mapproperties", "centerlat", m_lat.ToString());
             }
             int selectedIndex = checkedListBoxControl1.SelectedIndex;
-            mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+            mapHelper1.InitMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+            mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString());
             // 导入边界线
             borList = new Dictionary<string, List<double[]>>();
             borderDic = new Dictionary<string, object>
@@ -562,11 +563,13 @@ namespace PublishSys
             {
                 if (!Before_ShowMap)
                 {
-                    mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                    mapHelper1.InitMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                    mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString());
                 }
                 else
                 {
-                    mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                    mapHelper1.InitMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                    mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString());
                     //mapHelper1.setMapLevel(11, "11");
                 }
                 Before_ShowMap = true;
@@ -648,12 +651,14 @@ namespace PublishSys
             int selectedIndex = checkedListBoxControl1.SelectedIndex;
             if (!Before_ShowMap)
             {
-                mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.InitMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString());
             }
             else
             {
                 //mapHelper1.setMapLevel(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString());
-                mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.InitMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.ShowMap(int.Parse(checkedListBoxControl1.Items[selectedIndex].ToString()), checkedListBoxControl1.Items[selectedIndex].ToString());
             }
             if (borderDic != null)
             {

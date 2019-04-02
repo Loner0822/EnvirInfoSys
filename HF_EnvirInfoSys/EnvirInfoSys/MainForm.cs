@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace EnvirInfoSys
@@ -40,6 +41,8 @@ namespace EnvirInfoSys
 		private string Operator_GUID = "";
 
 		private int handle;
+
+        private int loginmode;
 
 		private double i_lat;
 
@@ -139,19 +142,9 @@ namespace EnvirInfoSys
 
 		private DockManager dockManager1;
 
-		private DockPanel dockPanel2;
-
-		private ControlContainer dockPanel2_Container;
-
 		private DockPanel dockPanel1;
 
 		private ControlContainer dockPanel1_Container;
-
-		private GroupControl groupControl2;
-
-		private RadioButton radioButton2;
-
-		private RadioButton radioButton1;
 
 		private GroupControl groupControl1;
 
@@ -219,8 +212,6 @@ namespace EnvirInfoSys
 
 		private BarButtonItem barButtonItem17;
 
-		private BarButtonItem barButtonItem18;
-
 		private PopupMenu popupMenu2;
 
 		private BarButtonItem barButtonItem19;
@@ -233,8 +224,6 @@ namespace EnvirInfoSys
 
 		private PictureBox pbMove;
 
-		private AutoHideContainer hideContainerRight;
-
 		private FlowLayoutPanel flowLayoutPanel1;
 
 		private BarButtonItem barButtonItem20;
@@ -242,8 +231,6 @@ namespace EnvirInfoSys
 		private BarButtonItem barButtonItem21;
 
 		private MapHelper.MapHelper mapHelper1;
-
-		private BarButtonItem barButtonItem22;
 
 		private BarButtonItem barButtonItem23;
 
@@ -253,6 +240,7 @@ namespace EnvirInfoSys
 
 		private BarButtonItem barButtonItem26;
         private BarButtonItem barButtonItem27;
+        private BarButtonItem barButtonItem18;
         private XtraFolderBrowserDialog xtraFolderBrowserDialog1;
 
 		protected SplashScreenManager LoadForm
@@ -291,7 +279,31 @@ namespace EnvirInfoSys
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			string text = WorkPath + "ICONDER\\b_PNGICON_tmp\\";
+            FileReader.inip = new IniOperator(WorkPath + "RegInfo.ini");
+            string text1 = FileReader.inip.ReadString("Public", "UnitName", "");
+            text1 = text1.Replace("\0", "");
+            string text2 = FileReader.inip.ReadString("Public", "AppName", "");
+            text2 = text2.Replace("\0", "");
+            string text3 = FileReader.inip.ReadString("版本号", "VerNum", "");
+            text3 = text3.Substring(0, 4);
+            FileReader.inip = new IniOperator(WorkPath + "RegInfo.ini");
+            string UnitID = FileReader.inip.ReadString("Public", "UnitID", "-1");
+            LoginForm loginForm = new LoginForm();
+            //loginForm.Text = loginForm.Text + " " + text + text2 + text3;
+            loginForm.unitid = UnitID;
+            loginForm.ProgName = text1 + text2;
+            if (loginForm.ShowDialog() == DialogResult.OK)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                loginmode = loginForm.Mode;
+            }
+            else
+            {
+                //XtraMessageBox.Show("即将退出界面");
+                Environment.Exit(0);
+            }
+            //this.Visible = false;
+            string text = WorkPath + "ICONDER\\b_PNGICON_tmp\\";
 			string str = WorkPath + "ICONDER\\b_PNGICON\\";
 			if (Directory.Exists(text))
 			{
@@ -321,234 +333,230 @@ namespace EnvirInfoSys
 			}
 		}
 
-		private void MainForm_Shown(object sender, EventArgs e)
-		{
-			mapHelper1.wb1.ScriptErrorsSuppressed = true;
-			borData = new LineData();
-			lineData = new LineData();
-			borData.Get_NewLine();
-			lineData.Get_NewLine();
-			currCtl = pbMove;
-			FileReader.inip = new IniOperator(WorkPath + "RegInfo.ini");
-			string text = FileReader.inip.ReadString("Public", "UnitName", "");
-			text = text.Replace("\0", "");
-			string text2 = FileReader.inip.ReadString("Public", "AppName", "");
-			text2 = text2.Replace("\0", "");
-			string text3 = FileReader.inip.ReadString("版本号", "VerNum", "");
-			text3 = text3.Substring(0, 4);
-			int width = FileReader.inip.ReadInteger("Individuation", "listwidth", 200);
-			dockPanel1.Width = width;
-			MapPath = FileReader.inip.ReadString("Individuation", "mappath", WorkPath + "googlemap");
-			MapPath = MapPath.Replace("\0", "");
-			int width2 = TextRenderer.MeasureText("-", new Font("宋体", 6f)).Width;
-			int width3 = TextRenderer.MeasureText("管辖范围", new Font("宋体", 6f)).Width;
-			int num = (dockPanel1.Height - width3) / width2;
-			string str = "";
-			for (int i = 0; i < num; i++)
-			{
-				str += "-";
-			}
-			str += "管辖范围";
-			for (int i = 0; i < num; i++)
-			{
-				str += "-";
-			}
-			dockPanel1.TabText = str;
-			str = "";
-			for (int i = 0; i < num; i++)
-			{
-				str += "-";
-			}
-			str += "双击设置";
-			for (int i = 0; i < num; i++)
-			{
-				str += "-";
-			}
-			dockPanel2.TabText = str;
-			Text = text + text2 + text3;
-			FileReader.often_ahp = new AccessHelper(AccessPath);
-			FileReader.line_ahp = new AccessHelper(WorkPath + "data\\经纬度注册.mdb");
-			FileReader.log_ahp = new AccessHelper(WorkPath + "data\\ENVIRLOG_H0001Z000E00.mdb");
-			FileReader.inip = new IniOperator(WorkPath + "RegInfo.ini");
-			UnitID = FileReader.inip.ReadString("Public", "UnitID", "-1");
-			AccessHelper accessHelper = new AccessHelper(WorkPath + "data\\PASSWORD_H0001Z000E00.mdb");
-			string sql = "select AUTHORITY from PASSWORD_H0001Z000E00 where ISDELETE = 0 and PWNAME = '管理员密码' and UNITID = '" + UnitID + "'";
-			DataTable dataTable = accessHelper.ExecuteDataTable(sql, (OleDbParameter[])null);
-			string text4 = "";
-			if (dataTable.Rows.Count > 0)
-			{
-				text4 = dataTable.Rows[0]["AUTHORITY"].ToString();
-			}
-			FileReader.Authority = text4.Split(';');
-			accessHelper.CloseConn();
-			LoginForm loginForm = new LoginForm();
-			LoginForm loginForm2 = loginForm;
-			loginForm2.Text = loginForm2.Text + " " + Text;
-			loginForm.unitid = UnitID;
-			if (loginForm.ShowDialog() == DialogResult.OK)
-			{
-				if (loginForm.Mode == 1)
-				{
-					Text += " - [编辑模式]";
-					Permission = true;
-					barButtonItem14.Visibility = BarItemVisibility.Always;
-					barButtonItem15.Visibility = BarItemVisibility.Always;
-					barButtonItem16.Visibility = BarItemVisibility.Always;
-					barButtonItem17.Visibility = BarItemVisibility.Always;
-					barButtonItem18.Visibility = BarItemVisibility.Always;
-					barButtonItem9.Visibility = BarItemVisibility.Always;
-					barButtonItem10.Visibility = BarItemVisibility.Always;
-					barButtonItem11.Visibility = BarItemVisibility.Always;
-					barButtonItem12.Visibility = BarItemVisibility.Always;
-					barButtonItem23.Visibility = BarItemVisibility.Always;
-					barButtonItem24.Visibility = BarItemVisibility.Always;
-				}
-				if (loginForm.Mode == 2)
-				{
-					Text += " - [查看模式]";
-					Permission = false;
-					barButtonItem14.Visibility = BarItemVisibility.Never;
-					barButtonItem15.Visibility = BarItemVisibility.Never;
-					barButtonItem16.Visibility = BarItemVisibility.Never;
-					barButtonItem17.Visibility = BarItemVisibility.Never;
-					barButtonItem18.Visibility = BarItemVisibility.Never;
-					barButtonItem9.Visibility = BarItemVisibility.Never;
-					barButtonItem10.Visibility = BarItemVisibility.Never;
-					barButtonItem11.Visibility = BarItemVisibility.Never;
-					barButtonItem12.Visibility = BarItemVisibility.Never;
-					barButtonItem23.Visibility = BarItemVisibility.Never;
-					barButtonItem24.Visibility = BarItemVisibility.Never;
-				}
-			}
-			else
-			{
-				XtraMessageBox.Show("即将退出界面");
-				Environment.Exit(0);
-			}
-			ShowMessage();
-			Get_Computer_Info();
-			folds = Get_Map_List();
-			if (folds == null)
-			{
-				HideMessage();
-				return;
-			}
-			Load_Unit_Level();
-			Reg_Guid = new List<string>();
-			Reg_Name = new Dictionary<string, string>();
-			Reg_Down = new Dictionary<string, string>();
-			string text5 = GL_NAME_PGUID[GL_List[0].level];
-			FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000K01.mdb");
-			sql = "select LEVELNUM from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 and PGUID = '" + text5 + "'";
-			dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			if (dataTable.Rows.Count > 0)
-			{
-				maxlevel = int.Parse(dataTable.Rows[0]["LEVELNUM"].ToString());
-			}
-			sql = "select PGUID, JDNAME, UPGUID, LEVELNUM from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 order by LEVELNUM";
-			dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			bool flag = false;
-			for (int i = 0; i < dataTable.Rows.Count; i++)
-			{
-				string text6 = dataTable.Rows[i]["PGUID"].ToString();
-				if (text6 == text5)
-				{
-					flag = true;
-				}
-				if (flag)
-				{
-					Reg_Guid.Add(text6);
-					Reg_Name[text6] = dataTable.Rows[i]["JDNAME"].ToString();
-					Reg_Down[dataTable.Rows[i]["UPGUID"].ToString()] = text6;
-				}
-			}
-			regfm.Reg_Guid = Reg_Guid;
-			regfm.Reg_Name = Reg_Name;
-			regfm.Draw_Form();
-			Icon_JDCode = new Dictionary<string, string>();
-			Icon_Name = new Dictionary<string, string>();
-			FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000K00.mdb");
-			sql = "select PGUID, JDNAME, JDCODE from ZSK_OBJECT_H0001Z000K00 where ISDELETE = 0 order by LEVELNUM, SHOWINDEX";
-			dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			for (int i = 0; i < dataTable.Rows.Count; i++)
-			{
-				string text6 = dataTable.Rows[i]["PGUID"].ToString();
-				Icon_Name.Add(text6 + ".png", dataTable.Rows[i]["JDNAME"].ToString());
-				Icon_JDCode.Add(text6, dataTable.Rows[i]["JDCODE"].ToString());
-			}
-			FileReader.once_ahp.CloseConn();
-			FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000E00.mdb");
-			sql = "select PGUID, JDNAME, JDCODE from ZSK_OBJECT_H0001Z000E00 where ISDELETE = 0 order by LEVELNUM, SHOWINDEX";
-			dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			for (int i = 0; i < dataTable.Rows.Count; i++)
-			{
-				string text6 = dataTable.Rows[i]["PGUID"].ToString();
-				Icon_Name.Add(text6 + ".png", dataTable.Rows[i]["JDNAME"].ToString());
-				Icon_JDCode.Add(text6, dataTable.Rows[i]["JDCODE"].ToString());
-			}
-			FileReader.once_ahp.CloseConn();
-			FileReader.inip = new IniOperator(IniFilePath);
-			string text7 = FileReader.inip.ReadString("mapproperties", "centerlat", "");
-			string s = FileReader.inip.ReadString("mapproperties", "centerlng", "");
-			if (text7 != "")
-			{
-				mapHelper1.centerlat = double.Parse(text7);
-			}
-			if (text7 != "")
-			{
-				mapHelper1.centerlng = double.Parse(s);
-			}
-			sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and UNITEID = '" + UnitID + "'";
-			dataTable = FileReader.line_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			if (dataTable.Rows.Count > 0)
-			{
-				mapHelper1.centerlat = double.Parse(dataTable.Rows[0]["LAT"].ToString());
-				mapHelper1.centerlng = double.Parse(dataTable.Rows[0]["LNG"].ToString());
-			}
-			mapHelper1.webpath = WorkPath + "googlemap";
-			mapHelper1.roadmappath = MapPath + "\\roadmap";
-			mapHelper1.satellitemappath = MapPath + "\\satellite_en";
-			mapHelper1.iconspath = WorkPath + "ICONDER";
-			mapHelper1.maparr = folds;
-			Load_Border(UnitID);
-			sql = "select PGUID, FLNAME from ENVIRGXFL_H0001Z000E00 where ISDELETE = 0 and UPGUID = '-1' and UNITID = '" + UnitID + "'order by SHOWINDEX";
-			dataTable = FileReader.often_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			for (int i = 0; i < dataTable.Rows.Count; i++)
-			{
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            mapHelper1.wb1.ScriptErrorsSuppressed = true;
+            borData = new LineData();
+            lineData = new LineData();
+            borData.Get_NewLine();
+            lineData.Get_NewLine();
+            currCtl = pbMove;
+            FileReader.inip = new IniOperator(WorkPath + "RegInfo.ini");
+            string text = FileReader.inip.ReadString("Public", "UnitName", "");
+            text = text.Replace("\0", "");
+            string text2 = FileReader.inip.ReadString("Public", "AppName", "");
+            text2 = text2.Replace("\0", "");
+            string text3 = FileReader.inip.ReadString("版本号", "VerNum", "");
+            text3 = text3.Substring(0, 4);
+            int width = FileReader.inip.ReadInteger("Individuation", "listwidth", 200);
+            dockPanel1.Width = width;
+            MapPath = FileReader.inip.ReadString("Individuation", "mappath", WorkPath + "googlemap");
+            MapPath = MapPath.Replace("\0", "");
+            int width2 = TextRenderer.MeasureText("-", new Font("宋体", 6f)).Width;
+            int width3 = TextRenderer.MeasureText("管辖范围", new Font("宋体", 6f)).Width;
+            int num = (dockPanel1.Height - width3) / width2;
+            string str = "";
+            for (int i = 0; i < num; i++)
+            {
+                str += "-";
+            }
+            str += "管辖范围";
+            for (int i = 0; i < num; i++)
+            {
+                str += "-";
+            }
+            dockPanel1.TabText = str;
+            str = "";
+            for (int i = 0; i < num; i++)
+            {
+                str += "-";
+            }
+            str += "双击设置";
+            for (int i = 0; i < num; i++)
+            {
+                str += "-";
+            }
+            //dockPanel2.TabText = str;
+            Text = text + text2 + text3;
+            FileReader.often_ahp = new AccessHelper(AccessPath);
+            FileReader.line_ahp = new AccessHelper(WorkPath + "data\\经纬度注册.mdb");
+            FileReader.log_ahp = new AccessHelper(WorkPath + "data\\ENVIRLOG_H0001Z000E00.mdb");
+            FileReader.inip = new IniOperator(WorkPath + "RegInfo.ini");
+            UnitID = FileReader.inip.ReadString("Public", "UnitID", "-1");
+            AccessHelper accessHelper = new AccessHelper(WorkPath + "data\\PASSWORD_H0001Z000E00.mdb");
+            string sql = "select AUTHORITY from PASSWORD_H0001Z000E00 where ISDELETE = 0 and PWNAME = '管理员密码' and UNITID = '" + UnitID + "'";
+            DataTable dataTable = accessHelper.ExecuteDataTable(sql, (OleDbParameter[])null);
+            string text4 = "";
+            if (dataTable.Rows.Count > 0)
+            {
+                text4 = dataTable.Rows[0]["AUTHORITY"].ToString();
+            }
+            FileReader.Authority = text4.Split(';');
+            accessHelper.CloseConn();
+            /*LoginForm loginForm = new LoginForm();
+			loginForm.Text = loginForm.Text + " " + Text;
+			loginForm.unitid = UnitID;*/
+
+            if (loginmode == 1)
+            {
+                Text += " - [编辑模式]";
+                Permission = true;
+                barButtonItem14.Visibility = BarItemVisibility.Always;
+                barButtonItem15.Visibility = BarItemVisibility.Always;
+                barButtonItem16.Visibility = BarItemVisibility.Always;
+                barButtonItem17.Visibility = BarItemVisibility.Always;
+                barButtonItem18.Visibility = BarItemVisibility.Always;
+                barButtonItem9.Visibility = BarItemVisibility.Always;
+                barButtonItem10.Visibility = BarItemVisibility.Always;
+                barButtonItem11.Visibility = BarItemVisibility.Always;
+                barButtonItem12.Visibility = BarItemVisibility.Always;
+                barButtonItem23.Visibility = BarItemVisibility.Always;
+                barButtonItem24.Visibility = BarItemVisibility.Always;
+            }
+            if (loginmode == 2)
+            {
+                Text += " - [查看模式]";
+                Permission = false;
+                barButtonItem14.Visibility = BarItemVisibility.Never;
+                barButtonItem15.Visibility = BarItemVisibility.Never;
+                barButtonItem16.Visibility = BarItemVisibility.Never;
+                barButtonItem17.Visibility = BarItemVisibility.Never;
+                barButtonItem18.Visibility = BarItemVisibility.Never;
+                barButtonItem9.Visibility = BarItemVisibility.Never;
+                barButtonItem10.Visibility = BarItemVisibility.Never;
+                barButtonItem11.Visibility = BarItemVisibility.Never;
+                barButtonItem12.Visibility = BarItemVisibility.Never;
+                barButtonItem23.Visibility = BarItemVisibility.Never;
+                barButtonItem24.Visibility = BarItemVisibility.Never;
+            }
+            ShowMessage();
+            //this.WindowState = FormWindowState.Maximized;
+            //Thread.Sleep(1000);
+            //this.Visible = true;
+
+            Get_Computer_Info();
+            folds = Get_Map_List();
+            if (folds == null)
+            {
+                HideMessage();
+                return;
+            }
+            Load_Unit_Level();
+            Reg_Guid = new List<string>();
+            Reg_Name = new Dictionary<string, string>();
+            Reg_Down = new Dictionary<string, string>();
+            string text5 = GL_NAME_PGUID[GL_List[0].level];
+            FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000K01.mdb");
+            sql = "select LEVELNUM from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 and PGUID = '" + text5 + "'";
+            dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+            if (dataTable.Rows.Count > 0)
+            {
+                maxlevel = int.Parse(dataTable.Rows[0]["LEVELNUM"].ToString());
+            }
+            sql = "select PGUID, JDNAME, UPGUID, LEVELNUM from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 order by LEVELNUM";
+            dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+            bool flag = false;
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                string text6 = dataTable.Rows[i]["PGUID"].ToString();
+                if (text6 == text5)
+                {
+                    flag = true;
+                }
+                if (flag)
+                {
+                    Reg_Guid.Add(text6);
+                    Reg_Name[text6] = dataTable.Rows[i]["JDNAME"].ToString();
+                    Reg_Down[dataTable.Rows[i]["UPGUID"].ToString()] = text6;
+                }
+            }
+            regfm.Reg_Guid = Reg_Guid;
+            regfm.Reg_Name = Reg_Name;
+            regfm.Draw_Form();
+            Icon_JDCode = new Dictionary<string, string>();
+            Icon_Name = new Dictionary<string, string>();
+            FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000K00.mdb");
+            sql = "select PGUID, JDNAME, JDCODE from ZSK_OBJECT_H0001Z000K00 where ISDELETE = 0 order by LEVELNUM, SHOWINDEX";
+            dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                string text6 = dataTable.Rows[i]["PGUID"].ToString();
+                Icon_Name.Add(text6 + ".png", dataTable.Rows[i]["JDNAME"].ToString());
+                Icon_JDCode.Add(text6, dataTable.Rows[i]["JDCODE"].ToString());
+            }
+            FileReader.once_ahp.CloseConn();
+            FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000E00.mdb");
+            sql = "select PGUID, JDNAME, JDCODE from ZSK_OBJECT_H0001Z000E00 where ISDELETE = 0 order by LEVELNUM, SHOWINDEX";
+            dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                string text6 = dataTable.Rows[i]["PGUID"].ToString();
+                Icon_Name.Add(text6 + ".png", dataTable.Rows[i]["JDNAME"].ToString());
+                Icon_JDCode.Add(text6, dataTable.Rows[i]["JDCODE"].ToString());
+            }
+            FileReader.once_ahp.CloseConn();
+            FileReader.inip = new IniOperator(IniFilePath);
+            string text7 = FileReader.inip.ReadString("mapproperties", "centerlat", "");
+            string s = FileReader.inip.ReadString("mapproperties", "centerlng", "");
+            if (text7 != "")
+            {
+                mapHelper1.centerlat = double.Parse(text7);
+            }
+            if (text7 != "")
+            {
+                mapHelper1.centerlng = double.Parse(s);
+            }
+            sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and UNITEID = '" + UnitID + "'";
+            dataTable = FileReader.line_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+            if (dataTable.Rows.Count > 0)
+            {
+                mapHelper1.centerlat = double.Parse(dataTable.Rows[0]["LAT"].ToString());
+                mapHelper1.centerlng = double.Parse(dataTable.Rows[0]["LNG"].ToString());
+            }
+            mapHelper1.webpath = WorkPath + "googlemap";
+            mapHelper1.roadmappath = MapPath + "\\roadmap";
+            mapHelper1.satellitemappath = MapPath + "\\satellite_en";
+            mapHelper1.iconspath = WorkPath + "ICONDER";
+            mapHelper1.maparr = folds;
+            Load_Border(UnitID);
+            sql = "select PGUID, FLNAME from ENVIRGXFL_H0001Z000E00 where ISDELETE = 0 and UPGUID = '-1' and UNITID = '" + UnitID + "'order by SHOWINDEX";
+            dataTable = FileReader.often_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
                 BarButtonItem barButtonItem = new BarButtonItem
                 {
                     Caption = dataTable.Rows[i]["FLNAME"].ToString(),
                     Tag = dataTable.Rows[i]["PGUID"].ToString()
                 };
                 barButtonItem.ItemClick += MenuStripItem_Click;
-				bar2.InsertItem(bar2.ItemLinks[0], barButtonItem);
-			}
-			radioButton1.Checked = true;
-			Get_All_Icon();
-			Get_All_Marker();
-			if (levelguid == string.Empty)
-			{
-				mapHelper1.ShowMap(cur_Level, cur_Level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
-				HideMessage();
-				return;
-			}
-			if (bar2.ItemLinks[0].Item.Tag != null)
-			{
-				BarButtonItem item = (BarButtonItem)bar2.ItemLinks[0].Item;
-				if (bar1.ItemLinks.Count == 0)
-				{
-					FLguid = "";
-					Get_Marker_From_Access();
-				}
-				MenuStripItem_Click(barManager1, new ItemClickEventArgs(item, bar2.ItemLinks[0]));
-			}
-			else
-			{
-				FLguid = "";
-				Get_Marker_From_Access();
-			}
-			HideMessage();
-		}
+                bar2.InsertItem(bar2.ItemLinks[0], barButtonItem);
+            }
+            Get_All_Icon();
+            Get_All_Marker();
+            if (levelguid == string.Empty)
+            {
+                mapHelper1.InitMap(cur_Level, cur_Level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.ShowMap(cur_Level, cur_Level.ToString());
+                HideMessage();
+                return;
+            }
+            if (bar2.ItemLinks[0].Item.Tag != null)
+            {
+                BarButtonItem item = (BarButtonItem)bar2.ItemLinks[0].Item;
+                if (bar1.ItemLinks.Count == 0)
+                {
+                    FLguid = "";
+                    Get_Marker_From_Access();
+                }
+                MenuStripItem_Click(barManager1, new ItemClickEventArgs(item, bar2.ItemLinks[0]));
+            }
+            else
+            {
+                FLguid = "";
+                Get_Marker_From_Access();
+            }
+            HideMessage();
+        }
 
 		private void Get_All_Marker()
 		{
@@ -984,7 +992,8 @@ namespace EnvirInfoSys
 			barButtonItem.Caption = text;
 			if (levelguid == string.Empty)
 			{
-				mapHelper1.ShowMap(cur_Level, cur_Level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.InitMap(cur_Level, cur_Level.ToString(), false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.ShowMap(cur_Level, cur_Level.ToString());
 				return;
 			}
 			FLguid = e.Item.Tag.ToString();
@@ -1357,7 +1366,8 @@ namespace EnvirInfoSys
 				{
 					if (!Before_ShowMap)
 					{
-						mapHelper1.ShowMap(cur_Level, GL_NAME[levelguid], Permission, map_type, Icon_Name, null, cur_lst, 1.0, 400);
+						mapHelper1.InitMap(cur_Level, GL_NAME[levelguid], Permission, map_type, Icon_Name, null, cur_lst, 1.0, 400);
+						mapHelper1.ShowMap(cur_Level, GL_NAME[levelguid]);
 						Before_ShowMap = true;
 					}
 					else
@@ -1396,7 +1406,8 @@ namespace EnvirInfoSys
 			}
 			else
 			{
-				mapHelper1.ShowMap(cur_Level, cur_Level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.InitMap(cur_Level, cur_Level.ToString(), false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.ShowMap(cur_Level, cur_Level.ToString());
 			}
 		}
 
@@ -2294,7 +2305,8 @@ namespace EnvirInfoSys
 					{
 						if (!Before_ShowMap)
 						{
-							mapHelper1.ShowMap(cur_Level, GL_NAME[levelguid], Permission, map_type, Icon_Name, null, cur_lst, 1.0, 400);
+							mapHelper1.InitMap(cur_Level, GL_NAME[levelguid], Permission, map_type, Icon_Name, null, cur_lst, 1.0, 400);
+							mapHelper1.ShowMap(cur_Level, GL_NAME[levelguid]);
 							Before_ShowMap = true;
 							continue;
 						}
@@ -2334,7 +2346,8 @@ namespace EnvirInfoSys
 				}
 				else
 				{
-					mapHelper1.ShowMap(cur_Level, cur_Level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
+					mapHelper1.InitMap(cur_Level, cur_Level.ToString(), false, map_type, null, null, null, 1.0, 400);
+					mapHelper1.ShowMap(cur_Level, cur_Level.ToString());
 				}
 			}
 			if (flag)
@@ -2432,11 +2445,11 @@ namespace EnvirInfoSys
 		{
 			center_lat = lat;
 			center_lng = lng;
-			if (radioButton1.Checked && button == "left")
+			if (button == "left")
 			{
 				Map_Resize(IsEnlarge: true);
 			}
-			else if (radioButton2.Checked && button == "left")
+			else
 			{
 				Map_Resize(IsEnlarge: false);
 			}
@@ -2701,9 +2714,48 @@ namespace EnvirInfoSys
 
 		private void treeList1_MouseDown(object sender, MouseEventArgs e)
 		{
+            if (e.Button == MouseButtons.Right)
+            {
+                popupMenu2.ShowPopup(barManager1, Control.MousePosition);
+            }
 		}
 
-		private void barButtonItem3_ItemClick(object sender, ItemClickEventArgs e)
+        // 添加所有单位图符
+        private void barButtonItem18_ItemClick_1(object sender, ItemClickEventArgs e)
+        {
+            ShowMessage();
+            for (int i = 0; i < treeList1.Nodes.Count; ++i)
+            {
+                Add_Unit_Icon(treeList1.Nodes[i], treeList1.Nodes[i]["Name"].ToString() + ";");
+            }
+            XtraMessageBox.Show("已成功添加完成图符，即将重启程序");
+            Process process = Process.Start(WorkPath + "ReStart.exe", "EnvirInfoSys.exe");
+        }
+
+        private void Add_Unit_Icon(TreeListNode pa, string reginfo)
+        {
+            if (pa["reg"].Equals(false))
+            {
+                string Name = pa["Name"].ToString();
+                string sql = "select PGUID from ENVIRICONDATA_H0001Z000E00 where ISDELETE = 0 and MAKRENAME = '" + Name + "'";
+                DataTable dt = FileReader.often_ahp.ExecuteDataTable(sql);
+                if (dt.Rows.Count <= 0)
+                {
+                    string[] lat_lng = mapHelper1.AddressToLocation(reginfo);
+                    double lat = double.Parse(lat_lng[0]);
+                    double lng = double.Parse(lat_lng[1]);
+                    string level_guid = GL_NAME_PGUID[pa["level"].ToString()];
+                    sql = "insert into ENVIRICONDATA_H0001Z000E00 (PGUID, S_UDTIME, ICONGUID, LEVELGUID, MAPLEVEL, MARKELAT, MARKELNG, MAKRENAME, UNITEID, REGINFO, REGGUID) values ('" + Guid.NewGuid().ToString("N") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + level_guid + "', '" + level_guid + "', '" + cur_Level.ToString() + "', '" + lat.ToString() + "', '" + lng.ToString() + "', '" + Name + "', '" + UnitID.ToString() + "', '" + reginfo + "', '" + pa["pguid"].ToString() + "')";
+                    FileReader.often_ahp.ExecuteSql(sql);
+                }
+            }
+            for (int i = 0; i < pa.Nodes.Count; ++i)
+            {
+                Add_Unit_Icon(pa.Nodes[i], reginfo + pa.Nodes[i]["Name"].ToString() + ";");
+            }
+        }
+
+        private void barButtonItem3_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (!Permission)
 			{
@@ -2727,6 +2779,7 @@ namespace EnvirInfoSys
 			{
 				ifm.Close();
 			}
+            EraseBorder();
 			borderlines = DrawBorder();
 			foreach (PictureBox control in flowLayoutPanel1.Controls)
 			{
@@ -2846,7 +2899,8 @@ namespace EnvirInfoSys
 			{
 				if (!Before_ShowMap)
 				{
-					mapHelper1.ShowMap(cur_Level, GL_NAME[levelguid], Permission, map_type, Icon_Name, null, cur_lst, 1.0, 400);
+					mapHelper1.InitMap(cur_Level, GL_NAME[levelguid], Permission, map_type, Icon_Name, null, cur_lst, 1.0, 400);
+					mapHelper1.ShowMap(cur_Level, GL_NAME[levelguid]);
 					Before_ShowMap = true;
 					return;
 				}
@@ -2966,12 +3020,6 @@ namespace EnvirInfoSys
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this.hideContainerRight = new DevExpress.XtraBars.Docking.AutoHideContainer();
-            this.dockPanel2 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.bar2 = new DevExpress.XtraBars.Bar();
@@ -2989,6 +3037,7 @@ namespace EnvirInfoSys
             this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem24 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem9 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem27 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.skinBarSubItem1 = new DevExpress.XtraBars.SkinBarSubItem();
@@ -3003,10 +3052,8 @@ namespace EnvirInfoSys
             this.barButtonItem15 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem16 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem17 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem19 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem20 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem22 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem25 = new DevExpress.XtraBars.BarButtonItem();
             this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
@@ -3024,13 +3071,8 @@ namespace EnvirInfoSys
             this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(this.components);
             this.barButtonItem21 = new DevExpress.XtraBars.BarButtonItem();
             this.xtraFolderBrowserDialog1 = new DevExpress.XtraEditors.XtraFolderBrowserDialog(this.components);
-            this.barButtonItem27 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
-            this.hideContainerRight.SuspendLayout();
-            this.dockPanel2.SuspendLayout();
-            this.dockPanel2_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
-            this.groupControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             this.dockPanel1.SuspendLayout();
             this.dockPanel1_Container.SuspendLayout();
@@ -3047,8 +3089,6 @@ namespace EnvirInfoSys
             // 
             // dockManager1
             // 
-            this.dockManager1.AutoHideContainers.AddRange(new DevExpress.XtraBars.Docking.AutoHideContainer[] {
-            this.hideContainerRight});
             this.dockManager1.Form = this;
             this.dockManager1.MenuManager = this.barManager1;
             this.dockManager1.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
@@ -3065,74 +3105,6 @@ namespace EnvirInfoSys
             "DevExpress.XtraBars.Navigation.TileNavPane",
             "DevExpress.XtraBars.TabFormControl",
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl"});
-            // 
-            // hideContainerRight
-            // 
-            this.hideContainerRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
-            this.hideContainerRight.Controls.Add(this.dockPanel2);
-            this.hideContainerRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.hideContainerRight.Location = new System.Drawing.Point(1568, 64);
-            this.hideContainerRight.Name = "hideContainerRight";
-            this.hideContainerRight.Size = new System.Drawing.Size(30, 791);
-            // 
-            // dockPanel2
-            // 
-            this.dockPanel2.Controls.Add(this.dockPanel2_Container);
-            this.dockPanel2.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
-            this.dockPanel2.ID = new System.Guid("43a75b3e-43ce-42c0-9433-27634dc3d893");
-            this.dockPanel2.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel2.Name = "dockPanel2";
-            this.dockPanel2.Options.ShowCloseButton = false;
-            this.dockPanel2.OriginalSize = new System.Drawing.Size(200, 200);
-            this.dockPanel2.SavedDock = DevExpress.XtraBars.Docking.DockingStyle.Right;
-            this.dockPanel2.SavedIndex = 1;
-            this.dockPanel2.SavedSizeFactor = 1D;
-            this.dockPanel2.Size = new System.Drawing.Size(200, 592);
-            this.dockPanel2.Text = "双击设置";
-            this.dockPanel2.Visibility = DevExpress.XtraBars.Docking.DockVisibility.AutoHide;
-            // 
-            // dockPanel2_Container
-            // 
-            this.dockPanel2_Container.Controls.Add(this.groupControl2);
-            this.dockPanel2_Container.Location = new System.Drawing.Point(9, 33);
-            this.dockPanel2_Container.Name = "dockPanel2_Container";
-            this.dockPanel2_Container.Size = new System.Drawing.Size(185, 553);
-            this.dockPanel2_Container.TabIndex = 0;
-            // 
-            // groupControl2
-            // 
-            this.groupControl2.Controls.Add(this.radioButton2);
-            this.groupControl2.Controls.Add(this.radioButton1);
-            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupControl2.Location = new System.Drawing.Point(0, 0);
-            this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(185, 90);
-            this.groupControl2.TabIndex = 1;
-            this.groupControl2.Text = "放大缩小";
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton2.Location = new System.Drawing.Point(2, 57);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(181, 26);
-            this.radioButton2.TabIndex = 3;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "双击缩小";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton1.Location = new System.Drawing.Point(2, 31);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(181, 26);
-            this.radioButton1.TabIndex = 2;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "双击放大";
-            this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // barManager1
             // 
@@ -3168,17 +3140,16 @@ namespace EnvirInfoSys
             this.barButtonItem15,
             this.barButtonItem16,
             this.barButtonItem17,
-            this.barButtonItem18,
             this.barButtonItem19,
             this.barButtonItem20,
-            this.barButtonItem22,
             this.barButtonItem23,
             this.barButtonItem24,
             this.barButtonItem25,
             this.barButtonItem26,
-            this.barButtonItem27});
+            this.barButtonItem27,
+            this.barButtonItem18});
             this.barManager1.MainMenu = this.bar2;
-            this.barManager1.MaxItemId = 42;
+            this.barManager1.MaxItemId = 43;
             this.barManager1.StatusBar = this.bar3;
             // 
             // bar1
@@ -3321,6 +3292,13 @@ namespace EnvirInfoSys
             this.barButtonItem9.Name = "barButtonItem9";
             this.barButtonItem9.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem9_ItemClick);
             // 
+            // barButtonItem27
+            // 
+            this.barButtonItem27.Caption = "人员管辖对应设置(&R)";
+            this.barButtonItem27.Id = 41;
+            this.barButtonItem27.Name = "barButtonItem27";
+            this.barButtonItem27.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem27_ItemClick);
+            // 
             // barButtonItem1
             // 
             this.barButtonItem1.Caption = "查看日志(&L)";
@@ -3431,14 +3409,6 @@ namespace EnvirInfoSys
             this.barButtonItem17.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
             this.barButtonItem17.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem17_ItemClick);
             // 
-            // barButtonItem18
-            // 
-            this.barButtonItem18.Caption = "导入当前单位边界线";
-            this.barButtonItem18.Id = 29;
-            this.barButtonItem18.Name = "barButtonItem18";
-            this.barButtonItem18.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
-            this.barButtonItem18.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem18_ItemClick);
-            // 
             // barButtonItem19
             // 
             this.barButtonItem19.Caption = "下载单位注册数据(&D)";
@@ -3452,14 +3422,6 @@ namespace EnvirInfoSys
             this.barButtonItem20.Id = 31;
             this.barButtonItem20.Name = "barButtonItem20";
             this.barButtonItem20.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem20_ItemClick);
-            // 
-            // barButtonItem22
-            // 
-            this.barButtonItem22.Caption = "设置地图对应级别";
-            this.barButtonItem22.Id = 35;
-            this.barButtonItem22.Name = "barButtonItem22";
-            this.barButtonItem22.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
-            this.barButtonItem22.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem22_ItemClick);
             // 
             // barButtonItem25
             // 
@@ -3509,7 +3471,7 @@ namespace EnvirInfoSys
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(2, 31);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1364, 59);
+            this.panel1.Size = new System.Drawing.Size(1394, 59);
             this.panel1.TabIndex = 1;
             // 
             // flowLayoutPanel1
@@ -3519,14 +3481,14 @@ namespace EnvirInfoSys
             this.flowLayoutPanel1.ForeColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1204, 59);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1234, 59);
             this.flowLayoutPanel1.TabIndex = 4;
             // 
             // panel3
             // 
             this.panel3.Controls.Add(this.label1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(1204, 0);
+            this.panel3.Location = new System.Drawing.Point(1234, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(160, 59);
             this.panel3.TabIndex = 3;
@@ -3562,11 +3524,12 @@ namespace EnvirInfoSys
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(2, 90);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1364, 699);
+            this.panel2.Size = new System.Drawing.Size(1394, 699);
             this.panel2.TabIndex = 2;
             // 
             // mapHelper1
             // 
+            this.mapHelper1.address = null;
             this.mapHelper1.BackColor = System.Drawing.Color.Transparent;
             this.mapHelper1.centerlat = 0D;
             this.mapHelper1.centerlng = 0D;
@@ -3576,9 +3539,10 @@ namespace EnvirInfoSys
             this.mapHelper1.maparr = null;
             this.mapHelper1.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this.mapHelper1.Name = "mapHelper1";
+            this.mapHelper1.port = 0;
             this.mapHelper1.roadmappath = null;
             this.mapHelper1.satellitemappath = null;
-            this.mapHelper1.Size = new System.Drawing.Size(1364, 699);
+            this.mapHelper1.Size = new System.Drawing.Size(1394, 699);
             this.mapHelper1.TabIndex = 0;
             this.mapHelper1.webpath = null;
             this.mapHelper1.AddMarkerFinished += new MapHelper.MapHelper.DlAddMarkerFinished(this.mapHelper1_AddMarkerFinished);
@@ -3603,7 +3567,7 @@ namespace EnvirInfoSys
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupControl1.Location = new System.Drawing.Point(200, 64);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(1368, 791);
+            this.groupControl1.Size = new System.Drawing.Size(1398, 791);
             this.groupControl1.TabIndex = 24;
             this.groupControl1.Text = "地图显示";
             // 
@@ -3622,8 +3586,7 @@ namespace EnvirInfoSys
             // popupMenu2
             // 
             this.popupMenu2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem18),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem22)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem18)});
             this.popupMenu2.Manager = this.barManager1;
             this.popupMenu2.Name = "popupMenu2";
             // 
@@ -3636,12 +3599,12 @@ namespace EnvirInfoSys
             this.barButtonItem21.Id = -1;
             this.barButtonItem21.Name = "barButtonItem21";
             // 
-            // barButtonItem27
+            // barButtonItem18
             // 
-            this.barButtonItem27.Caption = "人员管辖对应设置(&R)";
-            this.barButtonItem27.Id = 41;
-            this.barButtonItem27.Name = "barButtonItem27";
-            this.barButtonItem27.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem27_ItemClick);
+            this.barButtonItem18.Caption = "为所有单位添加图符";
+            this.barButtonItem18.Id = 42;
+            this.barButtonItem18.Name = "barButtonItem18";
+            this.barButtonItem18.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem18_ItemClick_1);
             // 
             // MainForm
             // 
@@ -3650,7 +3613,6 @@ namespace EnvirInfoSys
             this.ClientSize = new System.Drawing.Size(1598, 880);
             this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.dockPanel1);
-            this.Controls.Add(this.hideContainerRight);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
@@ -3659,18 +3621,12 @@ namespace EnvirInfoSys
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "MainForm";
             this.Text = "环境信息化系统";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).EndInit();
-            this.hideContainerRight.ResumeLayout(false);
-            this.dockPanel2.ResumeLayout(false);
-            this.dockPanel2_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
-            this.groupControl2.ResumeLayout(false);
-            this.groupControl2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
             this.dockPanel1.ResumeLayout(false);
             this.dockPanel1_Container.ResumeLayout(false);

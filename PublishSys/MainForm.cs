@@ -244,7 +244,6 @@ namespace PublishSys
                 return;
             }
 
-
             IniOperator iniOperator = new IniOperator(WorkPath + "Publish\\SyncInfo.ini");
             string ip = iniOperator.ReadString("MapLogin", "ip", "");
             string port = iniOperator.ReadString("MapLogin", "port", "");
@@ -326,7 +325,6 @@ namespace PublishSys
                 inip.WriteString("packup", "source_path", WorkPath + "Publish");
                 inip.WriteString("packup", "registry_subkey", "环境信息化系统");
                 
-
                 ahp = new AccessHelper(WorkPath + "Publish\\data\\PASSWORD_H0001Z000E00.mdb");
                 string sql = "select PGUID from PASSWORD_H0001Z000E00 where ISDELETE = 0 and PWNAME = '管理员密码' and UNITID = '" + pNode["Id"].ToString() + "'";
                 DataTable dataTable = ahp.ExecuteDataTable(sql);

@@ -37,8 +37,8 @@ namespace EnvirInfoSys
 				Application.ThreadException += Application_ThreadException;
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(defaultValue: false);
-				Application.Run(new MainForm());
-				mutex.ReleaseMutex();
+                Application.Run(new MainForm());
+                mutex.ReleaseMutex();
 			}
 			else
 			{

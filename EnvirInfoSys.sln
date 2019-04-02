@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvirInfoSys", "EnvirInfoSys\EnvirInfoSys.csproj", "{9DEF349F-C9CA-4382-A821-C8D685E85F96}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublishSys", "PublishSys\PublishSys.csproj", "{EB53EB59-7DEA-4FA3-A1AF-25E6FE1B90E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HF_EnvirInfoSys", "HF_EnvirInfoSys\HF_EnvirInfoSys.csproj", "{275A2151-4416-4DD5-892E-CDB96C79D93F}"
@@ -19,14 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9DEF349F-C9CA-4382-A821-C8D685E85F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DEF349F-C9CA-4382-A821-C8D685E85F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DEF349F-C9CA-4382-A821-C8D685E85F96}.Debug|x86.ActiveCfg = Debug|x86
-		{9DEF349F-C9CA-4382-A821-C8D685E85F96}.Debug|x86.Build.0 = Debug|x86
-		{9DEF349F-C9CA-4382-A821-C8D685E85F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DEF349F-C9CA-4382-A821-C8D685E85F96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DEF349F-C9CA-4382-A821-C8D685E85F96}.Release|x86.ActiveCfg = Release|x86
-		{9DEF349F-C9CA-4382-A821-C8D685E85F96}.Release|x86.Build.0 = Release|x86
 		{EB53EB59-7DEA-4FA3-A1AF-25E6FE1B90E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB53EB59-7DEA-4FA3-A1AF-25E6FE1B90E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB53EB59-7DEA-4FA3-A1AF-25E6FE1B90E4}.Debug|x86.ActiveCfg = Debug|x86

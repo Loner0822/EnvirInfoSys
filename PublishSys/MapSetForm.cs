@@ -132,7 +132,8 @@ namespace PublishSys
                 flowLayoutPanel1.Controls.Add(pictureBox);
                 fileStream.Close();
                 fileStream.Dispose();
-                mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.ShowMap(cur_level, cur_level.ToString());
             }
         }
 
@@ -395,7 +396,8 @@ namespace PublishSys
                 }
                 if (!Before_ShowMap)
                 {
-                    mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                    mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                    mapHelper1.ShowMap(cur_level, cur_level.ToString());
                 }
                 else
                 {
@@ -523,7 +525,8 @@ namespace PublishSys
                     string sql = "insert into BORDERDATA (PGUID, S_UDTIME, UNITID, LAT, LNG, SHOWINDEX, BORDERGUID) values('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + focusedNode["pguid"].ToString() + "', '" + borList[text][j][0] + "', '" + borList[text][j][1] + "', " + j.ToString() + ", '" + text + "')";
                     FileReader.line_ahp.ExecuteSql(sql);
                 }
-                mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.ShowMap(cur_level, cur_level.ToString());
             }
             FileReader.line_ahp.CloseConn();
             FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
@@ -535,7 +538,8 @@ namespace PublishSys
             string sql = "update BORDERDATA set S_UDTIME = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', ISDELETE = 1 where ISDELETE = 0 and UNITID = '" + focusedNode["pguid"].ToString() + "' and BORDERGUID = '" + border_guid + "'";
             FileReader.line_ahp.ExecuteSql(sql);
             borList.Remove(border_guid);
-            mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+            mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+            mapHelper1.ShowMap(cur_level, cur_level.ToString());
             FileReader.line_ahp.CloseConn();
             FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
         }
@@ -569,7 +573,8 @@ namespace PublishSys
                     sql = "insert into BORDERDATA (PGUID, S_UDTIME, UNITID, LAT, LNG, SHOWINDEX, BORDERGUID) values('" + Guid.NewGuid().ToString("B") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + focusedNode["pguid"].ToString() + "', '" + borList[text][j][0] + "', '" + borList[text][j][1] + "', '" + j.ToString() + "', '" + text + "')";
                     FileReader.line_ahp.ExecuteSql(sql);
                 }
-                mapHelper1.ShowMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+                mapHelper1.ShowMap(cur_level, cur_level.ToString());
             }
             FileReader.line_ahp.CloseConn();
             FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");

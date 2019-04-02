@@ -197,7 +197,8 @@ namespace EnvirInfoSys
 				flowLayoutPanel1.Controls.Add(pictureBox);
 				fileStream.Close();
 				fileStream.Dispose();
-				mapHelper1.ShowMap(cur_level, cur_level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.ShowMap(cur_level, cur_level.ToString());
 			}
 		}
 
@@ -523,7 +524,8 @@ namespace EnvirInfoSys
 				}
 				if (!Before_ShowMap)
 				{
-					mapHelper1.ShowMap(cur_level, cur_level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
+					mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+					mapHelper1.ShowMap(cur_level, cur_level.ToString());
 				}
 				else
 				{
@@ -621,7 +623,8 @@ namespace EnvirInfoSys
 				}
 				string remark = "添加" + focusedNode["Name"].ToString() + "的边界线";
 				ComputerInfo.WriteLog("导入边界线", remark);
-				mapHelper1.ShowMap(cur_level, cur_level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.ShowMap(cur_level, cur_level.ToString());
 			}
 		}
 
@@ -634,7 +637,8 @@ namespace EnvirInfoSys
 				FileReader.line_ahp.ExecuteSql(sql, (OleDbParameter[])null);
 				string remark = "删除" + focusedNode["Name"].ToString() + "的边界线";
 				ComputerInfo.WriteLog("导入边界线", remark);
-				mapHelper1.ShowMap(cur_level, cur_level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.ShowMap(cur_level, cur_level.ToString());
 				borList.Remove(border_guid);
 			}
 		}
@@ -668,7 +672,8 @@ namespace EnvirInfoSys
 				}
 				string remark = "更新" + focusedNode["Name"].ToString() + "的边界线";
 				ComputerInfo.WriteLog("导入边界线", remark);
-				mapHelper1.ShowMap(cur_level, cur_level.ToString(), canEdit: false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
+				mapHelper1.ShowMap(cur_level, cur_level.ToString());
 			}
 		}
 
