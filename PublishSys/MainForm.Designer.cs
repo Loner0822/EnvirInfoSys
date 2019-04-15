@@ -47,7 +47,6 @@
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
@@ -64,11 +63,11 @@
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.mapHelper1 = new MapHelper.MapHelper();
             this.xtraFolderBrowserDialog1 = new DevExpress.XtraEditors.XtraFolderBrowserDialog(this.components);
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit3.Properties)).BeginInit();
@@ -78,6 +77,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
             // 
             // barManager1
@@ -202,62 +202,42 @@
             this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
             this.barDockControlTop.Manager = this.barManager1;
-            this.barDockControlTop.Margin = new System.Windows.Forms.Padding(2);
-            this.barDockControlTop.Size = new System.Drawing.Size(1203, 21);
+            this.barDockControlTop.Size = new System.Drawing.Size(1719, 31);
             // 
             // barDockControlBottom
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 715);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 1124);
             this.barDockControlBottom.Manager = this.barManager1;
-            this.barDockControlBottom.Margin = new System.Windows.Forms.Padding(2);
-            this.barDockControlBottom.Size = new System.Drawing.Size(1203, 0);
+            this.barDockControlBottom.Size = new System.Drawing.Size(1719, 0);
             // 
             // barDockControlLeft
             // 
             this.barDockControlLeft.CausesValidation = false;
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControlLeft.Location = new System.Drawing.Point(0, 21);
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 31);
             this.barDockControlLeft.Manager = this.barManager1;
-            this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(2);
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 694);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 1093);
             // 
             // barDockControlRight
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(1203, 21);
+            this.barDockControlRight.Location = new System.Drawing.Point(1719, 31);
             this.barDockControlRight.Manager = this.barManager1;
-            this.barDockControlRight.Margin = new System.Windows.Forms.Padding(2);
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 694);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 1093);
             // 
             // groupControl1
             // 
             this.groupControl1.Controls.Add(this.treeList1);
             this.groupControl1.Controls.Add(this.panelControl1);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupControl1.Location = new System.Drawing.Point(0, 21);
-            this.groupControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupControl1.Location = new System.Drawing.Point(0, 31);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(533, 694);
+            this.groupControl1.Size = new System.Drawing.Size(761, 1093);
             this.groupControl1.TabIndex = 4;
             this.groupControl1.Text = "单位列表";
-            // 
-            // treeList1
-            // 
-            this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeList1.FixedLineWidth = 1;
-            this.treeList1.Location = new System.Drawing.Point(2, 21);
-            this.treeList1.Margin = new System.Windows.Forms.Padding(2);
-            this.treeList1.MinWidth = 16;
-            this.treeList1.Name = "treeList1";
-            this.treeList1.OptionsBehavior.Editable = false;
-            this.treeList1.Size = new System.Drawing.Size(529, 579);
-            this.treeList1.TabIndex = 2;
-            this.treeList1.TreeLevelWidth = 13;
-            this.treeList1.ViewStyle = DevExpress.XtraTreeList.TreeListViewStyle.TreeView;
-            this.treeList1.FocusedNodeChanged += new DevExpress.XtraTreeList.FocusedNodeChangedEventHandler(this.TreeList1_FocusedNodeChanged);
             // 
             // panelControl1
             // 
@@ -271,20 +251,18 @@
             this.panelControl1.Controls.Add(this.textEdit2);
             this.panelControl1.Controls.Add(this.textEdit1);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl1.Location = new System.Drawing.Point(2, 600);
-            this.panelControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.panelControl1.Location = new System.Drawing.Point(2, 946);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(529, 92);
+            this.panelControl1.Size = new System.Drawing.Size(757, 145);
             this.panelControl1.TabIndex = 1;
             // 
             // simpleButton3
             // 
             this.simpleButton3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.simpleButton3.Enabled = false;
-            this.simpleButton3.Location = new System.Drawing.Point(280, 56);
-            this.simpleButton3.Margin = new System.Windows.Forms.Padding(2);
+            this.simpleButton3.Location = new System.Drawing.Point(400, 88);
             this.simpleButton3.Name = "simpleButton3";
-            this.simpleButton3.Size = new System.Drawing.Size(78, 22);
+            this.simpleButton3.Size = new System.Drawing.Size(111, 35);
             this.simpleButton3.TabIndex = 8;
             this.simpleButton3.Text = "下载地图";
             this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
@@ -293,10 +271,9 @@
             // 
             this.simpleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.simpleButton2.Enabled = false;
-            this.simpleButton2.Location = new System.Drawing.Point(372, 56);
-            this.simpleButton2.Margin = new System.Windows.Forms.Padding(2);
+            this.simpleButton2.Location = new System.Drawing.Point(531, 88);
             this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(78, 22);
+            this.simpleButton2.Size = new System.Drawing.Size(111, 35);
             this.simpleButton2.TabIndex = 7;
             this.simpleButton2.Text = "发布系统";
             this.simpleButton2.Click += new System.EventHandler(this.SimpleButton2_Click);
@@ -305,10 +282,9 @@
             // 
             this.simpleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.simpleButton1.Enabled = false;
-            this.simpleButton1.Location = new System.Drawing.Point(402, 17);
-            this.simpleButton1.Margin = new System.Windows.Forms.Padding(2);
+            this.simpleButton1.Location = new System.Drawing.Point(574, 27);
             this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(78, 22);
+            this.simpleButton1.Size = new System.Drawing.Size(111, 35);
             this.simpleButton1.TabIndex = 6;
             this.simpleButton1.Text = "地图对应";
             this.simpleButton1.Click += new System.EventHandler(this.SimpleButton1_Click);
@@ -316,82 +292,73 @@
             // labelControl3
             // 
             this.labelControl3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelControl3.Location = new System.Drawing.Point(105, 60);
-            this.labelControl3.Margin = new System.Windows.Forms.Padding(2);
+            this.labelControl3.Location = new System.Drawing.Point(150, 94);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(48, 14);
+            this.labelControl3.Size = new System.Drawing.Size(72, 22);
             this.labelControl3.TabIndex = 5;
             this.labelControl3.Text = "版本号：";
             // 
             // labelControl2
             // 
             this.labelControl2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelControl2.Location = new System.Drawing.Point(250, 22);
-            this.labelControl2.Margin = new System.Windows.Forms.Padding(2);
+            this.labelControl2.Location = new System.Drawing.Point(357, 35);
             this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(36, 14);
+            this.labelControl2.Size = new System.Drawing.Size(54, 22);
             this.labelControl2.TabIndex = 4;
             this.labelControl2.Text = "纬度：";
             // 
             // labelControl1
             // 
             this.labelControl1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelControl1.Location = new System.Drawing.Point(49, 22);
-            this.labelControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.labelControl1.Location = new System.Drawing.Point(70, 35);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(84, 14);
+            this.labelControl1.Size = new System.Drawing.Size(126, 22);
             this.labelControl1.TabIndex = 3;
             this.labelControl1.Text = "当前单位经度：";
             // 
             // textEdit3
             // 
             this.textEdit3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textEdit3.Location = new System.Drawing.Point(159, 58);
-            this.textEdit3.Margin = new System.Windows.Forms.Padding(2);
+            this.textEdit3.Location = new System.Drawing.Point(227, 91);
             this.textEdit3.MenuManager = this.barManager1;
             this.textEdit3.Name = "textEdit3";
-            this.textEdit3.Size = new System.Drawing.Size(105, 20);
+            this.textEdit3.Size = new System.Drawing.Size(150, 30);
             this.textEdit3.TabIndex = 2;
             // 
             // textEdit2
             // 
             this.textEdit2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textEdit2.Location = new System.Drawing.Point(292, 19);
-            this.textEdit2.Margin = new System.Windows.Forms.Padding(2);
+            this.textEdit2.Location = new System.Drawing.Point(417, 30);
             this.textEdit2.MenuManager = this.barManager1;
             this.textEdit2.Name = "textEdit2";
-            this.textEdit2.Size = new System.Drawing.Size(105, 20);
+            this.textEdit2.Size = new System.Drawing.Size(150, 30);
             this.textEdit2.TabIndex = 1;
             // 
             // textEdit1
             // 
             this.textEdit1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textEdit1.Location = new System.Drawing.Point(141, 19);
-            this.textEdit1.Margin = new System.Windows.Forms.Padding(2);
+            this.textEdit1.Location = new System.Drawing.Point(201, 30);
             this.textEdit1.MenuManager = this.barManager1;
             this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Size = new System.Drawing.Size(105, 20);
+            this.textEdit1.Size = new System.Drawing.Size(150, 30);
             this.textEdit1.TabIndex = 0;
             // 
             // splitterControl1
             // 
-            this.splitterControl1.Location = new System.Drawing.Point(533, 21);
-            this.splitterControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.splitterControl1.Location = new System.Drawing.Point(761, 31);
             this.splitterControl1.Name = "splitterControl1";
-            this.splitterControl1.Size = new System.Drawing.Size(5, 694);
+            this.splitterControl1.Size = new System.Drawing.Size(7, 1093);
             this.splitterControl1.TabIndex = 5;
             this.splitterControl1.TabStop = false;
             // 
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2);
-            this.gridControl1.Location = new System.Drawing.Point(2, 21);
+            this.gridControl1.Location = new System.Drawing.Point(2, 31);
             this.gridControl1.MainView = this.gridView1;
-            this.gridControl1.Margin = new System.Windows.Forms.Padding(2);
             this.gridControl1.MenuManager = this.barManager1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(661, 671);
+            this.gridControl1.Size = new System.Drawing.Size(947, 1060);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -400,8 +367,6 @@
             // 
             this.gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
             this.gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridView1.DetailHeight = 223;
-            this.gridView1.FixedLineWidth = 1;
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsView.ShowGroupPanel = false;
@@ -411,26 +376,27 @@
             this.groupControl2.Controls.Add(this.mapHelper1);
             this.groupControl2.Controls.Add(this.gridControl1);
             this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(538, 21);
-            this.groupControl2.Margin = new System.Windows.Forms.Padding(2);
+            this.groupControl2.Location = new System.Drawing.Point(768, 31);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(665, 694);
+            this.groupControl2.Size = new System.Drawing.Size(951, 1093);
             this.groupControl2.TabIndex = 6;
             this.groupControl2.Text = "发布记录";
             // 
             // mapHelper1
             // 
+            this.mapHelper1.address = null;
             this.mapHelper1.BackColor = System.Drawing.Color.Black;
             this.mapHelper1.centerlat = 0D;
             this.mapHelper1.centerlng = 0D;
             this.mapHelper1.iconspath = null;
-            this.mapHelper1.Location = new System.Drawing.Point(79, 101);
+            this.mapHelper1.Location = new System.Drawing.Point(113, 159);
             this.mapHelper1.maparr = null;
-            this.mapHelper1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.mapHelper1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.mapHelper1.Name = "mapHelper1";
+            this.mapHelper1.port = 0;
             this.mapHelper1.roadmappath = null;
             this.mapHelper1.satellitemappath = null;
-            this.mapHelper1.Size = new System.Drawing.Size(387, 179);
+            this.mapHelper1.Size = new System.Drawing.Size(553, 281);
             this.mapHelper1.TabIndex = 1;
             this.mapHelper1.Visible = false;
             this.mapHelper1.webpath = null;
@@ -440,11 +406,25 @@
             this.xtraFolderBrowserDialog1.SelectedPath = "xtraFolderBrowserDialog1";
             this.xtraFolderBrowserDialog1.Title = "设置地图路径";
             // 
+            // treeList1
+            // 
+            this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeList1.FixedLineWidth = 1;
+            this.treeList1.Location = new System.Drawing.Point(2, 31);
+            this.treeList1.MinWidth = 23;
+            this.treeList1.Name = "treeList1";
+            this.treeList1.OptionsBehavior.Editable = false;
+            this.treeList1.Size = new System.Drawing.Size(757, 915);
+            this.treeList1.TabIndex = 4;
+            this.treeList1.TreeLevelWidth = 19;
+            this.treeList1.ViewStyle = DevExpress.XtraTreeList.TreeListViewStyle.TreeView;
+            this.treeList1.FocusedNodeChanged += new DevExpress.XtraTreeList.FocusedNodeChangedEventHandler(this.TreeList1_FocusedNodeChanged);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1203, 715);
+            this.ClientSize = new System.Drawing.Size(1719, 1124);
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.splitterControl1);
             this.Controls.Add(this.groupControl1);
@@ -453,7 +433,6 @@
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "环境信息化发布系统";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -463,7 +442,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
@@ -474,6 +452,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -499,7 +478,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraEditors.SplitterControl splitterControl1;
         private DevExpress.XtraEditors.GroupControl groupControl1;
-        private DevExpress.XtraTreeList.TreeList treeList1;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
         private DevExpress.XtraEditors.LabelControl labelControl3;
@@ -515,5 +493,6 @@
         private MapHelper.MapHelper mapHelper1;
         private DevExpress.XtraEditors.SimpleButton simpleButton3;
         private DevExpress.XtraEditors.XtraFolderBrowserDialog xtraFolderBrowserDialog1;
+        private DevExpress.XtraTreeList.TreeList treeList1;
     }
 }

@@ -19,8 +19,6 @@ namespace PublishSys
 
 		private string WorkPath = AppDomain.CurrentDomain.BaseDirectory;
 
-		private string AccessPath = AppDomain.CurrentDomain.BaseDirectory + "\\Publish\\data\\PersonMange.mdb";
-
 		private Dictionary<string, string> UnitID_Level;
 
 		private string Last_Level = null;

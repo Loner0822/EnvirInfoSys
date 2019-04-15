@@ -17,19 +17,19 @@ namespace PublishSys
     public partial class MapSetForm : XtraForm
     {
         private string WorkPath = AppDomain.CurrentDomain.BaseDirectory;
-        private string AccessPath = AppDomain.CurrentDomain.BaseDirectory + "Publish\\data\\ENVIR_H0001Z000E00.mdb";
+        private string AccessPath = AppDomain.CurrentDomain.BaseDirectory + "区域环境信息化系统\\data\\ENVIR_H0001Z000E00.mdb";
         private string IniFilePath = AppDomain.CurrentDomain.BaseDirectory + "parameter.ini";
         private string[] folds = null;
         public string unitid = "";
+        public string unitname = "";
+        public string unitlevel = "";
         public string MapPath = "";
 
         private string[] GL_PGUID;
         private List<GL_Node> GL_List;
         private Dictionary<string, string> GL_NAME;
         private Dictionary<string, string> GL_JDCODE;
-        private Dictionary<string, string> GL_UPGUID;
         private Dictionary<string, string> GL_MAP;
-        private Dictionary<string, string> GL_NAME_PGUID;
         private Dictionary<string, Dictionary<string, Polygon>> GL_POLY;
 
         private Dictionary<string, object> borderDic = null;
@@ -51,7 +51,7 @@ namespace PublishSys
         private void MapSetForm_Load(object sender, EventArgs e)
         {
             FileReader.often_ahp = new AccessHelper(AccessPath);
-            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
+            FileReader.line_ahp = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\经纬度注册.mdb");
             FileReader.inip = new IniOperator(WorkPath + "RegInfo.ini");
             //unitid = FileReader.inip.ReadString("Public", "UnitID", "-1");
             //MapPath = FileReader.inip.ReadString("Individuation", "mappath", "");
@@ -72,7 +72,7 @@ namespace PublishSys
                     mapHelper1.centerlat = double.Parse(dataTable.Rows[0]["LAT"].ToString());
                     mapHelper1.centerlng = double.Parse(dataTable.Rows[0]["LNG"].ToString());
                 }
-                mapHelper1.webpath = WorkPath + "Publish\\googlemap";
+                mapHelper1.webpath = WorkPath + "区域环境信息化系统\\googlemap";
                 mapHelper1.roadmappath = MapPath + "\\roadmap";
                 mapHelper1.satellitemappath = MapPath + "\\satellite_en";
                 mapHelper1.iconspath = WorkPath + "PNGICONFOLDER";
@@ -87,7 +87,7 @@ namespace PublishSys
                 pictureBox.Height = 32;
                 pictureBox.Click += Vector_Click;
                 pictureBox.Name = "指针";
-                FileStream fileStream = new FileStream(WorkPath + "Publish\\icon\\指针.png", FileMode.Open, FileAccess.Read);
+                FileStream fileStream = new FileStream(WorkPath + "区域环境信息化系统\\icon\\指针.png", FileMode.Open, FileAccess.Read);
                 pictureBox.Image = Image.FromStream(fileStream);
                 flowLayoutPanel1.Controls.Add(pictureBox);
                 fileStream.Close();
@@ -100,7 +100,7 @@ namespace PublishSys
                 pictureBox.Height = 32;
                 pictureBox.Click += Line_Click;
                 pictureBox.Name = "画线";
-                fileStream = new FileStream(WorkPath + "Publish\\icon\\画线.png", FileMode.Open, FileAccess.Read);
+                fileStream = new FileStream(WorkPath + "区域环境信息化系统\\icon\\画线.png", FileMode.Open, FileAccess.Read);
                 pictureBox.Image = Image.FromStream(fileStream);
                 flowLayoutPanel1.Controls.Add(pictureBox);
                 fileStream.Close();
@@ -113,7 +113,7 @@ namespace PublishSys
                 pictureBox.Height = 32;
                 pictureBox.Click += Polygon_Click;
                 pictureBox.Name = "画多边形";
-                fileStream = new FileStream(WorkPath + "Publish\\icon\\多边形.png", FileMode.Open, FileAccess.Read);
+                fileStream = new FileStream(WorkPath + "区域环境信息化系统\\icon\\多边形.png", FileMode.Open, FileAccess.Read);
                 pictureBox.Image = Image.FromStream(fileStream);
                 flowLayoutPanel1.Controls.Add(pictureBox);
                 fileStream.Close();
@@ -127,7 +127,7 @@ namespace PublishSys
                 pictureBox.MouseDown += Center_MouseDown;
                 pictureBox.Click += Center_Click;
                 pictureBox.Name = "中心点";
-                fileStream = new FileStream(WorkPath + "Publish\\icon\\中心点.png", FileMode.Open, FileAccess.Read);
+                fileStream = new FileStream(WorkPath + "区域环境信息化系统\\icon\\中心点.png", FileMode.Open, FileAccess.Read);
                 pictureBox.Image = Image.FromStream(fileStream);
                 flowLayoutPanel1.Controls.Add(pictureBox);
                 fileStream.Close();
@@ -158,11 +158,9 @@ namespace PublishSys
         {
             GL_NAME = new Dictionary<string, string>();
             GL_JDCODE = new Dictionary<string, string>();
-            GL_UPGUID = new Dictionary<string, string>();
             GL_MAP = new Dictionary<string, string>();
-            GL_NAME_PGUID = new Dictionary<string, string>();
             GL_POLY = new Dictionary<string, Dictionary<string, Polygon>>();
-            FileReader.once_ahp = new AccessHelper(WorkPath + "Publish\\data\\ZSK_H0001Z000K01.mdb");
+            FileReader.once_ahp = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ZSK_H0001Z000K01.mdb");
             string sql = "select PGUID, JDNAME, JDCODE, UPGUID from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 order by LEVELNUM, SHOWINDEX";
             DataTable dataTable = FileReader.once_ahp.ExecuteDataTable(sql);
             GL_PGUID = new string[dataTable.Rows.Count];
@@ -172,10 +170,9 @@ namespace PublishSys
                 GL_PGUID[i] = pguid;
                 GL_NAME[pguid] = dataTable.Rows[i]["JDNAME"].ToString();
                 GL_JDCODE[pguid] = dataTable.Rows[i]["JDCODE"].ToString();
-                GL_NAME_PGUID[dataTable.Rows[i]["JDNAME"].ToString()] = pguid;
             }
             FileReader.once_ahp.CloseConn();
-            FileReader.once_ahp = new AccessHelper(WorkPath + "Publish\\data\\ENVIRDYDATA_H0001Z000E00.mdb");
+            FileReader.once_ahp = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ENVIRDYDATA_H0001Z000E00.mdb");
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
                 string pguid = dataTable.Rows[i]["PGUID"].ToString();
@@ -196,21 +193,27 @@ namespace PublishSys
             treeList1.Appearance.FocusedCell.BackColor = Color.SteelBlue;
             treeList1.KeyFieldName = "pguid";
             treeList1.ParentFieldName = "upguid";
-            FileReader.once_ahp = new AccessHelper(WorkPath + "Publish\\data\\PersonMange.mdb");
-            sql = "select PGUID, UPPGUID, ORGNAME, ULEVEL from RG_单位注册 where ISDELETE = 0 and PGUID = '" + unitid + "'";
+            GL_Node gl_Node = new GL_Node
+            {
+                pguid = unitid,
+                upguid = "",
+                Name = unitname,
+                level = unitlevel
+            };
+            GL_List.Add(gl_Node);
+            FileReader.once_ahp = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ZZJG_H0001Z000Z01.mdb");
+            sql = "select PGUID, UPGUID, JDNAME, ZSKOBJ_PGUID from ZUZHI_JIEGOU_H0001Z000Z01 where ISDELETE = 0 and ZZJG_PGUID = '" + unitid + "'";
             dataTable = FileReader.once_ahp.ExecuteDataTable(sql);
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
-                GL_Node gL_Node = new GL_Node
+                gl_Node = new GL_Node
                 {
                     pguid = dataTable.Rows[i]["PGUID"].ToString(),
-                    upguid = dataTable.Rows[i]["UPPGUID"].ToString()
+                    upguid = dataTable.Rows[i]["UPGUID"].ToString(),
+                    Name = dataTable.Rows[i]["JDNAME"].ToString(),
+                    level = dataTable.Rows[i]["ZSKOBJ_PGUID"].ToString()
                 };
-                GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPPGUID"].ToString();
-                gL_Node.Name = dataTable.Rows[i]["ORGNAME"].ToString();
-                gL_Node.level = dataTable.Rows[i]["ULEVEL"].ToString();
-                GL_List.Add(gL_Node);
-                Add_Unit_Node(gL_Node);
+                GL_List.Add(gl_Node);
             }
             treeList1.DataSource = GL_List;
             treeList1.HorzScrollVisibility = DevExpress.XtraTreeList.ScrollVisibility.Auto;
@@ -221,25 +224,6 @@ namespace PublishSys
             treeList1.Columns[5].Visible = false;
             treeList1.ExpandAll();
             FileReader.once_ahp.CloseConn();
-        }
-
-        private void Add_Unit_Node(GL_Node pa)
-        {
-            string sql = "select PGUID, UPPGUID, ORGNAME, ULEVEL from RG_单位注册 where ISDELETE = 0 and UPPGUID = '" + pa.pguid + "'";
-            DataTable dataTable = FileReader.once_ahp.ExecuteDataTable(sql);
-            for (int i = 0; i < dataTable.Rows.Count; i++)
-            {
-                GL_Node gL_Node = new GL_Node
-                {
-                    pguid = dataTable.Rows[i]["PGUID"].ToString(),
-                    upguid = dataTable.Rows[i]["UPPGUID"].ToString()
-                };
-                GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPPGUID"].ToString();
-                gL_Node.Name = dataTable.Rows[i]["ORGNAME"].ToString();
-                gL_Node.level = dataTable.Rows[i]["ULEVEL"].ToString();
-                GL_List.Add(gL_Node);
-                Add_Unit_Node(gL_Node);
-            }
         }
 
         private void Load_Border(string u_guid)
@@ -336,7 +320,7 @@ namespace PublishSys
             pictureBox.BorderStyle = BorderStyle.None;
             XtraMessageBox.Show("中心点设置成功!");
             FileReader.line_ahp.CloseConn();
-            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
+            FileReader.line_ahp = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\经纬度注册.mdb");
         }
 
         private void TreeList1_FocusedNodeChanged(object sender, DevExpress.XtraTreeList.FocusedNodeChangedEventArgs e)
@@ -345,7 +329,7 @@ namespace PublishSys
             borList = new Dictionary<string, List<double[]>>();
             if (e.Node != null)
             {
-                levelguid = GL_NAME_PGUID[e.Node.GetValue("level").ToString()];
+                levelguid = e.Node.GetValue("level").ToString();
                 string[] array = GL_MAP[levelguid].Split(',');
                 string sql = "select MAPLEVEL from ENVIRMAPDY_H0001Z000E00 where ISDELETE = 0 and UNITID = '" + unitid + "' and PGUID = '" + focusedNode["pguid"].ToString() + "'";
                 DataTable dataTable = FileReader.often_ahp.ExecuteDataTable(sql);
@@ -529,7 +513,7 @@ namespace PublishSys
                 mapHelper1.ShowMap(cur_level, cur_level.ToString());
             }
             FileReader.line_ahp.CloseConn();
-            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
+            FileReader.line_ahp = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\经纬度注册.mdb");
         }
 
         private void BarButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -541,7 +525,7 @@ namespace PublishSys
             mapHelper1.InitMap(cur_level, cur_level.ToString(), false, map_type, null, null, null, 1.0, 400);
             mapHelper1.ShowMap(cur_level, cur_level.ToString());
             FileReader.line_ahp.CloseConn();
-            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
+            FileReader.line_ahp = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\经纬度注册.mdb");
         }
 
         private void BarButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -577,7 +561,7 @@ namespace PublishSys
                 mapHelper1.ShowMap(cur_level, cur_level.ToString());
             }
             FileReader.line_ahp.CloseConn();
-            FileReader.line_ahp = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
+            FileReader.line_ahp = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\经纬度注册.mdb");
         }
 
         private void MapHelper1_LevelChanged(int lastLevel, int currLevel, string showLevel)

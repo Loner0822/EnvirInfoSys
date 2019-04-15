@@ -16,6 +16,8 @@ namespace PublishSys
     public partial class MapForm : XtraForm
     {
         public string unitid = "";
+        public string unitname = "";
+        public string unitlevel = "";
         public int maxlevel = 0;
 
         private string WorkPath = AppDomain.CurrentDomain.BaseDirectory;
@@ -58,12 +60,12 @@ namespace PublishSys
 
         private void MapForm_Load(object sender, EventArgs e)
         {
-            ahp1 = new AccessHelper(WorkPath + "Publish\\data\\ENVIR_H0001Z000E00.mdb");
-            ahp2 = new AccessHelper(WorkPath + "Publish\\data\\ZSK_H0001Z000K00.mdb");
-            ahp3 = new AccessHelper(WorkPath + "Publish\\data\\ZSK_H0001Z000K01.mdb");
-            ahp4 = new AccessHelper(WorkPath + "Publish\\data\\ZSK_H0001Z000E00.mdb");
-            ahp5 = new AccessHelper(WorkPath + "Publish\\data\\经纬度注册.mdb");
-            ahp6 = new AccessHelper(WorkPath + "Publish\\data\\ENVIRDYDATA_H0001Z000E00.mdb");
+            ahp1 = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ENVIR_H0001Z000E00.mdb");
+            ahp2 = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ZSK_H0001Z000K00.mdb");
+            ahp3 = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ZSK_H0001Z000K01.mdb");
+            ahp4 = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ZSK_H0001Z000E00.mdb");
+            ahp5 = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\经纬度注册.mdb");
+            ahp6 = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ENVIRDYDATA_H0001Z000E00.mdb");
             Get_Map_Show();
             Get_Icon_Lib();
             Get_Level_List();
@@ -76,7 +78,7 @@ namespace PublishSys
 
         private void Get_Map_Show()
         {
-            inip = new IniOperator(WorkPath + "Publish\\parameter.ini");
+            inip = new IniOperator(WorkPath + "区域环境信息化系统\\parameter.ini");
             textEdit1.Text = inip.ReadString("mapproperties", "centerlng", "0");
             textEdit2.Text = inip.ReadString("mapproperties", "centerlat", "0");
             if (textEdit1.Text == "0" || textEdit2.Text == "0")
@@ -123,10 +125,10 @@ namespace PublishSys
                 checkedListBoxControl1.Items.Add(folds[i]);
             mapHelper1.centerlat = double.Parse(textEdit2.Text);
             mapHelper1.centerlng = double.Parse(textEdit1.Text);
-            mapHelper1.webpath = WorkPath + "Publish\\googlemap";
+            mapHelper1.webpath = WorkPath + "区域环境信息化系统\\googlemap";
             mapHelper1.roadmappath = url + "\\roadmap";
             mapHelper1.satellitemappath = url + "\\satellite_en";
-            mapHelper1.iconspath = WorkPath + "Publish\\PNGICONFOLDER";
+            mapHelper1.iconspath = WorkPath + "区域环境信息化系统\\PNGICONFOLDER";
             mapHelper1.maparr = folds;
             if (checkedListBoxControl1.Items.Count > 0)
                 checkedListBoxControl1.SelectedIndex = 0;
@@ -136,7 +138,7 @@ namespace PublishSys
         {
             xtraTabControl2.Controls.Clear();
             xtraTabControl2.TabPages.Clear();
-            ahp2 = new AccessHelper(WorkPath + "Publish\\data\\ZSK_H0001Z000K00.mdb");
+            ahp2 = new AccessHelper(WorkPath + "区域环境信息化系统\\data\\ZSK_H0001Z000K00.mdb");
             string sql = "select UPGUID, PROPVALUE from ZSK_PROP_H0001Z000K00 where ISDELETE = 0 and PROPNAME = '图符库' order by PROPVALUE, SHOWINDEX";
             DataTable dt = ahp2.ExecuteDataTable(sql);
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -174,19 +176,20 @@ namespace PublishSys
                         WrapContents = true,
                         AutoScroll = true
                     };
-                    //flp.Controls.Clear();
-                    flp.MouseDown += IconLib_MouseDown;
-                    Add_Icon(flp, pguid);
+                    //
                     xtraTabControl2.TabPages[num].Name = name;
                     xtraTabControl2.TabPages[num].BackColor = SystemColors.Control;
                     xtraTabControl2.TabPages[num].Controls.Add(flp);
+                    flp.Controls.Clear();
+                    flp.MouseDown += IconLib_MouseDown;
+                    Add_Icon(flp, pguid);
                 }
             }
         }
 
         private void Add_Icon(FlowLayoutPanel flp, string pguid)
         {
-            string str = WorkPath + "Publish\\ICONDER\\b_PNGICON\\";
+            string str = WorkPath + "区域环境信息化系统\\ICONDER\\b_PNGICON\\";
             ucPictureBox ucPB = new ucPictureBox();
             string sql = "select JDNAME from ZSK_OBJECT_H0001Z000K00 where ISDELETE = 0 and PGUID = '" + pguid + "'";
             DataTable dt = ahp2.ExecuteDataTable(sql);
@@ -456,12 +459,14 @@ namespace PublishSys
 
         private void SimpleButton1_Click(object sender, EventArgs e)
         {
-            inip = new IniOperator(WorkPath + "Publish\\RegInfo.ini");
+            inip = new IniOperator(WorkPath + "区域环境信息化系统\\RegInfo.ini");
             inip.WriteString("Public", "UnitID", unitid);
-            //Process process = Process.Start(WorkPath + "Publish\\MapSet.exe");
+            //Process process = Process.Start(WorkPath + "区域环境信息化系统\\MapSet.exe");
             MapSetForm mapset = new MapSetForm
             {
                 unitid = unitid,
+                unitlevel = unitlevel,
+                unitname = unitname,
                 MapPath = "http://192.168.0.109:190/downfile/googlemaps"
             };
             mapset.ShowDialog();
@@ -472,7 +477,7 @@ namespace PublishSys
                 double m_lat = double.Parse(dataTable.Rows[0]["LAT"].ToString());
                 double m_lng = double.Parse(dataTable.Rows[0]["LNG"].ToString());
                 //mapHelper1.SetMapCenter(m_lat, m_lng);
-                inip = new IniOperator(WorkPath + "Publish\\parameter.ini");
+                inip = new IniOperator(WorkPath + "区域环境信息化系统\\parameter.ini");
                 inip.WriteString("mapproperties", "centerlng", m_lng.ToString());
                 inip.WriteString("mapproperties", "centerlat", m_lat.ToString());
             }
@@ -594,7 +599,7 @@ namespace PublishSys
 
         private void Show_Icon_List(string levelguid)
         {
-            string str = WorkPath + "Publish\\ICONDER\\b_PNGICON\\";
+            string str = WorkPath + "区域环境信息化系统\\ICONDER\\b_PNGICON\\";
             string sql = "select PGUID, JDNAME from ZSK_OBJECT_H0001Z000K00 where ISDELETE = 0 order by LEVELNUM, SHOWINDEX";
             DataTable dataTable = ahp2.ExecuteDataTable(sql);
             string a = "";
@@ -738,7 +743,7 @@ namespace PublishSys
         private void MapForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             groupControl1.Focus();
-            inip = new IniOperator(WorkPath + "Publish\\RegInfo.ini");
+            inip = new IniOperator(WorkPath + "区域环境信息化系统\\RegInfo.ini");
             inip.WriteString("Public", "UnitID", unitid);
             ahp1.CloseConn();
             ahp2.CloseConn();

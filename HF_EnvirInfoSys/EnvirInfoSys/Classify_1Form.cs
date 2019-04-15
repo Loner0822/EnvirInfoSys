@@ -34,6 +34,8 @@ namespace EnvirInfoSys
 
 		private AccessHelper ahp4 = null;
 
+        private AccessHelper ahp5 = null;
+
 		public string unitid = "";
 
 		public string gxguid = "-1";
@@ -164,11 +166,12 @@ namespace EnvirInfoSys
 			GX_dt.Columns.Add("guid", typeof(string));
 			GX_dt.Columns.Add("序号", typeof(int));
 			GX_dt.Columns.Add("显示名称", typeof(string));
-			string sql = "select PGUID, FLNAME from ENVIRGXFL_H0001Z000E00 where ISDELETE = 0 and UPGUID = '" + gxguid + "' and UNITID = '" + unitid + "' order by SHOWINDEX";
-			DataTable dataTable = ahp1.ExecuteDataTable(sql, (OleDbParameter[])null);
+
+			string sql = "select PGUID, GXNAME from GUANXIA_H0001Z000Z00 where ISDELETE = 0 order by SHOWINDEX";
+			DataTable dataTable = ahp5.ExecuteDataTable(sql, (OleDbParameter[])null);
 			for (int i = 0; i < dataTable.Rows.Count; i++)
 			{
-				GX_dt.Rows.Add(dataTable.Rows[i]["PGUID"].ToString(), i + 1, dataTable.Rows[i]["FLNAME"].ToString());
+				GX_dt.Rows.Add(dataTable.Rows[i]["PGUID"].ToString(), i + 1, dataTable.Rows[i]["GXNAME"].ToString());
 			}
 			gridControl1.DataSource = GX_dt;
 			gridView1.Columns[0].Visible = false;
@@ -178,10 +181,10 @@ namespace EnvirInfoSys
 
 		public void HandleBehaviorDragDropEvents()
 		{
-			DragDropBehavior behavior = behaviorManager1.GetBehavior<DragDropBehavior>(gridView1);
+			/*DragDropBehavior behavior = behaviorManager1.GetBehavior<DragDropBehavior>(gridView1);
 			behavior.DragDrop += Behavior_DragDrop;
 			behavior.DragOver += Behavior_DragOver;
-			behavior.EndDragDrop += Behavior_EndDragDrop;
+			behavior.EndDragDrop += Behavior_EndDragDrop;*/
 		}
 
 		private void Behavior_DragDrop(object sender, DragDropEventArgs e)
@@ -266,6 +269,7 @@ namespace EnvirInfoSys
 			ahp2 = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000K00.mdb");
 			ahp3 = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000K01.mdb");
 			ahp4 = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000E00.mdb");
+            ahp5 = new AccessHelper(WorkPath + "data\\ZZJG_H0001Z000Z00.mdb");
 			SetUpGrid(gridControl1, FillTable());
 			HandleBehaviorDragDropEvents();
 			xtraTabControl2.TabPages[0].PageVisible = false;
@@ -679,7 +683,7 @@ namespace EnvirInfoSys
 		{
 			if (e.Button == MouseButtons.Right)
 			{
-				popupMenu3.ShowPopup(barManager1, Control.MousePosition);
+				//popupMenu3.ShowPopup(barManager1, Control.MousePosition);
 			}
 		}
 
@@ -689,6 +693,7 @@ namespace EnvirInfoSys
 			ahp2.CloseConn();
 			ahp3.CloseConn();
 			ahp4.CloseConn();
+            ahp5.CloseConn();
 		}
 
 		private void barButtonItem7_ItemClick(object sender, ItemClickEventArgs e)

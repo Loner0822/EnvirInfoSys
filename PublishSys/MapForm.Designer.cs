@@ -184,6 +184,7 @@
             // 
             // mapHelper1
             // 
+            this.mapHelper1.address = null;
             this.mapHelper1.BackColor = System.Drawing.Color.Black;
             this.mapHelper1.centerlat = 0D;
             this.mapHelper1.centerlng = 0D;
@@ -193,6 +194,7 @@
             this.mapHelper1.maparr = null;
             this.mapHelper1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mapHelper1.Name = "mapHelper1";
+            this.mapHelper1.port = 0;
             this.mapHelper1.roadmappath = null;
             this.mapHelper1.satellitemappath = null;
             this.mapHelper1.Size = new System.Drawing.Size(845, 571);

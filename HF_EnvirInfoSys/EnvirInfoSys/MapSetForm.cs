@@ -40,8 +40,6 @@ namespace EnvirInfoSys
 
 		private Dictionary<string, string> GL_MAP;
 
-		private Dictionary<string, string> GL_NAME_PGUID;
-
 		private Dictionary<string, Dictionary<string, Polygon>> GL_POLY;
 
 		private Dictionary<string, object> borderDic = null;
@@ -265,7 +263,6 @@ namespace EnvirInfoSys
 			GL_JDCODE = new Dictionary<string, string>();
 			GL_UPGUID = new Dictionary<string, string>();
 			GL_MAP = new Dictionary<string, string>();
-			GL_NAME_PGUID = new Dictionary<string, string>();
 			GL_POLY = new Dictionary<string, Dictionary<string, Polygon>>();
 			FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000K01.mdb");
 			string sql = "select PGUID, JDNAME, JDCODE, UPGUID from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 order by LEVELNUM, SHOWINDEX";
@@ -277,7 +274,6 @@ namespace EnvirInfoSys
 				GL_PGUID[i] = text;
 				GL_NAME[text] = dataTable.Rows[i]["JDNAME"].ToString();
 				GL_JDCODE[text] = dataTable.Rows[i]["JDCODE"].ToString();
-				GL_NAME_PGUID[dataTable.Rows[i]["JDNAME"].ToString()] = text;
 			}
 			FileReader.once_ahp.CloseConn();
 			FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ENVIRDYDATA_H0001Z000E00.mdb");
@@ -301,21 +297,39 @@ namespace EnvirInfoSys
 			treeList1.Appearance.FocusedCell.BackColor = Color.SteelBlue;
 			treeList1.KeyFieldName = "pguid";
 			treeList1.ParentFieldName = "upguid";
-			FileReader.once_ahp = new AccessHelper(WorkPath + "data\\PersonMange.mdb");
-			sql = "select PGUID, UPPGUID, ORGNAME, ULEVEL from RG_单位注册 where ISDELETE = 0 and PGUID = '" + unitid + "'";
-			dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			for (int i = 0; i < dataTable.Rows.Count; i++)
-			{
-				GL_Node gL_Node = new GL_Node();
-				gL_Node.pguid = dataTable.Rows[i]["PGUID"].ToString();
-				gL_Node.upguid = dataTable.Rows[i]["UPPGUID"].ToString();
-				GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPPGUID"].ToString();
-				gL_Node.Name = dataTable.Rows[i]["ORGNAME"].ToString();
-				gL_Node.level = dataTable.Rows[i]["ULEVEL"].ToString();
-				GL_List.Add(gL_Node);
-				Add_Unit_Node(gL_Node);
-			}
-			treeList1.DataSource = GL_List;
+            FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZZJG_H0001Z000Z00.mdb");
+            sql = "select PGUID, UPGUID, JDNAME, ZSKOBJ_PGUID from ZUZHI_JIEGOU_H0001Z000Z00 where ISDELETE = 0 and PGUID = '" + unitid + "'";
+            dataTable = FileReader.once_ahp.ExecuteDataTable(sql);
+            for (int i = 0; i < dataTable.Rows.Count; ++i)
+            {
+                GL_Node gL_Node = new GL_Node
+                {
+                    pguid = dataTable.Rows[i]["PGUID"].ToString(),
+                    upguid = dataTable.Rows[i]["UPGUID"].ToString(),
+                    Name = dataTable.Rows[i]["JDNAME"].ToString(),
+                    level = dataTable.Rows[i]["ZSKOBJ_PGUID"].ToString()
+                };
+                GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPGUID"].ToString();
+                GL_List.Add(gL_Node);
+            }
+            FileReader.once_ahp.CloseConn();
+            FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZZJG_H0001Z000Z01.mdb");
+            sql = "select PGUID, UPGUID, JDNAME, ZSKOBJ_PGUID from ZUZHI_JIEGOU_H0001Z000Z01 where ISDELETE = 0 and ZZJG_PGUID = '" + unitid + "'";
+            dataTable = FileReader.once_ahp.ExecuteDataTable(sql);
+            for (int i = 0; i < dataTable.Rows.Count; ++i)
+            {
+                GL_Node gL_Node = new GL_Node
+                {
+                    pguid = dataTable.Rows[i]["PGUID"].ToString(),
+                    upguid = dataTable.Rows[i]["UPGUID"].ToString(),
+                    Name = dataTable.Rows[i]["JDNAME"].ToString(),
+                    level = dataTable.Rows[i]["ZSKOBJ_PGUID"].ToString()
+                };
+                GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPGUID"].ToString();
+                GL_List.Add(gL_Node);
+            }
+            FileReader.once_ahp.CloseConn();
+            treeList1.DataSource = GL_List;
 			treeList1.HorzScrollVisibility = ScrollVisibility.Auto;
 			treeList1.Columns[1].Visible = false;
 			treeList1.Columns[2].Visible = false;
@@ -323,7 +337,7 @@ namespace EnvirInfoSys
 			treeList1.Columns[4].Visible = false;
 			treeList1.Columns[5].Visible = false;
 			treeList1.ExpandAll();
-			FileReader.once_ahp.CloseConn();
+			
 		}
 
 		private void Add_Unit_Node(GL_Node pa)
@@ -473,7 +487,7 @@ namespace EnvirInfoSys
 			borList = new Dictionary<string, List<double[]>>();
 			if (e.Node != null)
 			{
-				levelguid = GL_NAME_PGUID[e.Node.GetValue("level").ToString()];
+				levelguid = e.Node.GetValue("level").ToString();
 				string[] array = GL_MAP[levelguid].Split(',');
 				string sql = "select MAPLEVEL from ENVIRMAPDY_H0001Z000E00 where ISDELETE = 0 and UNITID = '" + unitid + "' and PGUID = '" + focusedNode["pguid"].ToString() + "'";
 				DataTable dataTable = FileReader.often_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
@@ -557,7 +571,7 @@ namespace EnvirInfoSys
 		{
 			MapLevelForm mapLevelForm = new MapLevelForm();
 			TreeListNode focusedNode = treeList1.FocusedNode;
-			levelguid = GL_NAME_PGUID[focusedNode["level"].ToString()];
+			levelguid = focusedNode["level"].ToString();
 			mapLevelForm.StartPosition = FormStartPosition.Manual;
 			mapLevelForm.Left = MapX;
 			mapLevelForm.Top = MapY;

@@ -70,8 +70,6 @@ namespace EnvirInfoSys
 
 		private Dictionary<string, string> GL_MAP;
 
-		private Dictionary<string, string> GL_NAME_PGUID;
-
 		private Dictionary<string, Dictionary<string, Polygon>> GL_POLY;
 
 		private int cur_Level;
@@ -289,7 +287,6 @@ namespace EnvirInfoSys
             FileReader.inip = new IniOperator(WorkPath + "RegInfo.ini");
             string UnitID = FileReader.inip.ReadString("Public", "UnitID", "-1");
             LoginForm loginForm = new LoginForm();
-            //loginForm.Text = loginForm.Text + " " + text + text2 + text3;
             loginForm.unitid = UnitID;
             loginForm.ProgName = text1 + text2;
             if (loginForm.ShowDialog() == DialogResult.OK)
@@ -445,7 +442,7 @@ namespace EnvirInfoSys
             Reg_Guid = new List<string>();
             Reg_Name = new Dictionary<string, string>();
             Reg_Down = new Dictionary<string, string>();
-            string text5 = GL_NAME_PGUID[GL_List[0].level];
+            string text5 = GL_List[0].level;
             FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZSK_H0001Z000K01.mdb");
             sql = "select LEVELNUM from ZSK_OBJECT_H0001Z000K01 where ISDELETE = 0 and PGUID = '" + text5 + "'";
             dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
@@ -519,18 +516,13 @@ namespace EnvirInfoSys
             mapHelper1.iconspath = WorkPath + "ICONDER";
             mapHelper1.maparr = folds;
             Load_Border(UnitID);
-            sql = "select PGUID, FLNAME from ENVIRGXFL_H0001Z000E00 where ISDELETE = 0 and UPGUID = '-1' and UNITID = '" + UnitID + "'order by SHOWINDEX";
-            dataTable = FileReader.often_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-            for (int i = 0; i < dataTable.Rows.Count; i++)
+            BarButtonItem barButtonItem = new BarButtonItem
             {
-                BarButtonItem barButtonItem = new BarButtonItem
-                {
-                    Caption = dataTable.Rows[i]["FLNAME"].ToString(),
-                    Tag = dataTable.Rows[i]["PGUID"].ToString()
-                };
-                barButtonItem.ItemClick += MenuStripItem_Click;
-                bar2.InsertItem(bar2.ItemLinks[0], barButtonItem);
-            }
+                Caption = "管辖",
+                Tag = "管辖"
+            };
+            barButtonItem.ItemClick += MenuStripItem_Click;
+            bar2.InsertItem(bar2.ItemLinks[0], barButtonItem);
             Get_All_Icon();
             Get_All_Marker();
             if (levelguid == string.Empty)
@@ -725,7 +717,6 @@ namespace EnvirInfoSys
 			GL_JDCODE = new Dictionary<string, string>();
 			GL_UPGUID = new Dictionary<string, string>();
 			GL_MAP = new Dictionary<string, string>();
-			GL_NAME_PGUID = new Dictionary<string, string>();
 			GL_POLY = new Dictionary<string, Dictionary<string, Polygon>>();
 			Level_Icon = new Dictionary<string, List<string>>();
 			GX_Icon = new Dictionary<string, List<string>>();
@@ -739,7 +730,6 @@ namespace EnvirInfoSys
 				GL_PGUID[i] = text;
 				GL_NAME[text] = dataTable.Rows[i]["JDNAME"].ToString();
 				GL_JDCODE[text] = dataTable.Rows[i]["JDCODE"].ToString();
-				GL_NAME_PGUID[dataTable.Rows[i]["JDNAME"].ToString()] = text;
 			}
 			FileReader.once_ahp.CloseConn();
 			FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ENVIRDYDATA_H0001Z000E00.mdb");
@@ -783,24 +773,46 @@ namespace EnvirInfoSys
 			treeList1.Appearance.FocusedCell.BackColor = Color.SteelBlue;
 			treeList1.KeyFieldName = "pguid";
 			treeList1.ParentFieldName = "upguid";
-			FileReader.once_ahp = new AccessHelper(WorkPath + "data\\PersonMange.mdb");
-			sql = "select PGUID, UPPGUID, ORGNAME, ULEVEL from RG_单位注册 where ISDELETE = 0 and PGUID = '" + UnitID + "'";
-			dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			for (int i = 0; i < dataTable.Rows.Count; i++)
-			{
-				GL_Node gL_Node = new GL_Node();
-				gL_Node.pguid = dataTable.Rows[i]["PGUID"].ToString();
-				gL_Node.upguid = dataTable.Rows[i]["UPPGUID"].ToString();
-				GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPPGUID"].ToString();
-				gL_Node.Name = dataTable.Rows[i]["ORGNAME"].ToString();
-				gL_Node.level = dataTable.Rows[i]["ULEVEL"].ToString();
-				gL_Node.lat = "-1";
-				gL_Node.lng = "-1";
-				gL_Node.reg = false;
-				GL_List.Add(gL_Node);
-				Add_Unit_Node(gL_Node);
-			}
-			treeList1.DataSource = GL_List;
+            FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZZJG_H0001Z000Z00.mdb");
+            sql = "select PGUID, UPGUID, JDNAME, ZSKOBJ_PGUID from ZUZHI_JIEGOU_H0001Z000Z00 where ISDELETE = 0 and PGUID = '" + UnitID + "'";
+            
+            dataTable = FileReader.once_ahp.ExecuteDataTable(sql);
+            for (int i = 0; i < dataTable.Rows.Count; ++i)
+            {
+                GL_Node gL_Node = new GL_Node
+                {
+                    pguid = dataTable.Rows[i]["PGUID"].ToString(),
+                    upguid = dataTable.Rows[i]["UPGUID"].ToString(),
+                    Name = dataTable.Rows[i]["JDNAME"].ToString(),
+                    level = dataTable.Rows[i]["ZSKOBJ_PGUID"].ToString(),
+                    lat = "-1",
+                    lng = "-1",
+                    reg = false
+                };
+                GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPGUID"].ToString();
+                GL_List.Add(gL_Node);
+            }
+            FileReader.once_ahp.CloseConn();
+            FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZZJG_H0001Z000Z01.mdb");
+            sql = "select PGUID, UPGUID, JDNAME, ZSKOBJ_PGUID from ZUZHI_JIEGOU_H0001Z000Z01 where ISDELETE = 0 and ZZJG_PGUID = '" + UnitID + "'";
+            dataTable = FileReader.once_ahp.ExecuteDataTable(sql);
+            for (int i = 0; i < dataTable.Rows.Count; ++i)
+            {
+                GL_Node gL_Node = new GL_Node
+                {
+                    pguid = dataTable.Rows[i]["PGUID"].ToString(),
+                    upguid = dataTable.Rows[i]["UPGUID"].ToString()
+                };
+                GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPGUID"].ToString();
+                gL_Node.Name = dataTable.Rows[i]["JDNAME"].ToString();
+                gL_Node.level = dataTable.Rows[i]["ZSKOBJ_PGUID"].ToString();
+                gL_Node.lat = "-1";
+                gL_Node.lng = "-1";
+                gL_Node.reg = false;
+                GL_List.Add(gL_Node);
+            }
+            FileReader.once_ahp.CloseConn();
+            treeList1.DataSource = GL_List;
 			treeList1.HorzScrollVisibility = ScrollVisibility.Auto;
 			treeList1.Columns[1].Visible = false;
 			treeList1.Columns[2].Visible = false;
@@ -808,25 +820,24 @@ namespace EnvirInfoSys
 			treeList1.Columns[4].Visible = false;
 			treeList1.Columns[5].Visible = false;
 			treeList1.ExpandAll();
-			FileReader.once_ahp.CloseConn();
 			foreach (TreeListNode node in treeList1.Nodes)
 			{
 				string text = node["pguid"].ToString();
 				sql = "select LAT, LNG from ORGCENTERDATA where ISDELETE = 0 and PGUID = '" + text + "'";
-				dataTable = FileReader.line_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+				dataTable = FileReader.line_ahp.ExecuteDataTable(sql);
 				if (dataTable.Rows.Count > 0)
 				{
 					node["lat"] = double.Parse(dataTable.Rows[0]["LAT"].ToString());
 					node["lng"] = double.Parse(dataTable.Rows[0]["LNG"].ToString());
 				}
 				sql = "select MAPLEVEL from ENVIRMAPDY_H0001Z000E00 where ISDELETE = 0 and PGUID = '" + text + "' and UNITID = '" + UnitID + "'";
-				dataTable = FileReader.often_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+				dataTable = FileReader.often_ahp.ExecuteDataTable(sql);
 				if (dataTable.Rows.Count > 0)
 				{
 					node["maps"] = dataTable.Rows[0]["MAPLEVEL"].ToString();
 				}
 				sql = "select PGUID from ENVIRICONDATA_H0001Z000E00 where ISDELETE = 0 and MAKRENAME = '" + node["Name"].ToString() + "' and UNITEID = '" + UnitID + "'";
-				dataTable = FileReader.often_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+				dataTable = FileReader.often_ahp.ExecuteDataTable(sql);
 				if (dataTable.Rows.Count > 0)
 				{
 					node["reg"] = true;
@@ -852,17 +863,17 @@ namespace EnvirInfoSys
                 GL_Node gL_Node = new GL_Node
                 {
                     pguid = dataTable.Rows[i]["PGUID"].ToString(),
-                    upguid = dataTable.Rows[i]["UPPGUID"].ToString()
+                    upguid = dataTable.Rows[i]["UPPGUID"].ToString(),
+                    Name = dataTable.Rows[i]["ORGNAME"].ToString(),
+                    level = dataTable.Rows[i]["ULEVEL"].ToString(),
+                    lat = "-1",
+                    lng = "-1",
+                    maps = "",
+                    reg = false
                 };
+                GL_List.Add(gL_Node);
                 GL_UPGUID[gL_Node.pguid] = dataTable.Rows[i]["UPPGUID"].ToString();
-				gL_Node.Name = dataTable.Rows[i]["ORGNAME"].ToString();
-				gL_Node.level = dataTable.Rows[i]["ULEVEL"].ToString();
-				gL_Node.lat = "-1";
-				gL_Node.lng = "-1";
-				gL_Node.maps = "";
-				gL_Node.reg = false;
-				GL_List.Add(gL_Node);
-				Add_Unit_Node(gL_Node);
+                Add_Unit_Node(gL_Node);
 			}
 		}
 
@@ -1031,16 +1042,18 @@ namespace EnvirInfoSys
 			bar1.ClearLinks();
 			bar1.Offset = 0;
 			bar1.ApplyDockRowCol();
-			string sql = "select PGUID, FLNAME from ENVIRGXFL_H0001Z000E00 where ISDELETE = 0 and UPGUID = '" + GXguid + "' and UNITID = '" + UnitID + "'order by SHOWINDEX";
-			DataTable dataTable = FileReader.often_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
+            FileReader.once_ahp = new AccessHelper(WorkPath + "data\\ZZJG_H0001Z000Z00.mdb");
+			string sql = "select PGUID, GXNAME from GUANXIA_H0001Z000Z00 where ISDELETE = 0 order by SHOWINDEX";
+			DataTable dataTable = FileReader.once_ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
 			for (int i = 0; i < dataTable.Rows.Count; i++)
 			{
 				BarButtonItem barButtonItem = new BarButtonItem();
-				barButtonItem.Caption = dataTable.Rows[i]["FLNAME"].ToString();
+				barButtonItem.Caption = dataTable.Rows[i]["GXNAME"].ToString();
 				barButtonItem.Tag = dataTable.Rows[i]["PGUID"].ToString();
 				barButtonItem.ItemClick += ToolStripItem_Click;
 				bar1.AddItem(barButtonItem);
 			}
+            FileReader.once_ahp.CloseConn();
 			bar1.EndUpdate();
 			if (bar1.ItemLinks.Count > 0)
 			{
@@ -1050,7 +1063,7 @@ namespace EnvirInfoSys
 
 		private bool Icon_Reg(string pguid)
 		{
-			regfm.levelid = GL_NAME_PGUID[GL_List[0].level];
+			regfm.levelid = GL_List[0].level;
 			regfm.unitid = UnitID;
 			regfm.nodeid = pguid;
 			return regfm.ShowDialog() == DialogResult.OK;
@@ -1293,7 +1306,7 @@ namespace EnvirInfoSys
 			{
 				return;
 			}
-			levelguid = GL_NAME_PGUID[focusedNode["level"].ToString()];
+			levelguid = focusedNode["level"].ToString();
 			string[] array = null;
 			array = ((focusedNode["maps"] != null && !(focusedNode["maps"].ToString() == "")) ? focusedNode["maps"].ToString().Split(',') : GL_MAP[levelguid].Split(','));
 			if (array[0] != string.Empty)
@@ -1670,10 +1683,12 @@ namespace EnvirInfoSys
 				}
 				string textName = regfm.textName;
 				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(Icon_GUID);
-				DataForm dataForm = new DataForm();
-				dataForm.Icon_GUID = fileNameWithoutExtension;
-				dataForm.Update_Data = false;
-				dataForm.Load_Prop();
+                DataForm dataForm = new DataForm
+                {
+                    Icon_GUID = fileNameWithoutExtension,
+                    Update_Data = false
+                };
+                dataForm.Load_Prop();
 				dataForm.ReNew();
 				dataForm.Close_Conn();
 				FDName_Value = dataForm.FDName_Value;
@@ -2461,7 +2476,7 @@ namespace EnvirInfoSys
 			{
 				return null;
 			}
-			if (GL_NAME_PGUID[pNode["level"].ToString()] == levelguid && Check_relative(pNode))
+			if (pNode["level"].ToString() == levelguid && Check_relative(pNode))
 			{
 				return pNode;
 			}
@@ -2728,6 +2743,7 @@ namespace EnvirInfoSys
             {
                 Add_Unit_Icon(treeList1.Nodes[i], treeList1.Nodes[i]["Name"].ToString() + ";");
             }
+            HideMessage();
             XtraMessageBox.Show("已成功添加完成图符，即将重启程序");
             Process process = Process.Start(WorkPath + "ReStart.exe", "EnvirInfoSys.exe");
         }
@@ -2744,7 +2760,7 @@ namespace EnvirInfoSys
                     string[] lat_lng = mapHelper1.AddressToLocation(reginfo);
                     double lat = double.Parse(lat_lng[0]);
                     double lng = double.Parse(lat_lng[1]);
-                    string level_guid = GL_NAME_PGUID[pa["level"].ToString()];
+                    string level_guid = pa["level"].ToString();
                     sql = "insert into ENVIRICONDATA_H0001Z000E00 (PGUID, S_UDTIME, ICONGUID, LEVELGUID, MAPLEVEL, MARKELAT, MARKELNG, MAKRENAME, UNITEID, REGINFO, REGGUID) values ('" + Guid.NewGuid().ToString("N") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + level_guid + "', '" + level_guid + "', '" + cur_Level.ToString() + "', '" + lat.ToString() + "', '" + lng.ToString() + "', '" + Name + "', '" + UnitID.ToString() + "', '" + reginfo + "', '" + pa["pguid"].ToString() + "')";
                     FileReader.often_ahp.ExecuteSql(sql);
                 }
@@ -3055,6 +3071,7 @@ namespace EnvirInfoSys
             this.barButtonItem19 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem20 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem25 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
             this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
@@ -3071,7 +3088,6 @@ namespace EnvirInfoSys
             this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(this.components);
             this.barButtonItem21 = new DevExpress.XtraBars.BarButtonItem();
             this.xtraFolderBrowserDialog1 = new DevExpress.XtraEditors.XtraFolderBrowserDialog(this.components);
-            this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             this.dockPanel1.SuspendLayout();
@@ -3240,7 +3256,7 @@ namespace EnvirInfoSys
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.None, false, this.barButtonItem11, false),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem24),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem9),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem27)});
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.None, false, this.barButtonItem27, false)});
             this.barSubItem2.Name = "barSubItem2";
             // 
             // barButtonItem12
@@ -3428,6 +3444,13 @@ namespace EnvirInfoSys
             this.barButtonItem25.Id = 40;
             this.barButtonItem25.Name = "barButtonItem25";
             // 
+            // barButtonItem18
+            // 
+            this.barButtonItem18.Caption = "为所有单位添加图符";
+            this.barButtonItem18.Id = 42;
+            this.barButtonItem18.Name = "barButtonItem18";
+            this.barButtonItem18.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem18_ItemClick_1);
+            // 
             // dockPanel1
             // 
             this.dockPanel1.Controls.Add(this.dockPanel1_Container);
@@ -3598,13 +3621,6 @@ namespace EnvirInfoSys
             // 
             this.barButtonItem21.Id = -1;
             this.barButtonItem21.Name = "barButtonItem21";
-            // 
-            // barButtonItem18
-            // 
-            this.barButtonItem18.Caption = "为所有单位添加图符";
-            this.barButtonItem18.Id = 42;
-            this.barButtonItem18.Name = "barButtonItem18";
-            this.barButtonItem18.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem18_ItemClick_1);
             // 
             // MainForm
             // 

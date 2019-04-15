@@ -21,14 +21,14 @@ namespace EnvirInfoSys
 
 		private string pw_mode = "";
 
-		private CheckedListBoxItem[] items = new CheckedListBoxItem[6]
+		private CheckedListBoxItem[] items = new CheckedListBoxItem[5]
 		{
 			new CheckedListBoxItem("服务器IP设置权限", isChecked: false),
 			new CheckedListBoxItem("边界线属性设置权限", isChecked: false),
 			new CheckedListBoxItem("图符管理设置权限", isChecked: false),
 			new CheckedListBoxItem("地图设置权限", isChecked: false),
-			new CheckedListBoxItem("查看日志权限", isChecked: false),
-            new CheckedListBoxItem("人员管辖对应权限", isChecked: false)
+			new CheckedListBoxItem("查看日志权限", isChecked: false)
+            //new CheckedListBoxItem("人员管辖对应权限", isChecked: false)
         };
 
 		private IContainer components = null;

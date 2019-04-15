@@ -69,12 +69,12 @@ namespace EnvirInfoSys
 		{
 			if (level + 1 < Reg_Guid.Count)
 			{
-				string sql = "select PGUID, ORGNAME from RG_单位注册 where ISDELETE = 0 and UPPGUID = '" + pguid + "'";
+				string sql = "select PGUID, JDNAME from ZUZHI_JIEGOU_H0001Z000Z01 where ISDELETE = 0 and UPGUID = '" + pguid + "'";
 				DataTable dataTable = ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
 				Dictionary<string, string> dictionary = new Dictionary<string, string>();
 				for (int i = 0; i < dataTable.Rows.Count; i++)
 				{
-					dictionary[dataTable.Rows[i]["PGUID"].ToString()] = dataTable.Rows[i]["ORGNAME"].ToString();
+					dictionary[dataTable.Rows[i]["PGUID"].ToString()] = dataTable.Rows[i]["JDNAME"].ToString();
 				}
 				foreach (object control in base.Controls)
 				{
@@ -110,11 +110,11 @@ namespace EnvirInfoSys
 				}
 				return;
 			}
-			string sql = "select UPPGUID from RG_单位注册 where ISDELETE = 0 and PGUID = '" + pguid + "'";
+			string sql = "select UPGUID from ZUZHI_JIEGOU_H0001Z000Z01 where ISDELETE = 0 and PGUID = '" + pguid + "'";
 			DataTable dataTable = ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
 			if (dataTable.Rows.Count > 0)
 			{
-				string pguid2 = dataTable.Rows[0]["UPPGUID"].ToString();
+				string pguid2 = dataTable.Rows[0]["UPGUID"].ToString();
 				Lock_Reg(pguid2, ref step);
 				step++;
 				foreach (object control2 in base.Controls)
@@ -138,17 +138,19 @@ namespace EnvirInfoSys
 
 		private void RegForm_Shown(object sender, EventArgs e)
 		{
-			ahp = new AccessHelper(WorkPath + "data\\PersonMange.mdb");
+			ahp = new AccessHelper(WorkPath + "data\\ZZJG_H0001Z000Z00.mdb");
 			textEdit1.Text = textName;
-			string sql = "select PGUID, ORGNAME from RG_单位注册 where ISDELETE = 0 and PGUID = '" + unitid + "'";
+			string sql = "select PGUID, JDNAME from ZUZHI_JIEGOU_H0001Z000Z00 where ISDELETE = 0 and PGUID = '" + unitid + "'";
 			DataTable dataTable = ahp.ExecuteDataTable(sql, (OleDbParameter[])null);
-			Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            ahp.CloseConn();
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
 			for (int i = 0; i < dataTable.Rows.Count; i++)
 			{
 				string key = dataTable.Rows[i]["PGUID"].ToString();
-				dictionary[key] = dataTable.Rows[i]["ORGNAME"].ToString();
+				dictionary[key] = dataTable.Rows[i]["JDNAME"].ToString();
 			}
-			foreach (object control in base.Controls)
+            ahp = new AccessHelper(WorkPath + "data\\ZZJG_H0001Z000Z01.mdb");
+            foreach (object control in base.Controls)
 			{
 				if (control is ucRegBox)
 				{
